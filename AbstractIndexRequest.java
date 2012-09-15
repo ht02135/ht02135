@@ -17,6 +17,13 @@ import javax.persistence.Table;
 
 import com.hung.auction.entity.SuperDog;
 
+/*
+    normally, i prefer tabler-per-hieararchy (SINGLE TABLE), due to efficient polymorphic query
+    and relations and support larger subclasses.  picked JOINED strategy for this class hiearchy, 
+    due to wanting to experiment with it and thinking subclasses should be small and few polymorphic
+    query (mostly will be subclass query?) and no polymorphic relation.  
+*/
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "INDEX_REQUEST") // had to duplicate this annotation in subclasses otherwise default table name = class name
