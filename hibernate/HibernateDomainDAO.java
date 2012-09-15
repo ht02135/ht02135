@@ -30,9 +30,6 @@ public class HibernateDomainDAO extends HibernateDaoSupport implements DomainDAO
 
     public HibernateDomainDAO() { super(); }
 
-    // in order to use @Repository to create a repository, it needs sessionFactory
-    // setSessionFactory() is final, so you can't override it to add an @Autowired annotation
-    // you can apply @Autowired to the arbitrary method and call setSessionFactory()
     @Autowired
     public HibernateDomainDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
         super();
@@ -40,7 +37,6 @@ public class HibernateDomainDAO extends HibernateDaoSupport implements DomainDAO
     }
 
     public void save(Domain domain) {
-        // merge is probably better option than reattachment via save, update, saveOrUpdate world of hurt operations
         MergePersistenceStrategy.getInstance().persist(getHibernateTemplate(), domain);
     }
 
@@ -169,8 +165,6 @@ public class HibernateDomainDAO extends HibernateDaoSupport implements DomainDAO
     public List<Domain> findByUserNameHQLFetch(final String userName) {
         return (List<Domain>) getHibernateTemplate().execute(new HibernateCallback() {
             public Object doInHibernate(Session session) {
-                // join fetch operation to eagerly fill a collection
-                // this query returns all domain with users collection (eagerly loads the users collection for each domain)
                 Query query = getSession().createQuery("from Domain d inner join fetch d.users u where u.name = :userName");
                 query.setParameter("userName", userName);
                 return (List<Domain>) query.list();
@@ -195,8 +189,6 @@ public class HibernateDomainDAO extends HibernateDaoSupport implements DomainDAO
     public List<Domain> findByUserNameCriteriaFetch(final String userName) {
         return (List<Domain>) getHibernateTemplate().execute(new HibernateCallback() {
             public Object doInHibernate(Session session) {
-                // join fetch operation to eagerly fill a collection
-                // this query returns all domain with users collection (eagerly loads the users collection for each domain)
                 Criteria domainCriteria = getSession().createCriteria(Domain.class)
                     .createAlias("users", "u", CriteriaSpecification.INNER_JOIN)	// join association for restriction via Criteria
                     .setFetchMode("u", FetchMode.JOIN)
