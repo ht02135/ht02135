@@ -26,9 +26,6 @@ public class HibernateDocumentDAO extends HibernateDaoSupport implements Documen
         super();
     }
 
-    // in order to use @Repository to create a repository, it needs sessionFactory
-    // setSessionFactory() is final, so you can't override it to add an @Autowired annotation
-    // you can apply @Autowired to the arbitrary method and call setSessionFactory()
     @Autowired
     public HibernateDocumentDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
         super();
@@ -38,7 +35,6 @@ public class HibernateDocumentDAO extends HibernateDaoSupport implements Documen
     public void save(AbstractDocument document) {
         log.info("save: document="+document);
 
-        // MergePersistenceStrategy.getInstance().persist(getHibernateTemplate(), document);
         SaveOrUpdatePersistenceStrategy.getInstance().persist(getHibernateTemplate(), document);
     }
 
@@ -81,8 +77,6 @@ public class HibernateDocumentDAO extends HibernateDaoSupport implements Documen
     public List<StringDocument> findBySearchText(final String searchText) {
         log.info("findBySearchText: searchText="+searchText);
 
-        // Hung: cant do full text search via contains operator, because it requires index, but hibernate
-        // has bug related to creating index to blob or clob column
         return (List<StringDocument>) getHibernateTemplate().execute(new HibernateCallback() {
             public Object doInHibernate(Session session) {
                 Query query = getSession().createQuery("from StringDocument sd where sd.strContent like :searchText");
@@ -95,15 +89,6 @@ public class HibernateDocumentDAO extends HibernateDaoSupport implements Documen
     public List<StringDocument> findBySearchTextSQL(final String searchText) {
         log.info("findBySearchTextSQL: searchText="+searchText);
 
-        /*
-         cant do full text search via contains operator, because it requires index, but hibernate has bug related to creating index to blob or clob column
-          12:30:00,535 ERROR org.hibernate.tool.hbm2ddl.SchemaExport - Unsuccessful: create index indexedColumns on DOCUMENT (DOCUMENT_ID, DOCUMENT_STRCONTENT)
-          12:30:00,535 ERROR org.hibernate.tool.hbm2ddl.SchemaExport - ORA-02327: cannot create index on expression with datatype LOB
-
-          on top of that, even if you create a index, you still get following error
-          Error: ORA-20000: Oracle Text error:
-         DRG-10599: column is not indexed
-         */
         return (List<StringDocument>) getHibernateTemplate().execute(new HibernateCallback() {
             public Object doInHibernate(Session session) {
                 final String queryString = "select * from DOCUMENT where DOCUMENT_TYPE = 'STRING' and contains(DOCUMENT_STRCONTENT, :searchText, 1) > 0";
