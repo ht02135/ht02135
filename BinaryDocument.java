@@ -40,7 +40,6 @@ public class BinaryDocument extends AbstractDocument implements Serializable {
     public void setContent(byte[] content) { this.content = content; }
 
     public String toString() {
-        // return "[id="+id+",name="+name+",fileName="+fileName+",contentType="+contentType+",content="+content+"]";
         return "[id="+id+",name="+name+",fileName="+fileName+",contentType="+contentType+"]";
     }
 
