@@ -42,29 +42,7 @@ import org.hibernate.annotations.Index;
 @Entity
 @Table(name="DOMAIN")
 @org.hibernate.annotations.Table(appliesTo="DOMAIN", indexes={@Index(name="domainIndex", columnNames={"DOMAIN_NAME", "DOMAIN_DESCRIPTION"})})
-
-/*
-    reason for CacheConcurrencyStrategy.READ_WRITE, picking EHCache as cache provider for 2nd level cache.  EHCache only support :
-    1>READ_ONLY = use it if data never change
-    2>NONSTRICT_READ_WRITE = populate the cache from loads only, use it if data hardly change and stale data not critical concern)
-    3>READ_WRITE = use complex strategy to maintain read committed isolation and cache up to date
- */
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-
-/*
-    1>if the results of the query are limited to SINGLE entity class, then @SqlResultSetMapping metadata is not required. For example
-    @NamedNativeQueries({
-        @NamedNativeQuery(name="getDomainsByPatternStoreProcedure", query="CALL SELECT_DOMAIN_BY_PATTERN(:pattern)", resultClass = Domain.class),
-        @NamedNativeQuery(name="getDomainsByPatternSQL", query = "SELECT * FROM Domain d WHERE d.DOMAIN_NAME LIKE :pattern", resultClass = Domain.class)
-    })
-    2>When an entity is being returned, the SQL statement should select ALL of the columns that are mapped to the entity object.
-      The column names that are used in the SQL result set mapping annotations refer to the names of the columns in the SQL SELECT clause. Note that
-      column aliases must be used in the SQL SELECT clause where the SQL result would otherwise contain multiple columns of the same name.
-      An example of combining multiple entity types and that includes aliases in the SQL statement requires that the column names be explicitly mapped
-      to the entity fields. The @FieldResult annotation is used for this purpose...
-    3>In some of your native queries, you'll have to return scalar values, for example when building report queries. You can map them in
-      the @SqlResultsetMapping through @ColumnResult.
-*/
 @SqlResultSetMappings({
     // entity-type-result
     @SqlResultSetMapping(name="domainByClass",entities={ @EntityResult(entityClass=Domain.class) }),
@@ -200,24 +178,13 @@ public class Domain implements Comparable, Serializable {
         return this.name.compareTo(domain.getName());
     }
 
-    /*
-    effective java: equals contract
-        1>reflexive : x.equals(x) true
-        2>symmetric: x.equals(y) and y.equals(x) true
-        3>transitive: x=y, y=z, then x=z true
-        4>consistent
-        5>null check: x.equal(null)  false
-
-        equals and hashCode must depend on the same set of "significant" fields. You must use the same
-        set of fields in both of these methods. You are not required to use all fields.
-    */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;	// null check
         }
         if (this == obj) {
-            return true;	// reference check (reflexive, symmetric, transitive => true)
+            return true;
         }
 
         // Some people would prefer 'if (!(o instanceof ClassName)) ...'
@@ -232,15 +199,6 @@ public class Domain implements Comparable, Serializable {
             .isEquals();
     }
 
-    /*
-    effective java: hashCode contract
-        1>must override hashCode when override equals
-        2>consistent
-        3>if 2 objects are equal according to equals(object), then hashCode are equal
-
-        equals and hashCode must depend on the same set of "significant" fields. You must use the same
-        set of fields in both of these methods. You are not required to use all fields.
-    */
     @Override
     public int hashCode(){
         int hasCode = new HashCodeBuilder()
