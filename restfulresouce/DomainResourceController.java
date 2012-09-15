@@ -33,20 +33,8 @@ public class DomainResourceController implements DomainResource {
 
 	private static Logger log = Logger.getLogger(DomainResourceController.class);
 	
-	/*
-		@Autowired, @InjectParam("domainService"), and webAppContext.getBean("domainService") worked. 
-		1>for @Autowired to work, DomainServiceImpl need to be @Service 
-		2>HibernateDomainDAO need to be @Repository and @Autowired its constructor to call setSessionFactory(sessionFactory) 
-		3>@InjectParam("domainService") works too
-	*/
-	// @InjectParam("domainService")
-	/*
-		@Qualifier("domainService") allow @Autowired to specific 'domainService' bean defined in applicationContext-dao.xml
-		comment out for @Autowired to create fresh obj via @Service DomainServiceImpl and @Repository HibernateDomainDAO
-	*/
-	// @Qualifier("domainService")	
 	@Autowired
-	private DomainService domainService;	// dont need setXXX method when autowire
+	private DomainService domainService;
 	
 	@Context ServletContext servletContext;
 	@Context UriInfo uriInfo;
@@ -68,20 +56,6 @@ public class DomainResourceController implements DomainResource {
 		String requestURI = uriInfo.getRequestUri().toString();
 		testResult = "[absolutePath="+absolutePath+", baseURI="+baseURI+", requestURI="+requestURI+"]";
 		log.info("getTestResult: testResult="+testResult);
-			
-		/*
-			If you don't specify the contextConfigLocation context parameter, the ContextLoaderListener will look 
-			for a /WEB-INF/applicationContext.xml file to load. Once the context files are loaded, Spring creates 
-			a WebApplicationContext object based on the bean definitions and puts it into the ServletContext.
-			All Java web frameworks are built on top of the Servlet API, so you can use the following code to 
-			get the ApplicationContext that Spring created.
-		*/
-		/*
-		HttpSession httpSession = httpServletReq.getSession(true); 
-		WebApplicationContext webAppContext = WebApplicationContextUtils.getWebApplicationContext(httpSession.getServletContext()); 
-		domainService = (DomainService) webAppContext.getBean("domainService"); 
-		*/
-		
 		log.info("********** getTestResult: exit **********");
 		
 		return testResult;
@@ -122,24 +96,11 @@ public class DomainResourceController implements DomainResource {
 		if (domain != null) {
 			jaxbDomain = new JaxbDomain(domain);
 		} 
-		/*	return null is better than throw exception?
-		else {
-			throw new NoSuchObjectException();
-		}
-		*/
 		log.info("getDomainByName: name="+name+" domain="+domain+" jaxbDomain="+jaxbDomain);
 		log.info("********** getDomainByName: exit **********");
 		
 		return jaxbDomain;
 	}
-
-	/*
-	Build a simple servlet where 
-	1>PUT creates a new domain, 
-	2>GET returns the domain information based on the domain key, 
-	3>DELETE deletes the domain 
-	4>POST updates the domain information
-	*/
 	
 	// create a domain via put
 	@PUT
@@ -183,7 +144,6 @@ public class DomainResourceController implements DomainResource {
 		log.info("updateDomain: name="+name+" jaxbDomain="+jaxbDomain+" domain="+domain);
 		log.info("********** updateDomainByName: exit **********");
 		
-		// for both PUT and DELETE, you should send either 200 (Response.Status.OK) or 204 (Response.Status.NO_CONTENT). 
 		return Response.noContent().build();
 	}
 	
@@ -195,7 +155,6 @@ public class DomainResourceController implements DomainResource {
 		domainService.deleteByName(name);
 		log.info("********** deleteDomainByName: exit **********");
 		
-		// for both PUT and DELETE, you should send either 200 (Response.Status.OK) or 204 (Response.Status.NO_CONTENT). 
 		return Response.noContent().build();
 	}
 	
