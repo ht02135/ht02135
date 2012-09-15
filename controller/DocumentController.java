@@ -41,7 +41,6 @@ public class DocumentController {
     public String displayDocuments(Model model) {
         log.info("displayDocuments: enter");
 
-        // debug domainUsers
         model.addAttribute("document", new BinaryDocument());
 
         List<AbstractDocument> documents = documentService.findAll();
