@@ -1,0 +1,25 @@
+<!DOCTYPE tiles-definitions PUBLIC
+      "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+      "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+  
+<tiles-definitions>
+
+   <definition name="domainUsers/list" extends="template">
+     <put-attribute name="title"  value="List Domains"/>
+     <put-attribute name="menu" value="/WEB-INF/jspViews/loggedInMenu.jsp" />
+    <put-attribute name="content" value="/WEB-INF/jspViews/domainUsers/list.jsp" />
+   </definition>
+
+   <definition name="domainUsers/view" extends="template">
+    <put-attribute name="title"  value="View Domain"/>
+     <put-attribute name="menu" value="/WEB-INF/jspViews/loggedInMenu.jsp" />
+    <put-attribute name="content" value="/WEB-INF/jspViews/domainUsers/view.jsp" />
+   </definition>
+   
+   <definition name="domainUsers/edit" extends="template">
+    <put-attribute name="title"  value="View Domain"/>
+     <put-attribute name="menu" value="/WEB-INF/jspViews/loggedInMenu.jsp" />
+    <put-attribute name="content" value="/WEB-INF/jspViews/domainUsers/edit.jsp" />
+   </definition>
+   
+</tiles-definitions>
