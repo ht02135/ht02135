@@ -22,20 +22,7 @@ import com.hung.auction.service.TermService;
 
 public class BuildIndexEngineImpl implements BuildIndexEngine {
 
-    /* Want to do if I have time:
-       1>for BuildIndexEngineImpl to keep collection of task thread.  the task thread should be removed from collection
-         upon completion of task thread.
-       2>task thread added to database should be marked as REQUEST_PROCESSED column = YES <- soft delete
-       3>add ThreadPoolTaskScheduler to start unfinished task (need to check if task already added to collection of task thread)
-         and delete soft delete task.
-       4>Add rule engine to process request using DROOLS
-       5>do optimize term search in collection of document
-     */
-
     private static Logger log = Logger.getLogger(BuildIndexEngineImpl.class);
-
-    // @Autowired tells Spring to find a bean of the declared type and wire in that bean
-    // @Autowired annotation to auto wire bean on the setter method, constructor or a field
 
     @Autowired
     @Qualifier("termService")
@@ -176,10 +163,6 @@ public class BuildIndexEngineImpl implements BuildIndexEngine {
                 log.info("HandleCreateTermDocumentIndexTask.run: document="+document+" not null");
                 createTermDocumentIndex(indexRequest.getTerm(), (StringDocument) document);
             } else {
-                /* note: this part should be optimized to return all document id, so we can search term against
-                         all document ids in SQL vs getting documents and looping thru it...
-                */
-                // search term in all documents
                 // List<StringDocument> documents = findStringDocuments();
                 List<StringDocument> documents = BuildIndexEngineImpl.this.findStringDocuments();	// illustrate how to call enclosing method
                 log.info("HandleCreateTermDocumentIndexTask.run: documents="+documents);
