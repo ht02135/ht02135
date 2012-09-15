@@ -31,13 +31,13 @@ public class DomainUsersController {
 	private static Logger log = Logger.getLogger(DomainUsersController.class);
 	
 	@Autowired
-	private DomainUserService domainUserService;	// dont need setXXX method when autowire
+	private DomainUserService domainUserService;
 	
 	@Autowired
-	private DomainService domainService;	// dont need setXXX method when autowire
+	private DomainService domainService;
 	
 	@Autowired
-	private LoginService loginService;	// dont need setXXX method when autowire
+	private LoginService loginService;
 
 	// display list of domain users
 	@RequestMapping(method=RequestMethod.GET)
