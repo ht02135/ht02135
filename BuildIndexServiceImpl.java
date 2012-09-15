@@ -18,9 +18,6 @@ public class BuildIndexServiceImpl implements BuildIndexService {
     
 	private static Logger log = Logger.getLogger(BuildIndexServiceImpl.class);
 	
-	// @Autowired tells Spring to find a bean of the declared type and wire in that bean
-	// @Autowired annotation to auto wire bean on the setter method, constructor or a field
-	
 	@Autowired
 	@Qualifier("termService")	
 	private TermService termService;
@@ -93,9 +90,6 @@ public class BuildIndexServiceImpl implements BuildIndexService {
     
 	@Autowired
     public void setBuildIndexEngine(@Qualifier("buildIndexEngine") BuildIndexEngine buildIndexEngine) { 
-    	log.info("*********************************************");
-    	log.info("setBuildIndexEngine: buildIndexEngine="+buildIndexEngine);
-    	log.info("*********************************************");
     	this.buildIndexEngine = buildIndexEngine; 
     	}
 }
