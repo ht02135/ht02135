@@ -10,27 +10,12 @@ import org.apache.log4j.Logger;
 
 public class ResourcePool implements IResourcePool {
 
-	/*
-	effective java:
-	1>inside synch region, dont call public or protected method that is designed to be overriden
-	2>so if public or protected will be called from within synch region, then final it 
-	*/
-	
 	private static Logger log = Logger.getLogger(ResourcePool.class);
 	
 	// shared vars
 	private List<IResource> availableResources = null;
 	private List<IResource> acquiredResources = null;
 	
-	/* volatile
-	   1>Volatile is noway a replacement of synchronized keyword. It only deals with shared data visibility between threads. 
-	   2>The typical use case is simple signaling between threads. One thread sets the signal and the others are only read it.  
-	   3>It will not solve the problem caused by multiple thread updating the same variable, even if it is declared volatile. 
-	   
-	   use volatile variables instead of locks only under a restricted set of circumstances:
-       1>Writes to the variable do not depend on its current value.
-       2>The variable does not participate in invariants with other variables.
-	 */
 	private volatile boolean isOpen = false;	// use isOpen to signal resource pool is open or not between thread
 	
 	// locks
@@ -58,14 +43,13 @@ public class ResourcePool implements IResourcePool {
 	// The close() method should be such that it blocks until all acquired resources are released.
 	public final void close() {
 		try {
-			resourcesLock.lock();	// effective java: lock
-			while (!acquiredResources.isEmpty()) {	// effective java: test condition
+			resourcesLock.lock();
+			while (!acquiredResources.isEmpty()) {
 				try {
 					acquiredResourcesIsEmpty.await();
 				} catch (InterruptedException ie) {
 				}
 			}
-			// effective java: perform action appropriate to condition
 			closeNow();
 		} finally {
 			resourcesLock.unlock();
@@ -84,17 +68,15 @@ public class ResourcePool implements IResourcePool {
 		
 		IResource resource = null;
 		try {
-			resourcesLock.lock();	// effective java: synch or lock
-			while (availableResources.isEmpty()) {	// effective java: test condition
+			resourcesLock.lock();
+			while (availableResources.isEmpty()) {
 				try {
-					availableResourceIsNotEmpty.await();	// wait until signaled
+					availableResourceIsNotEmpty.await();
 				} catch (InterruptedException ie) {}
 			}
-			// effective java: perform action appropriate to condition
 			resource = availableResources.remove(0);
 			acquiredResources.add(resource);	
 				
-			// effective java: signall after perform action
 			if (!availableResources.isEmpty()) availableResourceIsNotEmpty.signal();
 			if (acquiredResources.isEmpty()) acquiredResourcesIsEmpty.signal();
 		} finally {
@@ -111,12 +93,10 @@ public class ResourcePool implements IResourcePool {
 		IResource resource = null;
 		try {
 			if (resourcesLock.tryLock(timeout, timeUnit)) {	// lock acquired
-				if (!availableResources.isEmpty()) {	// effective java: test condition
-					// effective java: perform action appropriate to condition
+				if (!availableResources.isEmpty()) {
 					resource = availableResources.remove(0);
 					acquiredResources.add(resource);
 							
-					// effective java: signall after perform action
 					if (!availableResources.isEmpty()) availableResourceIsNotEmpty.signal();
 					if (acquiredResources.isEmpty()) acquiredResourcesIsEmpty.signal();
 				}
@@ -130,17 +110,14 @@ public class ResourcePool implements IResourcePool {
 	// checked back into the pool.  Resources can be released at any time.  Resources can be added or removed at any time
 	public final void release(IResource resource) {
 		if (resource != null) {
-			// always lock available before lock acquired to avoid deadlock
 			try {
 				resourcesLock.lock();
 
 				int resourceIndex = acquiredResources.indexOf(resource);
-				if (resourceIndex >= 0) {	// effective java: test condition
-					// effective java: perform action appropriate to condition
+				if (resourceIndex >= 0) {
 					acquiredResources.remove(resourceIndex);
 					availableResources.add(resource);
 						
-					// effective java: signall after perform action
 					if (!availableResources.isEmpty()) availableResourceIsNotEmpty.signal();
 					if (acquiredResources.isEmpty()) acquiredResourcesIsEmpty.signal();
 					acquiredResourceIsReleased.signal();
@@ -163,11 +140,9 @@ public class ResourcePool implements IResourcePool {
 		boolean isAdded = false;
 		try {
 			resourcesLock.lock();
-			if (!(availableResources.contains(resource) || acquiredResources.contains(resource))) {	// effective java: test condition
-				// effective java: perform action appropriate to condition
+			if (!(availableResources.contains(resource) || acquiredResources.contains(resource))) {
 				if (availableResources.add(resource)) {
 					isAdded = true;
-					// effective java: signall after perform action
 					if (!availableResources.isEmpty()) availableResourceIsNotEmpty.signal();
 				}
 			}
@@ -189,16 +164,14 @@ public class ResourcePool implements IResourcePool {
 		boolean isRemoved = false;
 		try {
 			resourcesLock.lock();
-			while (acquiredResources.contains(resource)) {	// effective java: test condition
+			while (acquiredResources.contains(resource)) {
 				try {
 					// cant wait forever (resource might be removed by other thread)
 					acquiredResourceIsReleased.await(1000,TimeUnit.MILLISECONDS);
 				} catch (InterruptedException ie) {}
 			}
-			// effective java: perform action appropriate to condition
 			if (availableResources.remove(resource)) {
 				isRemoved = true;	
-				// effective java: signall after perform action
 				if (!availableResources.isEmpty()) availableResourceIsNotEmpty.signal();
 			}
 		} finally {
