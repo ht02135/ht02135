@@ -1,0 +1,40 @@
+package com.hung.auction.template;
+
+import org.apache.log4j.Logger;
+
+import com.hung.auction.cache.DomainSettingCache;
+import com.hung.auction.dao.DomainSettingDAO;
+import com.hung.auction.domain.IntegerDomainSetting;
+import com.hung.auction.domain.StringDomainSetting;
+import com.hung.auction.service.DomainService;
+
+public class IntegerDomainSettingGetterTemplate extends AbstractDomainSettingGetterTemplate {
+
+	private static Logger log = Logger.getLogger(IntegerDomainSettingGetterTemplate.class);
+
+	private DomainSettingDAO domainSettingDAO;
+	
+	public IntegerDomainSettingGetterTemplate(DomainService domainService, DomainSettingDAO domainSettingDAO) {
+		this.domainService = domainService;
+		this.domainSettingDAO = domainSettingDAO;
+	}
+
+	public StringDomainSetting getDomainSettingFromCache(String settingName, String domainName) {
+		log.info("getDomainSettingFromCache: domainName="+domainName);
+		IntegerDomainSetting domainSetting = DomainSettingCache.getInstance().getIntegerDomainSetting(settingName, domainName);
+		if (domainSetting != null) log.info("getDomainSettingFromCache: domainSetting="+domainSetting);
+		return domainSetting;
+	}
+	
+	public StringDomainSetting getDomainSettingFromDAO(String settingName, String domainName) {
+		log.info("getDomainSettingFromDAO: domainName="+domainName);
+		IntegerDomainSetting domainSetting = domainSettingDAO.findIntegerDomainSetting(settingName, domainName);
+		if (domainSetting != null) log.info("getDomainSettingFromDAO: domainSetting="+domainSetting);
+		return domainSetting;
+	}
+	
+	public void putDomainSettingToCache(StringDomainSetting domainSetting) {
+		log.info("putDomainSettingToCache: domainSetting="+domainSetting);
+		DomainSettingCache.getInstance().putStringDomainSetting(domainSetting);
+	}
+}
