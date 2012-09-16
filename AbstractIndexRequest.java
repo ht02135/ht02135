@@ -15,8 +15,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.hung.auction.entity.SuperDog;
-
 /*
     normally, i prefer tabler-per-hieararchy (SINGLE TABLE), due to efficient polymorphic query
     and relations and support larger subclasses.  picked JOINED strategy for this class hiearchy, 
