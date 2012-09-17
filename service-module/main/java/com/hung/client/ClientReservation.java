@@ -1,0 +1,52 @@
+package com.hung.auction.client;
+
+import java.io.Serializable;
+
+public class ClientReservation implements Serializable {
+
+	public static final String DOMAIN_ENTITY = "Domain"; 
+	public static final String DOMAIN_USER_ENTITY = "DomainUser"; 
+	
+	private String loginId;
+	private String entityType;
+	private String entityId;
+	
+	public ClientReservation() {
+	}
+
+	public ClientReservation(String loginId, String entityType, String entityId) {
+		setLoginId(loginId);
+		setEntityType(entityType);
+		setEntityId(entityId);
+	}
+	
+	public String getLoginId() {
+		return loginId;
+	}
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+	
+	public String getEntityType() {
+		return entityType;
+	}
+	public void setEntityType(String entityType) {
+		this.entityType = entityType;
+	}
+	
+	public String getEntityId() {
+		return entityId;
+	}
+	public void setEntityId(String entityId) {
+		this.entityId = entityId;
+	}
+	
+	public ClientReservation clone() {
+		return new ClientReservation(loginId, entityType, entityId);
+	}
+	
+	public String toString() {
+		return "[loginId="+loginId+",entityType="+entityType+",entityId="+entityId+"]";
+	}
+}
+
