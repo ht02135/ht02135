@@ -1,4 +1,4 @@
-package com.hung.auction.jsf;
+package com.hung.auction.jsfBean;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -13,29 +13,29 @@ import com.hung.auction.domain.Domain;
 import com.hung.auction.service.DomainService;
 
 @Service("domainConverterService")
-public class DomainConverterService implements Converter {	// spring bean
-	
-	private static Logger log = Logger.getLogger(DomainBean.class);
-    
-	@Autowired
-	@Qualifier("domainService")	
-	private DomainService domainService;	// DI via Spring
-	
+public class DomainConverterService implements Converter {  // spring bean
+
+    private static Logger log = Logger.getLogger(DomainBean.class);
+
+    @Autowired
+    @Qualifier("domainService")
+    private DomainService domainService;    // DI via Spring
+
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-    	Domain domain = domainService.findByName(value);
-    	log.info("getAsObject - domain="+domain);
+        Domain domain = domainService.findByName(value);
+        log.info("getAsObject - domain="+domain);
         return domain;
     }
 
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-    	Domain domain = (Domain) value;
-    	log.info("getAsString - domain="+domain);
+        Domain domain = (Domain) value;
+        log.info("getAsString - domain="+domain);
         return domain.getName();
     }
-    
-	// ---------------------------------------------------
-	
-	public void setDomainService(DomainService domainService) {
-		this.domainService = domainService;
-	}
+
+    // ---------------------------------------------------
+
+    public void setDomainService(DomainService domainService) {
+        this.domainService = domainService;
+    }
 }
