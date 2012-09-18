@@ -40,7 +40,7 @@ public class BuildIndexServiceImpl implements BuildIndexService {
     	
     	// tell buildIndexEngine to handle index request (buildIndexEngine needs to
     	// delete index request when is done
-    	buildIndexEngine.handleTermIndexRequest(indexRequest);
+    	buildIndexEngine.handleIndexRequest(indexRequest);
     }
 	
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -52,7 +52,7 @@ public class BuildIndexServiceImpl implements BuildIndexService {
     	
     	// tell buildIndexEngine to handle index request (buildIndexEngine needs to
     	// delete index request when is done
-    	buildIndexEngine.handleTermIndexRequest(indexRequest);
+    	buildIndexEngine.handleIndexRequest(indexRequest);
     }
     
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -66,7 +66,7 @@ public class BuildIndexServiceImpl implements BuildIndexService {
     	// delete index request when is done
     	log.info("buildIndexForDocument: before handleDocumentIndexRequest() indexRequest="+indexRequest);
     	if (buildIndexEngine != null) {
-    		buildIndexEngine.handleDocumentIndexRequest(indexRequest);
+    		buildIndexEngine.handleIndexRequest(indexRequest);
     	} else {
     		log.info("buildIndexForDocument: buildIndexEngine is null");
     	}
@@ -83,7 +83,7 @@ public class BuildIndexServiceImpl implements BuildIndexService {
     	// delete index request when is done
     	log.info("deleteIndexForDocument: before handleDocumentIndexRequest() indexRequest="+indexRequest);
     	if (buildIndexEngine != null) {
-    		buildIndexEngine.handleDocumentIndexRequest(indexRequest);
+    		buildIndexEngine.handleIndexRequest(indexRequest);
     	} else {
     		log.info("deleteIndexForDocument: buildIndexEngine is null");
     	}

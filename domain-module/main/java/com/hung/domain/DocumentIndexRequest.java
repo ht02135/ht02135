@@ -44,6 +44,6 @@ public class DocumentIndexRequest extends AbstractIndexRequest implements Serial
     public void setDocument(StringDocument document) { this.document = document; }
 
     public String toString() {
-        return "[id="+id+",document="+document+",documentAction="+documentAction+"]";
+        return "[id="+id+",status="+status+",document="+document+",documentAction="+documentAction+"]";
     }
 }

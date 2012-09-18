@@ -34,6 +34,6 @@ public class TermIndexRequest extends AbstractIndexRequest implements Serializab
     public void setTerm(Term term) { this.term = term; }
 
     public String toString() {
-        return "[id="+id+",term="+term+"]";
+        return "[id="+id+",status="+status+",term="+term+"]";
     }
 }

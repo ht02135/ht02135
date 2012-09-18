@@ -63,15 +63,24 @@ Queries that range over the class hierarchy likewise require joins.
 @Table(name = "INDEX_REQUEST") // had to duplicate this annotation in subclasses otherwise default table name = class name
 public abstract class AbstractIndexRequest implements Serializable {
 
+    public static final String OPEN_STATUS = "OPEN";
+    public static final String PROCESSED_STATUS = "PROCESSED";
+
     @Id
     @SequenceGenerator(name = "indexrequest_seq_gen", sequenceName = "indexrequest_sequence")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "indexrequest_seq_gen")
     @Column(name="REQUEST_ID", nullable=false)
     protected Integer id;
 
+    @Column(name="REQUEST_STATUS")
+    protected String status = OPEN_STATUS;
+
     // ----------------------------------
     //Getter and Setter methods
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }

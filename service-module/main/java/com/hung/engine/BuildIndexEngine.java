@@ -13,7 +13,7 @@ public interface BuildIndexEngine {
 
     public DocumentIndexRequest createDocumentIndexRequest(StringDocument document, String documentAction);
 
-    public void handleTermIndexRequest(TermIndexRequest indexRequest);
+    public void handleIndexRequest(TermIndexRequest indexRequest);
 
-    public void handleDocumentIndexRequest(DocumentIndexRequest indexRequest);
+    public void handleIndexRequest(DocumentIndexRequest indexRequest);
 }

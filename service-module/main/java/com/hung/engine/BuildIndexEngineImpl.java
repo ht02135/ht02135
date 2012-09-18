@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.task.TaskExecutor;
 
-import com.hung.auction.domain.AbstractDocument;
 import com.hung.auction.domain.AbstractIndexRequest;
-import com.hung.auction.domain.BinaryDocument;
 import com.hung.auction.domain.DocumentIndexRequest;
 import com.hung.auction.domain.StringDocument;
 import com.hung.auction.domain.Term;
@@ -73,55 +71,54 @@ public class BuildIndexEngineImpl implements BuildIndexEngine {
         return indexRequest;
     }
 
-    public void handleTermIndexRequest(TermIndexRequest indexRequest) {
-        log.info("handleTermIndexRequest: indexRequest="+indexRequest);
-
-        // launch HandleCreateTermDocumentIndexTask
+    public void handleIndexRequest(TermIndexRequest indexRequest) {
         taskExecutor.execute(new HandleCreateTermDocumentIndexTask(indexRequest));
     }
 
-    public void handleTermIndexRequest(TermIndexRequest indexRequest, StringDocument document) {
-        log.info("handleTermIndexRequest: indexRequest="+indexRequest+" document="+document);
-
-        // launch HandleCreateTermDocumentIndexTask
+    public void handleIndexRequest(TermIndexRequest indexRequest, StringDocument document) {
         taskExecutor.execute(new HandleCreateTermDocumentIndexTask(indexRequest, document));
     }
 
-    public void handleDocumentIndexRequest(DocumentIndexRequest indexRequest) {
-        log.info("handleDocumentIndexRequest: indexRequest="+indexRequest);
-
+    public void handleIndexRequest(DocumentIndexRequest indexRequest) {
         if (indexRequest.getDocumentAction().equalsIgnoreCase(DocumentIndexRequest.DELETE_DOCUMENT_INDEX)) {
-            log.info("handleDocumentIndexRequest: DELETE_DOCUMENT_INDEX");
-
             // if is delete document index action, then search thru all index and then remove them
             List<TermDocumentIndex> termDocumentIndexes = termDocumentIndexService.findByDocumentId(indexRequest.getDocument().getId());
-
             for (int i=0;i<termDocumentIndexes.size();i++) {
                 termDocumentIndexService.deleteById(termDocumentIndexes.get(i).getId());
             }
         } else if (indexRequest.getDocumentAction().equalsIgnoreCase(DocumentIndexRequest.ADD_DOCUMENT_INDEX)) {
-            log.info("handleDocumentIndexRequest: ADD_DOCUMENT_INDEX");
-
             // get all terms from termService
             List<Term> terms = termService.findAll();
-            log.info("handleDocumentIndexRequest: terms="+terms);
-
             // loop thru terms and launch HandleCreateTermDocumentIndexTask
             for (int i=0;i<terms.size();i++) {
                 TermIndexRequest termIndexRequest = new TermIndexRequest(terms.get(i));
                 indexRequestService.save(termIndexRequest);
-                handleTermIndexRequest(termIndexRequest, indexRequest.getDocument());
+                handleIndexRequest(termIndexRequest, indexRequest.getDocument());
             }
         }
         // remove document index request
-        log.info("handleDocumentIndexRequest: delete indexRequest="+indexRequest);
-        deleteIndexRequest(indexRequest);
+        softDeleteIndexRequest(indexRequest);
+    }
+
+    // ------------------ Scheduler method
+
+    public void handleCompletedIndexRequest() {
+        log.info("handleCompletedIndexRequest: start");
+        List<AbstractIndexRequest> completedRequests = indexRequestService.findAll(AbstractIndexRequest.PROCESSED_STATUS);
+
+        if (completedRequests.size() > 0) log.info("handleCompletedIndexRequest: completedRequests="+completedRequests);
+
+        for (int i=0;i<completedRequests.size();i++) {
+            log.info("handleCompletedIndexRequest: hard-delete completedRequest="+completedRequests.indexOf(i));
+            indexRequestService.deleteById(completedRequests.get(i).getId());
+        }
+        log.info("handleCompletedIndexRequest: end");
     }
 
     // ------------------ Helper Method for Inner Class Task
 
-    private void deleteIndexRequest(AbstractIndexRequest indexRequest) {
-        indexRequestService.deleteById(indexRequest.getId());
+    private void softDeleteIndexRequest(AbstractIndexRequest indexRequest) {
+        indexRequestService.softDeleteById(indexRequest.getId());
     }
 
     private List<StringDocument> findStringDocuments() {
@@ -135,9 +132,6 @@ public class BuildIndexEngineImpl implements BuildIndexEngine {
     // ------------------ Injection Method ---------------------------------
 
     public void setTaskExecutor(TaskExecutor taskExecutor) {
-        log.info("*********************************************");
-        log.info("setTaskExecutor: taskExecutor="+taskExecutor);
-        log.info("*********************************************");
         this.taskExecutor = taskExecutor;
     }
 
@@ -158,8 +152,6 @@ public class BuildIndexEngineImpl implements BuildIndexEngine {
         }
 
         private void createTermDocumentIndex(Term term, StringDocument document) {
-            log.info("HandleCreateTermDocumentIndexTask.createTermDocumentIndex: term="+term+" document="+document);
-
             // create an index, if term found in document
             if (document.getStrContent().contains(term.getId())) {
                 // saveTermDocumentIndex(new TermDocumentIndex(term, document));
@@ -168,18 +160,9 @@ public class BuildIndexEngineImpl implements BuildIndexEngine {
         }
 
         public void run() {
-            log.info("******************************* RUN  ***********************************************");
-            log.info("HandleCreateTermDocumentIndexTask.run: processing indexRequest="+indexRequest);
-            log.info("******************************* RUN  ***********************************************");
-
             if (document != null) {
-                log.info("HandleCreateTermDocumentIndexTask.run: document="+document+" not null");
                 createTermDocumentIndex(indexRequest.getTerm(), (StringDocument) document);
             } else {
-                /* note: this part should be optimized to return all document id, so we can search term against
-                         all document ids in SQL vs getting documents and looping thru it...
-                */
-                // search term in all documents
                 // List<StringDocument> documents = findStringDocuments();
                 List<StringDocument> documents = BuildIndexEngineImpl.this.findStringDocuments();	// illustrate how to call enclosing method
                 log.info("HandleCreateTermDocumentIndexTask.run: documents="+documents);
@@ -191,9 +174,8 @@ public class BuildIndexEngineImpl implements BuildIndexEngine {
                 }
             }
             // remove term index request
-            log.info("HandleCreateTermDocumentIndexTask.run: delete indexRequest="+indexRequest);
             // deleteIndexRequest(indexRequest);
-            BuildIndexEngineImpl.this.deleteIndexRequest(indexRequest);	// illustrate how to call enclosing method
+            BuildIndexEngineImpl.this.softDeleteIndexRequest(indexRequest);	// illustrate how to call enclosing method
         }
     }
 }
