@@ -1,0 +1,37 @@
+
+<html>
+    <head>
+    <title>Domains</title>
+  
+    <link rel=stylesheet type="text/css" href="../css/styles.css">
+  
+    <script type="text/javascript" src="../js/jquery-1.8.1.js"></script>
+    <script type="text/javascript" src="../js/jquery.hung.domain.js"></script>
+    </head>
+    <body>
+  
+    <div class="header">
+        <input type="text" id="searchKey"/>
+        <button id="btnSearch">Search</button>
+    </div>
+    
+    <div class="leftArea">
+        <ul id="domainList"></ul>
+    </div>
+    
+    <form id="domainForm">
+        <div class="mainArea">
+            <label>Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label>Parent Name:</label>
+            <input type="text" id="parentDomainName" name="parentDomainName"/>
+            
+            <button id="btnAdd">Add</button>
+            <button id="btnModify">Modify</button>
+            <button id="btnClear">Clear</button>
+        </div>
+    </form>
+
+    </body>
+</html>
