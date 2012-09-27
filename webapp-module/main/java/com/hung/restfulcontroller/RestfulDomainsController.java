@@ -112,23 +112,6 @@ public class RestfulDomainsController {
 		return createdJaxbDomain;
 	}
 	
-	/*
-		1>PUT puts a page at a specific URL. If there’s already a page there, it’s replaced in toto. If there’s no 
-		  page there, a new one is created. This means it’s like a DELETE 
-		2>POST, however, really has no equivalent in SQL. POST sends some data to a specified URL. The server on the 
-		  other end of this URL can do whatever it wants with this data. It can store it somewhere private. (HTTP 204 
-		  NO CONTENT). It can store it in the page at the URL that was POSTed to (HTTP 205 RESET CONTENT). It can 
-		  store it in a new page, in which case it returns the URL of that page in the Location field of the HTTP 
-		  response header (HTTP 201 CREATED). It can use it as input for several different existing and new pages. 
-		  It can throw the information away. It can insert, update, or delete records in a database (or all of the 
-		  above). It can start brewing coffee (HTTP 202 ACCEPTED). It can start global thermonuclear war. POST is 
-		  decidely non-side-effect free and non-idempotent. 
-		3>servers should keep control of their own URI spaces, so some servers may allow PUTs to existing URLs and 
-		  not to novel ones (403 Forbidden)
-		  
-		Why bother with PUT, because you are always greeted with 403.  lol, just use POST!!!
-	 */
-	
 	// update a domain
 	@RequestMapping(value="/{name}", method=RequestMethod.POST, headers="Accept=application/json, application/xml")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
