@@ -62,20 +62,7 @@ public class JaxbDomain implements Comparable, Serializable  {
 		JaxbDomain domain = (JaxbDomain) o;
         return this.name.compareTo(domain.getName());
 	}
-    
-    // ------ nested class : comparator
 	
-	/*
-	effective java: equals contract
-		1>reflexive : x.equals(x) true
-		2>symmetric: x.equals(y) and y.equals(x) true
-		3>transitive: x=y, y=z, then x=z true
-		4>consistent
-		5>null check: x.equal(null)  false
-		
-		equals and hashCode must depend on the same set of "significant" fields. You must use the same 
-		set of fields in both of these methods. You are not required to use all fields.
-	*/
 	@Override
     public boolean equals(Object obj) {
     	log.info("equals: called, this.toString()="+this.toString()+" obj.toString()="+obj.toString());
@@ -102,15 +89,6 @@ public class JaxbDomain implements Comparable, Serializable  {
     		.isEquals();
     }
     
-	/*
-	effective java: hashCode contract
-		1>must override hashCode when override equals
-		2>consistent
-		3>if 2 objects are equal according to equals(object), then hashCode are equal
-		
-		equals and hashCode must depend on the same set of "significant" fields. You must use the same 
-		set of fields in both of these methods. You are not required to use all fields.
-	*/
     @Override
     public int hashCode(){
     	log.info("hashCode: called, this.toString()="+this.toString());
@@ -122,6 +100,8 @@ public class JaxbDomain implements Comparable, Serializable  {
     	
         return hasCode;
     }
+    
+    // ------ nested class : comparator
     
     // parentDomain name
     private static class JaxvDomainParentNameComparator implements Comparator, Serializable {
