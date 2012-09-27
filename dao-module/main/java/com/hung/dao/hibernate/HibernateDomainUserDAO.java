@@ -37,13 +37,6 @@ public class HibernateDomainUserDAO extends HibernateDaoSupport implements Domai
         log.info(">>>>>>>>>> constructor: called to set sessionFactory="+sessionFactory+" <<<<<<<<<<");
     }
 
-	// Hibernate reality: it is just ORM layer, not providing much of connection and transaction management
-	// Spring reality: it provides connection and transaction management
-	// for connection management: look at org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean
-	// <prop key="hibernate.connection.pool_size">0</prop>
-	// for transaction management: look at org.springframework.orm.hibernate3.HibernateTransactionManager
-	// <tx:annotation-driven transaction-manager="transactionManager"/> to work with @Transactional()
-	// or aop
     public void save(final DomainUser domainUser) {
     	log.info("save: domainUser="+domainUser);
     	
@@ -77,15 +70,6 @@ public class HibernateDomainUserDAO extends HibernateDaoSupport implements Domai
 		});
     }
     
-    // Session: it is used t mediate connection with database
-    // 1>the session opens a single db connection when it is created and holds onto it until the session is closed.  every
-    //   object loaded by hibernate from databae is associated with session.  it allows hibernate to automatically persist object
-    //   that are modified and to implement lazy-loading functionality
-    // Disconnected Objects
-    // 1>if object is evicted from its session
-    // 2>or session is closed while the object is still alive.  
-    // 3>disconnected object will contiue to work as long as you dont perform any operation that it needs to go back to databse
-    // 4>loading object in one session and save to another session will result in error
     public List<DomainUser> findAll() {
     	return (List<DomainUser>) getHibernateTemplate().execute(new HibernateCallback() {
 			public Object doInHibernate(Session session) {
