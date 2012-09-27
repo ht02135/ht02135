@@ -37,7 +37,7 @@
             </h:column>
             
             <f:facet name="footer">
-                <!-- blurr, commandLink must be within form... -->
+                <!-- commandLink must be within form... -->
                 <h:form>
                     <h:panelGroup>
                         <h:commandLink action="#{domainBean.addDomain}">
