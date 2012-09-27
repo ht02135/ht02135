@@ -37,14 +37,6 @@ public class ClientSession implements Serializable {
 		this.domainName = domainName;
 	}
 	
-	/*
-	effective java: equals contract
-		1>reflexive : x.equals(x) true
-		2>symmetric: x.equals(y) and y.equals(x) true
-		3>transitive: x=y, y=z, then x=z true
-		4>consistent
-		5>null check: x.equal(null)  false
-	*/
 	@Override
     public boolean equals(Object obj) {
     	log.info("equals: called, this.toString()="+this.toString()+" obj.toString()="+obj.toString());
@@ -72,12 +64,6 @@ public class ClientSession implements Serializable {
     		.isEquals();
     }
     
-	/*
-	effective java: hashCode contract
-		1>must override hashCode when override equals
-		2>consistent
-		3>if 2 objects are equal according to equals(object), then hashCode are equal
-	*/
     @Override
     public int hashCode(){
     	log.info("hashCode: called, this.toString()="+this.toString());
