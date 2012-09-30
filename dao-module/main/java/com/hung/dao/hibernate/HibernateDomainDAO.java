@@ -54,6 +54,24 @@ public class HibernateDomainDAO extends HibernateDaoSupport implements DomainDAO
         });
     }
 
+    public Domain findByName(final String name, boolean enableEagerFetch) {
+        if (enableEagerFetch) {
+            log.info("enableEagerFetch = true");
+            return (Domain) getHibernateTemplate().execute(new HibernateCallback() {
+                public Object doInHibernate(Session session) {
+                    // join fetch operation to eagerly fill a collection
+                    // this query returns all domain with settings collection (eagerly loads the users collection for each domain)
+                    Criteria domainCriteria = getSession().createCriteria(Domain.class)
+                        .add( Restrictions.eq("name", name) )
+                        .setFetchMode("settings", FetchMode.EAGER);
+                    return (Domain) domainCriteria.uniqueResult();
+                }
+            });
+        } else {
+            return findByName(name);
+        }
+    }
+
     public List<String> getNamesByPatternStoreProcedure(final String pattern) {
         return (List<String>) getHibernateTemplate().execute(new HibernateCallback() {
             public Object doInHibernate(Session session) {
@@ -141,6 +159,23 @@ public class HibernateDomainDAO extends HibernateDaoSupport implements DomainDAO
                 return (List<Domain>) query.list();
             }
         });
+    }
+
+    public List<Domain> findAll(boolean enableEagerFetch) {
+        if (enableEagerFetch) {
+            log.info("enableEagerFetch = true");
+            return (List<Domain>) getHibernateTemplate().execute(new HibernateCallback() {
+                public Object doInHibernate(Session session) {
+                    // join fetch operation to eagerly fill a collection
+                    // this query returns all domain with settings collection (eagerly loads the users collection for each domain)
+                    Criteria domainCriteria = getSession().createCriteria(Domain.class)
+                        .setFetchMode("settings", FetchMode.EAGER);
+                    return (List<Domain>) domainCriteria.list();
+                }
+            });
+        } else {
+            return findAll();
+        }
     }
 
     // -----------------------------------------------------------------------------------------------

@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.Entity;
 import javax.persistence.EntityResult;
-import javax.persistence.FetchType;
 import javax.persistence.FieldResult;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -19,7 +18,6 @@ import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.SqlResultSetMappings;
 import javax.persistence.Table;
@@ -193,6 +191,9 @@ public class Domain implements Comparable, Serializable {
 
     public List<DomainUser> getUsers() { return users; }
     public void setUsers(List<DomainUser> users) { this.users = users; }
+
+    public List<StringDomainSetting> getSettings() { return settings; }
+    public void setSettings(List<StringDomainSetting> settings) { this.settings = settings; }
 
     // ------------- Comparable interface ---------------------------------------------------
     public int compareTo(Object o) {
