@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import com.hung.auction.domain.Domain;
 import com.hung.auction.domain.DomainUser;
 
-@Repository("hQLQueryDomainDAO")
 public class HibernateCriteriaQueryDomainDAO extends HibernateDaoSupport implements QueryDomainDAO {
 
     // "fetch" join allows associations or collections of values to be initialized along with their parent objects
