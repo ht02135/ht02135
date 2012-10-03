@@ -129,7 +129,6 @@ public class HibernateSQLQueryDomainDAO extends AbstractQueryDomainDAO {
         return (List<Object[]>) getHibernateTemplate().execute(new HibernateCallback() {
             public Object doInHibernate(Session session) {
                 String queryString = "select u.USER_DOMAIN_NAME, u.USER_NAME from DOMAIN d right join DOMAIN_USER u on d.DOMAIN_NAME = u.USER_DOMAIN_NAME order by u.USER_DOMAIN_NAME asc";
-
                 if (enableNull) {   // user full join
                     queryString = "select u.USER_DOMAIN_NAME, u.USER_NAME from DOMAIN d full join DOMAIN_USER u on d.DOMAIN_NAME = u.USER_DOMAIN_NAME order by u.USER_DOMAIN_NAME asc";
                 }
@@ -178,7 +177,6 @@ public class HibernateSQLQueryDomainDAO extends AbstractQueryDomainDAO {
                                      "inner join DOMAIN d2 on d.PARENT_DOMAIN_NAME = d2.DOMAIN_NAME " +
                                      "inner join DOMAIN_USER u on d2.DOMAIN_NAME = u.USER_DOMAIN_NAME " +
                                      "where u.USER_NAME = :userName";
-
                 if (enableSubQuery) {
                     queryString = "select d.* from DOMAIN d " +
                                   "where d.PARENT_DOMAIN_NAME in (select u.USER_DOMAIN_NAME from DOMAIN_USER u where u.USER_NAME = :userName)";

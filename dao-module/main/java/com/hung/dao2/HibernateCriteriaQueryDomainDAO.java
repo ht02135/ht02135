@@ -190,22 +190,98 @@ public class HibernateCriteriaQueryDomainDAO extends AbstractQueryDomainDAO {
             public Object doInHibernate(Session session) {
                 if (enableNull) {   // full outer join
                     Criteria criteria = getSession().createCriteria(DomainUser.class, "u")
-                    .createAlias("userDomain", "d", CriteriaSpecification.FULL_JOIN)
-                    .setProjection( Projections.projectionList()
-                        .add( Projections.property("d.name") )
-                        .add( Projections.property("u.name") )
+                        .createAlias("userDomain", "d", CriteriaSpecification.FULL_JOIN)
+                        .setProjection( Projections.projectionList()
+                            .add( Projections.property("d.name") )
+                            .add( Projections.property("u.name") )
                     )
                     .addOrder( Order.asc("d.name") );
                     return (List<Object[]>) criteria.list();
                 } else {    // no right outer join in Criteria, hack it with left outer join
                     Criteria criteria = getSession().createCriteria(Domain.class, "d")
-                    .createAlias("users", "u", CriteriaSpecification.LEFT_JOIN)
-                    .setProjection( Projections.projectionList()
-                        .add( Projections.property("d.name") )
-                        .add( Projections.property("u.name") )
+                        .createAlias("users", "u", CriteriaSpecification.LEFT_JOIN)
+                        .setProjection( Projections.projectionList()
+                            .add( Projections.property("d.name") )
+                            .add( Projections.property("u.name") )
                     )
                     .addOrder( Order.asc("d.name") );
                     return (List<Object[]>) criteria.list();
+                }
+            }
+        });
+    }
+
+    /*
+     self-join via inner-join
+    select
+        this_.DOMAIN_NAME as DOMAIN1_224_3_,
+        this_.DOMAIN_DESCRIPTION as DOMAIN2_224_3_,
+        this_.PARENT_DOMAIN_NAME as PARENT3_224_3_,
+        domain3_.DOMAIN_NAME as DOMAIN1_224_0_,
+        domain3_.DOMAIN_DESCRIPTION as DOMAIN2_224_0_,
+        domain3_.PARENT_DOMAIN_NAME as PARENT3_224_0_,
+        u1_.USER_LOGIN_ID as USER1_223_1_,
+        u1_.USER_NAME as USER2_223_1_,
+        u1_.USER_DOMAIN_NAME as USER3_223_1_,
+        domain5_.DOMAIN_NAME as DOMAIN1_224_2_,
+        domain5_.DOMAIN_DESCRIPTION as DOMAIN2_224_2_,
+        domain5_.PARENT_DOMAIN_NAME as PARENT3_224_2_
+    from
+        DOMAIN this_
+    left outer join
+        DOMAIN domain3_
+            on this_.PARENT_DOMAIN_NAME=domain3_.DOMAIN_NAME
+    inner join
+        DOMAIN_USER u1_
+            on domain3_.DOMAIN_NAME=u1_.USER_DOMAIN_NAME
+    left outer join
+        DOMAIN domain5_
+            on u1_.USER_DOMAIN_NAME=domain5_.DOMAIN_NAME
+    where
+        u1_.USER_NAME=?
+
+    sub-query
+    select
+        this_.DOMAIN_NAME as DOMAIN1_224_1_,
+        this_.DOMAIN_DESCRIPTION as DOMAIN2_224_1_,
+        this_.PARENT_DOMAIN_NAME as PARENT3_224_1_,
+        domain2_.DOMAIN_NAME as DOMAIN1_224_0_,
+        domain2_.DOMAIN_DESCRIPTION as DOMAIN2_224_0_,
+        domain2_.PARENT_DOMAIN_NAME as PARENT3_224_0_
+    from
+        DOMAIN this_
+    left outer join
+        DOMAIN domain2_
+            on this_.PARENT_DOMAIN_NAME=domain2_.DOMAIN_NAME
+    where
+        this_.PARENT_DOMAIN_NAME in (
+            select
+                u_.USER_DOMAIN_NAME as y0_
+            from
+                DOMAIN_USER u_
+            where
+                u_.USER_NAME=?
+        )
+     */
+    public List<Domain> findDomainsWithParentContainUserName(final String userName, final boolean enableSubQuery) {
+        return (List<Domain>) getHibernateTemplate().execute(new HibernateCallback() {
+            public Object doInHibernate(Session session) {
+                if (enableSubQuery) {
+                    // subQuery
+                    DetachedCriteria subQuery = DetachedCriteria.forClass( DomainUser.class, "u" );
+                    subQuery.add(Restrictions.eq("u.name", userName))
+                            .setProjection(Property.forName( "u.userDomain.name" ));
+
+                    // Query
+                    Criteria domainCriteria = getSession().createCriteria(Domain.class, "d");
+                    domainCriteria.add(Property.forName("d.parentDomain.name").in(subQuery));
+
+                    return (List<Domain>) domainCriteria.list();
+                } else {
+                    Criteria domainCriteria = getSession().createCriteria(Domain.class, "d")
+                        .createAlias("d.parentDomain.users", "u", CriteriaSpecification.INNER_JOIN)
+                        .add(Restrictions.eq("u.name", userName));
+                    return (List<Domain>) domainCriteria.list();
                 }
             }
         });

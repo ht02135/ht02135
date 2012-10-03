@@ -108,4 +108,62 @@ public class HibernateHQLQueryDomainDAO extends AbstractQueryDomainDAO {
             }
         });
     }
+
+    /*
+    self-join via inner join
+    select
+        domain0_.DOMAIN_NAME as DOMAIN1_180_0_,
+        users2_.USER_LOGIN_ID as USER1_179_1_,
+        domain0_.DOMAIN_DESCRIPTION as DOMAIN2_180_0_,
+        domain0_.PARENT_DOMAIN_NAME as PARENT3_180_0_,
+        users2_.USER_NAME as USER2_179_1_,
+        users2_.USER_DOMAIN_NAME as USER3_179_1_,
+        users2_.USER_DOMAIN_NAME as USER3_0__,
+        users2_.USER_LOGIN_ID as USER1_0__
+    from
+        DOMAIN domain0_
+    inner join
+        DOMAIN domain1_
+            on domain0_.PARENT_DOMAIN_NAME=domain1_.DOMAIN_NAME
+    inner join
+        DOMAIN_USER users2_
+            on domain1_.DOMAIN_NAME=users2_.USER_DOMAIN_NAME
+    where
+        users2_.USER_NAME=?
+
+    just sub-query
+    select
+        domain0_.DOMAIN_NAME as DOMAIN1_180_,
+        domain0_.DOMAIN_DESCRIPTION as DOMAIN2_180_,
+        domain0_.PARENT_DOMAIN_NAME as PARENT3_180_
+    from
+        DOMAIN domain0_
+    where
+        domain0_.PARENT_DOMAIN_NAME in (
+            select
+                domainuser1_.USER_DOMAIN_NAME
+            from
+                DOMAIN_USER domainuser1_
+            where
+                domainuser1_.USER_NAME=?
+        )
+     */
+    // self-join via inner join or just plain sub-query
+    public List<Domain> findDomainsWithParentContainUserName(final String userName, final boolean enableSubQuery) {
+        return (List<Domain>) getHibernateTemplate().execute(new HibernateCallback() {
+            public Object doInHibernate(Session session) {
+                String queryString = "from Domain d " +
+                                     "inner join fetch d.parentDomain.users u where u.name = :userName";
+
+                if (enableSubQuery) {
+                    queryString = "from Domain d " +
+                                  "where d.parentDomain.name in (select u.userDomain.name from DomainUser u where u.name = :userName)";
+                }
+
+                Query query = getSession().createQuery(queryString);
+                query.setParameter("userName", userName);
+                return (List<Domain>) query.list();
+            }
+        });
+    }
 }
