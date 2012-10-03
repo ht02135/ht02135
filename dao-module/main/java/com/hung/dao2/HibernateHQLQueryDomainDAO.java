@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hung.auction.domain.Domain;
 
-public class HibernateHQLQueryDomainDAO extends HibernateDaoSupport implements QueryDomainDAO {
+public class HibernateHQLQueryDomainDAO extends AbstractQueryDomainDAO {
 
     // "fetch" join allows associations or collections of values to be initialized along with their parent objects
 
@@ -40,6 +40,36 @@ public class HibernateHQLQueryDomainDAO extends HibernateDaoSupport implements Q
             public Object doInHibernate(Session session) {
                 String queryString = "from Domain d inner join d.users u where u.name = :userName";
                 if (enableUsersFetch) queryString = "from Domain d inner join fetch d.users u where u.name = :userName";
+
+                Query query = getSession().createQuery(queryString);
+                query.setParameter("userName", userName);
+                return (List<Domain>) query.list();
+            }
+        });
+    }
+
+    /*
+    select
+        domain0_.DOMAIN_NAME as DOMAIN1_180_,
+        domain0_.DOMAIN_DESCRIPTION as DOMAIN2_180_,
+        domain0_.PARENT_DOMAIN_NAME as PARENT3_180_
+    from
+        DOMAIN domain0_
+    where
+        domain0_.DOMAIN_NAME in (
+            select
+                domainuser1_.USER_DOMAIN_NAME
+            from
+                DOMAIN_USER domainuser1_
+            where
+                domainuser1_.USER_NAME=?
+        )
+     */
+    // sub-query instead of inner-join
+    public List<Domain> findDomainsByUserName(final String userName) {
+        return (List<Domain>) getHibernateTemplate().execute(new HibernateCallback() {
+            public Object doInHibernate(Session session) {
+                String queryString = "from Domain d where d.name in (select u.userDomain.name from DomainUser u where u.name = :userName)";
 
                 Query query = getSession().createQuery(queryString);
                 query.setParameter("userName", userName);
@@ -78,20 +108,4 @@ public class HibernateHQLQueryDomainDAO extends HibernateDaoSupport implements Q
             }
         });
     }
-
-    // return scalar + use group by + aggregation function COUNT
-    // return empty list, cuz dont think there is way to do in HQL
-    public List<Object[]> findDomainNameUsersCount() {
-        return Collections.EMPTY_LIST;
-    }
-
-    // ###### in context of HQL (object oriented query) ###############
-
-    // GROUP BY statement is used in conjunction with the aggregate functions to group the result-set
-    // usually mean returning scalar value (dont think is possible, do it in SQL)
-
-    // right outer join (full join fetch and right join fetch are not meaningful)
-
-    // full join (full join fetch and right join fetch are not meaningful)
-    // ###### in context of HQL (object oriented query) ###############
 }
