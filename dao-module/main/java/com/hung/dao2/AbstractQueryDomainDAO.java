@@ -39,4 +39,9 @@ public class AbstractQueryDomainDAO extends HibernateDaoSupport implements Query
     public List<Object[]> findDomainUserNamePair(boolean enableNull) {
         return Collections.EMPTY_LIST;
     }
+
+    // self-join
+    public List<Domain> findDomainsWithParentContainUserName(String userName, boolean enableSubQuery) {
+        return Collections.EMPTY_LIST;
+    }
 }

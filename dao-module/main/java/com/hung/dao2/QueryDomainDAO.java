@@ -10,7 +10,7 @@ public interface QueryDomainDAO {
     List<Domain> findDomainsByUserName(String userName, boolean enableUsersFetch);
 
     // sub-query
-    List<Domain> findDomainsByUserName(final String userName);
+    List<Domain> findDomainsByUserName(String userName);
 
     // left outer join
     List<Domain> findDomains(boolean enableUsersFetch);
@@ -21,4 +21,9 @@ public interface QueryDomainDAO {
 
     // right outer join + full join join, in term of OO, only meaningful if return scalar value via projection
     List<Object[]> findDomainUserNamePair(boolean enableNull);
+
+    // self-join
+    List<Domain> findDomainsWithParentContainUserName(String userName, boolean enableSubQuery);
+
+    // self-join via sub-query
 }

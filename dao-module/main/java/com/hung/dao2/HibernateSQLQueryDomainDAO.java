@@ -139,4 +139,55 @@ public class HibernateSQLQueryDomainDAO extends AbstractQueryDomainDAO {
             }
         });
     }
+
+    /*
+    self-join via inner join
+    select
+        d.*
+    from
+        DOMAIN d
+    inner join
+        DOMAIN d2
+            on d.PARENT_DOMAIN_NAME = d2.DOMAIN_NAME
+    inner join
+        DOMAIN_USER u
+            on d2.DOMAIN_NAME = u.USER_DOMAIN_NAME
+    where
+        u.USER_NAME = ?
+
+    just sub-query
+    select
+        d.*
+    from
+        DOMAIN d
+    where
+        d.PARENT_DOMAIN_NAME in (
+            select
+                u.USER_DOMAIN_NAME
+            from
+                DOMAIN_USER u
+            where
+                u.USER_NAME = ?
+        )
+     */
+    // self-join via inner join or just plain sub-query
+    public List<Domain> findDomainsWithParentContainUserName(final String userName, final boolean enableSubQuery) {
+        return (List<Domain>) getHibernateTemplate().execute(new HibernateCallback() {
+            public Object doInHibernate(Session session) {
+                String queryString = "select d.* from DOMAIN d " +
+                                     "inner join DOMAIN d2 on d.PARENT_DOMAIN_NAME = d2.DOMAIN_NAME " +
+                                     "inner join DOMAIN_USER u on d2.DOMAIN_NAME = u.USER_DOMAIN_NAME " +
+                                     "where u.USER_NAME = :userName";
+
+                if (enableSubQuery) {
+                    queryString = "select d.* from DOMAIN d " +
+                                  "where d.PARENT_DOMAIN_NAME in (select u.USER_DOMAIN_NAME from DOMAIN_USER u where u.USER_NAME = :userName)";
+                }
+
+                Query query = getSession().createSQLQuery(queryString).addEntity(Domain.class);
+                query.setParameter("userName", userName);
+                return (List<Domain>) query.list();
+            }
+        });
+    }
 }
