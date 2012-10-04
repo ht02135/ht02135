@@ -25,5 +25,15 @@ public interface QueryDomainDAO {
     // self-join
     List<Domain> findDomainsWithParentContainUserName(String userName, boolean enableSubQuery);
 
-    // self-join via sub-query
+    /*
+    1>The HAVING clause is used in combination with the GROUP BY clause:      
+    SELECT column1, column2, ... column_n, aggregate_function (expression)
+    FROM tables
+    WHERE predicates
+    GROUP BY column1, column2, ... column_n
+    HAVING condition1 ... condition_n;
+    
+    2>date comparison 
+    SELECT productid FROM product where purchase_date > sysdate-30;
+    */
 }
