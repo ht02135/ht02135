@@ -27,13 +27,18 @@ public interface QueryDomainDAO {
 
     /*
     1>The HAVING clause is used in combination with the GROUP BY clause:      
-    SELECT column1, column2, ... column_n, aggregate_function (expression)
-    FROM tables
-    WHERE predicates
-    GROUP BY column1, column2, ... column_n
-    HAVING condition1 ... condition_n;
-    
     2>date comparison 
-    SELECT productid FROM product where purchase_date > sysdate-30;
+    select
+        u.USER_DOMAIN_NAME,
+        COUNT(u.USER_DOMAIN_NAME),
+        to_date('10/01/2012','MM/DD/YYYY')
+    from
+        DOMAIN_USER u
+    where to_date('10/01/2012','MM/DD/YYYY') > (sysdate - 30)
+    group by
+        u.USER_DOMAIN_NAME
+    having COUNT(u.USER_DOMAIN_NAME) > 1
+    order by
+        u.USER_DOMAIN_NAME asc
     */
 }
