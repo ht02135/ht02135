@@ -1,0 +1,78 @@
+/*
+Hung: refresh my memory
+http://www.w3.org/TR/CSS2/selector.html
+
+CSS rule structure
+
+Selector   Declaration
+H1        {color: red; backgroud: yellow} 
+           property: value
+*/
+
+/* grouping selector + grouping declaration */
+h1, h2 {
+    color: blue; 
+    backgroud: yellow
+}
+
+/* class selector, precede by .
+   html source contain class="warning", class="urgent", or class="warning urgent"
+*/
+.warning {
+    color: red; 
+    font-weight: bold;
+}
+.urgent {
+    font-style: italic;
+}
+/* chainging two class selector together */
+.warning.urgent {
+    background: silver;
+}
+
+/* id selector, precede by #
+   html source contain id="most-important" 
+*/
+#most-important {
+    color: red;
+    bakground: yellow;
+}
+
+/* attribute selector, [attribute-name]
+   select all ul elements that have a class attribute 
+   select all a element that have both href attribute
+*/
+ul[class] {
+    list-style-type: none;
+    padding-left: 0px;
+    margin-top: 0px;
+}
+a[href] {
+    font-weight: bold
+}
+
+/* descendant selectors 
+   select a elements found inside li element
+*/
+li a { 
+	text-decoration:none;
+	display: block;
+	color: #000000;
+	border-bottom:solid 1px #CCCCCC;
+	padding: 8px;
+}
+
+/* selecting children 
+   selecting strong element if it is a child of h1 element
+*/
+h1 > strong {
+    color: red;
+}
+
+/* pseudo-classes
+   link pseudo-classes: :link and :visited
+   dynamic pseudo-classes: :hover, :active, and :focus
+*/
+a:visited, a:hover, a:focus { 
+    color: red 
+}
