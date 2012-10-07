@@ -25,6 +25,8 @@ import com.hung.auction.service.DomainService;
 @TransactionConfiguration
 @Transactional
 public class DomainServiceMockTest  {
+    
+    // http://www.easymock.org/EasyMock3_1_Documentation.html
 
     private static Logger log = Logger.getLogger(DomainServiceMockTest.class);
     
@@ -39,7 +41,17 @@ public class DomainServiceMockTest  {
         // usually the place to create service and dao-mock.  but my service is dependency-inject
         // so only need to create mock
         
-        // Creating a mock is simple. Simply call createMock and pass in the class of the interface to be mocked
+        /*
+        1>order of method calls:
+          On a Mock Object returned by a EasyMock.createMock(), the order of method calls is not checked. If you would 
+          like a strict Mock Object that checks the order of method calls, use EasyMock.createStrictMock() to create it.
+        2>nice mock:
+          On a Mock Object returned by createMock() the default behavior for all methods is to throw an AssertionError 
+          for all unexpected method calls. If you would like a "nice" Mock Object that by default allows all method calls 
+          and returns appropriate empty values (0, null or false), use createNiceMock() instead. 
+        
+        3>Creating a mock is simple. Simply call createMock and pass in the class of the interface to be mocked
+        */
         this.domainDAOMock = EasyMock.createStrictMock(HibernateDomainDAO.class);   // start mock
         // inject domainDAOMock into domainService in the container
         this.domainService.setDomainDAO(this.domainDAOMock);
