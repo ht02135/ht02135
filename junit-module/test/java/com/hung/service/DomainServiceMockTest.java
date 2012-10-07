@@ -38,6 +38,8 @@ public class DomainServiceMockTest  {
     public void setUp() {  
         // usually the place to create service and dao-mock.  but my service is dependency-inject
         // so only need to create mock
+        
+        // Creating a mock is simple. Simply call createMock and pass in the class of the interface to be mocked
         this.domainDAOMock = EasyMock.createStrictMock(HibernateDomainDAO.class);   // start mock
         // inject domainDAOMock into domainService in the container
         this.domainService.setDomainDAO(this.domainDAOMock);
@@ -54,8 +56,12 @@ public class DomainServiceMockTest  {
         
         Domain rootDomain = new Domain(Domain.ROOT_NAME);
         
+        // After creating our mock object, we next need to tell EasyMock how we expect that mock to be used, 
+        // that is, what methods we expect to be called on it.  
         // add behavior for that method or rather Set expectations on mocks
         EasyMock.expect(this.domainDAOMock.findByName(Domain.ROOT_NAME)).andReturn(rootDomain);
+        
+        // Calling replay tells EasyMock that you are no longer specifying expected method calls and moving into replay mode.
         // Set mocks into testing mode.
         EasyMock.replay(this.domainDAOMock);
         
@@ -64,9 +70,22 @@ public class DomainServiceMockTest  {
         // test the return
         Assert.assertEquals(expectedDomainName, actualDomainName);
         
+        // The final step is where we ask EasyMock to confirm that all our expectations were met. That is, we ask EasyMock 
+        // to confirm that a method call corresponding to each expectation we set is actually made.
         // Verify behavior.
         EasyMock.verify(this.domainDAOMock);
         
         log.info("////////// DomainServiceMockTest : testQueryRoot - end //////////");
+    }
+    
+    @Test(expected = RuntimeException.class)
+    public void testDAOThrowsRuntimeException() throws RuntimeException {
+        // Set expectations on mocks.
+        EasyMock.expect(this.domainDAOMock.findByName("testDAOThrowsRuntimeException")).andThrow(new RuntimeException("Fatal data access exception."));
+
+        // Set mocks into testing mode.
+        EasyMock.replay(this.domainDAOMock);
+
+        String actualDomainName = this.domainDAOMock.findByName("testDAOThrowsRuntimeException").getName();
     }
 }
