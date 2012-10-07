@@ -36,7 +36,11 @@ public class DomainServiceMockTest  {
     
     @Before
     public void setUp() {  
+        // usually the place to create service and dao-mock.  but my service is dependency-inject
+        // so only need to create mock
         this.domainDAOMock = EasyMock.createStrictMock(HibernateDomainDAO.class);   // start mock
+        // inject domainDAOMock into domainService in the container
+        this.domainService.setDomainDAO(this.domainDAOMock);
     }
     
     @After
@@ -50,16 +54,18 @@ public class DomainServiceMockTest  {
         
         Domain rootDomain = new Domain(Domain.ROOT_NAME);
         
-        // add behavior for that method
+        // add behavior for that method or rather Set expectations on mocks
         EasyMock.expect(this.domainDAOMock.findByName(Domain.ROOT_NAME)).andReturn(rootDomain);
+        // Set mocks into testing mode.
         EasyMock.replay(this.domainDAOMock);
-        // inject domainDAOMock into domainService in the container
-        this.domainService.setDomainDAO(this.domainDAOMock);
         
         String expectedDomainName = rootDomain.getName();
         String actualDomainName = this.domainDAOMock.findByName(Domain.ROOT_NAME).getName();
         // test the return
         Assert.assertEquals(expectedDomainName, actualDomainName);
+        
+        // Verify behavior.
+        EasyMock.verify(this.domainDAOMock);
         
         log.info("////////// DomainServiceMockTest : testQueryRoot - end //////////");
     }
