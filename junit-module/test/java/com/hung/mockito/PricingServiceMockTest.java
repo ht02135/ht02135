@@ -17,6 +17,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations={"classpath:applicationContext-test.xml"})
 public class PricingServiceMockTest {
     
+    // http://mockito.googlecode.com/svn/branches/1.7/javadoc/org/mockito/Mockito.html#doNothing%28%29
+    
     private static Logger log = Logger.getLogger(PricingServiceMockTest.class);
     
     private IPricingService pricingService;
