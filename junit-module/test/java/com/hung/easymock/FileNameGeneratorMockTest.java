@@ -1,4 +1,4 @@
-package com.hung.engine;
+package com.hung.easymock;
 
 import junit.framework.Assert;
 
