@@ -43,9 +43,10 @@ public class FileNameGeneratorMockTest  {
     }
 
     // mock is best way to test NameGenerator code not worry about its dependencies via mock, but
-    
+    // http://devlearnings.wordpress.com/2010/05/13/easymock-expectationeasymock-expect-flavours-explained/
+    // Expect and Return
     @Test
-    public void testNameGenerator() {
+    public void testNameGeneration() {
         // expect
         EasyMock.expect(this.xmlNameGeneratorMock.getFileName("A")).andReturn("A.xml");
         EasyMock.expect(this.htmlNameGeneratorMock.getFileName("A")).andReturn("A.html");
@@ -71,6 +72,33 @@ public class FileNameGeneratorMockTest  {
         EasyMock.verify(this.xmlNameGeneratorMock);
         EasyMock.verify(this.htmlNameGeneratorMock);
     }
+    
+    // Expect and Throw
+    @Test(expected = RuntimeException.class)
+    public void testNameGenerationThrowsRuntimeException() throws RuntimeException {
+        // expect
+        EasyMock.expect(this.xmlNameGeneratorMock.getFileName(null)).andThrow(new RuntimeException("null or empty name"));
+        EasyMock.expect(this.htmlNameGeneratorMock.getFileName(null)).andThrow(new RuntimeException("null or empty name"));
+        EasyMock.expect(this.xmlNameGeneratorMock.getFileName("")).andThrow(new RuntimeException("null or empty name"));
+        EasyMock.expect(this.htmlNameGeneratorMock.getFileName("")).andThrow(new RuntimeException("null or empty name"));
+
+        // into replay mode
+        EasyMock.replay(this.xmlNameGeneratorMock);
+        EasyMock.replay(this.htmlNameGeneratorMock);
+
+        // Run the method.
+        String actualFileName = this.nameGenerator.getFileName(null, NameGenerator.HTML_TYPE);
+        actualFileName = this.nameGenerator.getFileName(null, NameGenerator.XML_TYPE);
+        actualFileName = this.nameGenerator.getFileName("", NameGenerator.HTML_TYPE);
+        actualFileName = this.nameGenerator.getFileName("", NameGenerator.XML_TYPE);
+        
+        // Verify behavior.
+        EasyMock.verify(this.xmlNameGeneratorMock);
+        EasyMock.verify(this.htmlNameGeneratorMock);
+    }
+    
+    // cant really apply Expect and Delegate, Expect and Answer, and Only Expect and Nothing to Return option
+    // on mocks that dont really need...
 
     public static class NameGenerator {
         
@@ -80,7 +108,8 @@ public class FileNameGeneratorMockTest  {
         private XMLNameGenerator xmlNameGenerator = null;
         private HTMLNameGenerator htmlNameGenerator = null;
         
-        public String getFileName(String name, String type) {
+        public String getFileName(String name, String type) throws RuntimeException {
+            if (name == null || name.equalsIgnoreCase("")) throw new RuntimeException("null or empty name");
             if (type.equalsIgnoreCase(XML_TYPE)) return xmlNameGenerator.getFileName(name);
             if (type.equalsIgnoreCase(HTML_TYPE)) return htmlNameGenerator.getFileName(name);
             return name+".txt";
@@ -96,13 +125,15 @@ public class FileNameGeneratorMockTest  {
     }
     
     public static class XMLNameGenerator {
-        public String getFileName(String name) {
+        public String getFileName(String name) throws RuntimeException {
+            if (name == null || name.equalsIgnoreCase("")) throw new RuntimeException("null or empty name");
             return name+".xml";
         }
     }
     
     public static class HTMLNameGenerator {
-        public String getFileName(String name) {
+        public String getFileName(String name) throws RuntimeException {
+            if (name == null || name.equalsIgnoreCase("")) throw new RuntimeException("null or empty name");
             return name+".html";
         }
     }
