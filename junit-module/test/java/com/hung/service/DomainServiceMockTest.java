@@ -78,7 +78,8 @@ public class DomainServiceMockTest  {
         EasyMock.replay(this.domainDAOMock);
         
         String expectedDomainName = rootDomain.getName();
-        String actualDomainName = this.domainDAOMock.findByName(Domain.ROOT_NAME).getName();
+        // Run the method.
+        String actualDomainName = this.domainService.findByName(Domain.ROOT_NAME).getName();
         // test the return
         Assert.assertEquals(expectedDomainName, actualDomainName);
         
@@ -98,6 +99,7 @@ public class DomainServiceMockTest  {
         // Set mocks into testing mode.
         EasyMock.replay(this.domainDAOMock);
 
-        String actualDomainName = this.domainDAOMock.findByName("testDAOThrowsRuntimeException").getName();
+        // Run the method.
+        String actualDomainName = this.domainService.findByName("testDAOThrowsRuntimeException").getName();
     }
 }
