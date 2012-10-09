@@ -24,7 +24,13 @@ public class Subject {
     }
     
     public void dummyMethod() {
-        // something might happen to change state of Subject.  then we need to notify all observers
-        notifyObservers();
+        // simulate asynch notification
+        Runnable runnable = new Runnable() {
+            public void run() {
+                notifyObservers();
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 }

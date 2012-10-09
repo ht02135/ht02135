@@ -49,6 +49,7 @@ public class CallBackMockTest {
         }).when(callBackMock).callbackMethod("data-processed");
         
         caller.execute("data");
+        caller.sleep(1000);
         
         System.out.println(">>>>> expectedCallBacks="+expectedCallBacks+" <<<<<");
         Assert.assertEquals(1,expectedCallBacks);   // should be called back only once
@@ -65,6 +66,7 @@ public class CallBackMockTest {
             Mockito.doNothing().when(callBackMock).callbackMethod("data-processed");
             
             caller.execute("data");
+            caller.sleep(1000);
             
             // verify behavior
             Mockito.verify(callBackMock).callbackMethod("data-processed");
@@ -81,8 +83,7 @@ public class CallBackMockTest {
     private class CallBackImpl implements ICallBack {
 
         public void callbackMethod(String result) {
-            System.out.println("##### result="+result+"#####");
-            expectedCallBacks++;
+            System.out.println("result="+result);
         }
     }
     
@@ -93,9 +94,21 @@ public class CallBackMockTest {
             this.callBack = callBack;
         }
         
-        public void execute(String data) {
-            // do some work with data
-            callBack.callbackMethod(data+"-processed");
+        public void execute(final String data) {
+            Runnable runnable = new Runnable() {
+                public void run() {
+                    System.out.println("processed data="+data);
+                    callBack.callbackMethod(data+"-processed"); // asynch callback
+                }
+            };
+            Thread thread = new Thread(runnable);
+            thread.start();
+        }
+        
+        public void sleep(long milli) {
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {}
         }
     }
 }

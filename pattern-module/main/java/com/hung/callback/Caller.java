@@ -15,24 +15,18 @@ public class Caller {
     2>notion of registering callback vs add observer
     */
     public Caller(ICallBack callBack) {
-        registerCallBack(callBack);
-    }
-    
-    private void registerCallBack(ICallBack callBack) {
         this.callBack = callBack;
     }
     
-    public void notifyCallBack() {
-        callBack.callbackMethod("method result");
-    }
-    
-    public void dummyMethod() {
-        // something happened, signal call back
-        notifyCallBack();
-    }
-    
-    public void doWork () {
-        // something happened, signal call back
-        notifyCallBack();
+    public void execute(final String data) {
+        // simulate asynch callback
+        Runnable runnable = new Runnable() {
+            public void run() {
+                System.out.println("processed data="+data);
+                callBack.callbackMethod(data+"-processed");
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 }
