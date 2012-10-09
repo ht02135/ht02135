@@ -4,15 +4,11 @@ import junit.framework.Assert;
 
 import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
+import org.easymock.IAnswer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:applicationContext-test.xml"})
 public class FileNameGeneratorMockTest  {
     
     // http://www.easymock.org/EasyMock3_1_Documentation.html
@@ -22,12 +18,11 @@ public class FileNameGeneratorMockTest  {
     private NameGenerator nameGenerator;
     private XMLNameGenerator xmlNameGeneratorMock;
     private HTMLNameGenerator htmlNameGeneratorMock;
+    private int numberOfXmlDiagnosticPerformed;
+    private int numberOfHtmlDiagnosticPerformed;
     
     @Before
     public void setUp() { 
-        // setup class-under-test and its mocks
-        this.nameGenerator = new NameGenerator();
-        
         /*
         1>order of method calls:
           On a Mock Object returned by a EasyMock.createMock(), the order of method calls is not checked. If you would 
@@ -39,8 +34,10 @@ public class FileNameGeneratorMockTest  {
         */
         this.xmlNameGeneratorMock = EasyMock.createMock(XMLNameGenerator.class);
         this.htmlNameGeneratorMock = EasyMock.createMock(HTMLNameGenerator.class);
-        this.nameGenerator.setXMLNameGenerator(this.xmlNameGeneratorMock);
-        this.nameGenerator.setHTMLNameGenerator(this.htmlNameGeneratorMock);
+        numberOfXmlDiagnosticPerformed = 0;    // simulate xmlNameGeneratorMock state
+        numberOfHtmlDiagnosticPerformed = 0;    // simulate xmlNameGeneratorMock state
+        
+        this.nameGenerator = new NameGenerator(this.xmlNameGeneratorMock, this.htmlNameGeneratorMock);
     }
     
     @After
@@ -130,6 +127,51 @@ public class FileNameGeneratorMockTest  {
         EasyMock.verify(this.htmlNameGeneratorMock);
     }
     
+    /*
+     embed IAnswer data or logic into mock object.  not quite sure that is a good idea.  reason:
+     1>system in test shouldnt be mock.  mock should be light
+     2>for persist method, do nothing strategy should be sufficient to make sure pricingDAOMock.save() is called
+     3>for find method, Mockito.when() stratey should be sufficient to make sure pricingDAOMock.getPrice() return right mocked price
+     */
+    // Expect and Answer
+    @Test
+    public void testPerformAndTrackDiagnostic() {
+        // xml
+        IAnswer xmlPerformAndTrackDiagnostic = new IAnswer() {
+            public Integer answer() throws Throwable {
+                numberOfXmlDiagnosticPerformed++;
+                return numberOfXmlDiagnosticPerformed;
+            }
+        };
+        EasyMock.expect(xmlNameGeneratorMock.performAndTrackDiagnostic()).andAnswer(xmlPerformAndTrackDiagnostic);
+        
+        // html
+        IAnswer htmlPerformAndTrackDiagnostic = new IAnswer() {
+            public Integer answer() throws Throwable {
+                numberOfHtmlDiagnosticPerformed++;
+                return numberOfHtmlDiagnosticPerformed;
+            }
+        };
+        EasyMock.expect(htmlNameGeneratorMock.performAndTrackDiagnostic()).andAnswer(htmlPerformAndTrackDiagnostic);
+        
+        // into replay mode
+        EasyMock.replay(this.xmlNameGeneratorMock);
+        EasyMock.replay(this.htmlNameGeneratorMock);
+        
+        // run the method
+        int expectedXmlPerformAndTrackDiagnostic = 1;
+        int actualXmlPerformAndTrackDiagnostic = this.nameGenerator.xmlPerformAndTrackDiagnostic();
+        Assert.assertEquals(expectedXmlPerformAndTrackDiagnostic, actualXmlPerformAndTrackDiagnostic);
+        
+        int expectedHtmlPerformAndTrackDiagnostic = 1;
+        int actualHtmlPerformAndTrackDiagnostic = this.nameGenerator.htmlPerformAndTrackDiagnostic();
+        Assert.assertEquals(expectedHtmlPerformAndTrackDiagnostic, actualHtmlPerformAndTrackDiagnostic);
+        
+        // Verify behavior.
+        EasyMock.verify(this.xmlNameGeneratorMock);
+        EasyMock.verify(this.htmlNameGeneratorMock);
+    }
+    
     ////// Nested Classes //////////////////////////////////////////////////////////////////////////////////////////
 
     // for now, set to private to avoid public access
@@ -140,6 +182,11 @@ public class FileNameGeneratorMockTest  {
         
         private XMLNameGenerator xmlNameGenerator = null;
         private HTMLNameGenerator htmlNameGenerator = null;
+        
+        public NameGenerator(XMLNameGenerator xMLNameGenerator, HTMLNameGenerator hTMLNameGenerator) {
+            setXMLNameGenerator(xMLNameGenerator);
+            setHTMLNameGenerator(hTMLNameGenerator);
+        }
         
         // methods
         
@@ -158,11 +205,13 @@ public class FileNameGeneratorMockTest  {
             log.info("NameGenerator.checkStatus complete");
         }
         
-        /* Expect and Answer
-           1>Sometimes we would like our mock object to return a value or throw an exception that is created at the time 
-             of the actual call.
-           2>Inside an IAnswer callback, the arguments passed to the mock call are available via EasyMock.getCurrentArguments()
-         */
+        public int xmlPerformAndTrackDiagnostic() {
+            return xmlNameGenerator.performAndTrackDiagnostic();
+        }
+        
+        public int htmlPerformAndTrackDiagnostic() {
+            return htmlNameGenerator.performAndTrackDiagnostic();
+        }
         
         // setter
         
@@ -177,28 +226,50 @@ public class FileNameGeneratorMockTest  {
     
     // for now, set to private to avoid public access
     private static class XMLNameGenerator {
+        private int numberOfDiagnosticPerformed;
+        
+        public XMLNameGenerator() {
+            numberOfDiagnosticPerformed = 0;
+        }
+        
         // for Expect and Return expect scenario
         public String generateFileName(String name) throws RuntimeException {
             if (name == null || name.equalsIgnoreCase("")) throw new RuntimeException("null or empty name");
             return name+".xml";
         }
         
+        public int performAndTrackDiagnostic() {
+            return numberOfDiagnosticPerformed;
+        }
+        
         // for Expect and Nothing expect scenario
         public void performDiagnostic() {
+            numberOfDiagnosticPerformed++;
             log.info("XMLNameGenerator.performDiagnostic complete");
         }
     }
     
     // for now, set to private to avoid public access
     private static class HTMLNameGenerator {
+        private int numberOfDiagnosticPerformed;
+        
+        public HTMLNameGenerator() {
+            numberOfDiagnosticPerformed = 0;
+        }
+        
         // for Expect and Return expect scenario
         public String generateFileName(String name) throws RuntimeException {
             if (name == null || name.equalsIgnoreCase("")) throw new RuntimeException("null or empty name");
             return name+".html";
         }
         
+        public int performAndTrackDiagnostic() {
+            return numberOfDiagnosticPerformed;
+        }
+        
         // for Expect and Nothing expect scenario
         public void performDiagnostic() {
+            numberOfDiagnosticPerformed++;
             log.info("HTMLNameGenerator.performDiagnostic complete");
         }
     }
