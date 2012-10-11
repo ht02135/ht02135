@@ -116,6 +116,52 @@ public class DomainControllerEasyMockTest {
         log.info("testGetDomains -  end");
     }
     
+    @Test
+    public void testGetDomainByName() {
+        log.info("testGetDomainByName -  start");
+
+        // request specific setup
+        requestMock.setRequestURI("/restfuldomaincontroller/root");
+        requestMock.setMethod("GET");
+        // requestMock.addHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_XML.toString());
+        requestMock.addHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON.toString());
+        requestMock.setAttribute(HandlerMapping.INTROSPECT_TYPE_LEVEL_MAPPING, true); 
+        
+        try {
+            // expect
+            EasyMock.expect(domainServiceMock.findByName("root", true)).andReturn(mockRootDomain());
+            
+            // replay
+            EasyMock.replay(domainServiceMock);
+            
+            // run the method
+            ModelAndView mav = adapter.handle(requestMock, responseMock, restfulDomainController);
+            
+            // debug
+            if (mav != null) {
+                log.info("mav.getViewName()="+mav.getViewName());
+                log.info("mav.getModel()="+mav.getModel());
+            } else {
+                // verify
+                String actualJSON = responseMock.getContentAsString();
+                log.info("actualJSON  =|"+actualJSON+"|");
+            }
+            
+            // verify mock
+            EasyMock.verify(domainServiceMock);
+        } catch (Exception e) {
+            log.info("e.getMessage()="+e.getMessage());
+            e.printStackTrace();
+        }
+        
+        log.info("testGetDomainByName -  end");
+    }
+    
+    private Domain mockRootDomain() {
+        Domain rootDomain = new Domain("root", "root", null);
+        return rootDomain;
+    }
+    
     private List<Domain> mockDomains() {
         log.info("mockDomains -  enter");
         List<Domain> domains = new ArrayList<Domain>(1);
