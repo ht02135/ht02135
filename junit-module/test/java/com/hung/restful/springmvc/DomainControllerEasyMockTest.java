@@ -1,12 +1,15 @@
 package com.hung.restful.springmvc;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ws.rs.core.HttpHeaders;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.easymock.EasyMock;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 
 import com.hung.auction.domain.Domain;
+import com.hung.auction.jaxbdomain.JaxbDomain;
 import com.hung.auction.restful.springmvc.RestfulDomainController;
 import com.hung.auction.service.DomainService;
 
@@ -37,16 +41,22 @@ public class DomainControllerEasyMockTest {
 
     private static Logger log = Logger.getLogger(DomainControllerEasyMockTest.class);
     
-    private RestfulDomainController restfulDomainController = null; 
-    
-    private DomainService domainServiceMock = null;
-    
+    // mocks
+    private DomainService domainServiceMock;
     private MockHttpServletRequest requestMock;
     private MockHttpServletResponse responseMock;
+    
+    // #######################################################################
+    
+    private RestfulDomainController restfulDomainController; 
     
     @Autowired
     @Qualifier("annotationMethodHandlerAdapter")
     private AnnotationMethodHandlerAdapter adapter;
+    
+    ObjectMapper objectMapper;
+    
+    // #######################################################################
     
     @Before
     public void setUp() {  
@@ -58,6 +68,8 @@ public class DomainControllerEasyMockTest {
 
         restfulDomainController = new RestfulDomainController(); 
         restfulDomainController.setDomainService(domainServiceMock);
+        
+        objectMapper = new ObjectMapper();
     }
     
     @Test
@@ -82,13 +94,19 @@ public class DomainControllerEasyMockTest {
             ModelAndView mav = adapter.handle(requestMock, responseMock, restfulDomainController);
             
             // debug
-            log.info("responseMock.getContentAsString()="+responseMock.getContentAsString());
             if (mav != null) {
                 log.info("mav.getViewName()="+mav.getViewName());
                 log.info("mav.getModel()="+mav.getModel());
+            } else {
+                // verify
+                String expectedJSON = objectMapper.writeValueAsString(mockJaxbDomains());
+                String actualJSON = responseMock.getContentAsString();
+                log.info("expectedJSON=|"+expectedJSON+"|");
+                log.info("actualJSON  =|"+actualJSON+"|");
+                Assert.assertEquals(expectedJSON, actualJSON);
             }
             
-            // verify
+            // verify mock
             EasyMock.verify(domainServiceMock);
         } catch (Exception e) {
             log.info("e.getMessage()="+e.getMessage());
@@ -104,5 +122,14 @@ public class DomainControllerEasyMockTest {
         domains.add(new Domain("root", "root", null));
         log.info("mockDomains -  domains="+domains);
         return domains;
+    }
+    
+    private List<JaxbDomain> mockJaxbDomains() {
+        List<JaxbDomain> jaxDomains = new ArrayList<JaxbDomain>(1);
+        Iterator<Domain> iter = mockDomains().iterator();
+        while (iter.hasNext()) {
+            jaxDomains.add(new JaxbDomain(iter.next()));
+        }
+        return jaxDomains;
     }
 }
