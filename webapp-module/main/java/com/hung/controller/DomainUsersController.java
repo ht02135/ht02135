@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.hung.auction.client.ClientSession;
 import com.hung.auction.domain.Domain;
 import com.hung.auction.domain.DomainUser;
 import com.hung.auction.jaxbdomain.JaxbClientSession;
@@ -181,19 +180,14 @@ public class DomainUsersController {
 	
 	// both JaxbClientSession and ClientSession should be http session scope.  debug it
 	private void checkClientSession(JaxbClientSession jaxbClientSession) {
-		log.info("////////// checkClientSession: start //////////");
+		log.info("////////// DomainUsersController : checkClientSession - start //////////");
+		
 		if (jaxbClientSession == null) {
-			log.info("checkClientSession: jaxbClientSession == null");
+			log.info("DomainUsersController : checkClientSession: jaxbClientSession == null");
 		} else {
-			log.info("checkClientSession: jaxbClientSession="+jaxbClientSession);
+			log.info("DomainUsersController : checkClientSession: jaxbClientSession="+jaxbClientSession);
 		}
 		
-		ClientSession clientSession = loginService.getClientSession();
-		if (clientSession == null) {
-			log.info("checkClientSession: loginService.clientSession == null");
-		} else {
-			log.info("checkClientSession: loginService.clientSession="+clientSession);
-		}
-		log.info("////////// checkClientSession: end //////////");
+		log.info("////////// DomainUsersController : checkClientSession - end //////////");
 	}
 }
