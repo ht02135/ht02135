@@ -25,7 +25,7 @@ import com.hung.auction.service.LoginService;
 @Controller
 @SessionAttributes({"jaxbClientSession"})
 @RequestMapping("/domainUsers")
-public class DomainUsersController {
+public class DomainUsersController implements IAuthenticateController {
 
 	private static Logger log = Logger.getLogger(DomainUsersController.class);
 	

@@ -18,7 +18,7 @@ import com.hung.auction.service.SearchTermService;
 
 @Controller
 @RequestMapping("/searchdocuments")
-public class SearchDocumentController {
+public class SearchDocumentController implements IAuthenticateController {
 
     private static Logger log = Logger.getLogger(SearchDocumentController.class);
 

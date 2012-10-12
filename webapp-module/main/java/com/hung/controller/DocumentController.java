@@ -26,7 +26,7 @@ import com.hung.auction.service.DocumentService;
 
 @Controller
 @RequestMapping("/documents")
-public class DocumentController {
+public class DocumentController implements IAuthenticateController {
 
     private static Logger log = Logger.getLogger(DocumentController.class);
 

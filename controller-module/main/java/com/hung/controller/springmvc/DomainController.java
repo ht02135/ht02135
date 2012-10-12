@@ -1,4 +1,4 @@
-package com.hung.auction.controller;
+package com.hung.auction.controller.springmvc;
 
 import java.util.List;
 
@@ -14,35 +14,31 @@ import com.hung.auction.domain.Domain;
 import com.hung.auction.service.DomainService;
 
 @Controller
-@RequestMapping("/domains")
-public class DomainsController implements IAuthenticateController {
+@RequestMapping("/domaincontroller")
+public class DomainController {
 
-	private static Logger log = Logger.getLogger(DomainsController.class);
+	private static Logger log = Logger.getLogger(DomainController.class);
 	
 	@Autowired
-	private DomainService domainService;	// dont need setXXX method when autowire
+	private DomainService domainService;	
 
-	// display list of domains
 	@RequestMapping(method=RequestMethod.GET)
-	public String displayDomains(Model model) {
-	
-		// debug domains
+	public String getDomains(Model model) {
 		List<Domain> domains = domainService.findAll();
-		log.info("displayDomains: domains="+domains);
 		model.addAttribute("domains", domains);
-		
-		return "domains/list";
+		return "domainscontroller/list";
 	}
 	
-	// view domain user of loginId
 	@RequestMapping(value="/{name}", method=RequestMethod.GET)
-	public String viewDomain(@PathVariable String name, Model model) {
-		log.info("viewDomain: enter, name="+name);
-		
+	public String getDomainByName(@PathVariable String name, Model model) {
 		Domain domain = domainService.findByName(name);
-		log.info("viewDomain: domain="+domain);
 	    model.addAttribute("domain", domain);
-	    
-	    return "domains/view";
+	    return "domainscontroller/view";
+	}
+	
+	// setter
+	
+	public void setDomainService(DomainService domainService) {
+	    this.domainService = domainService;
 	}
 }
