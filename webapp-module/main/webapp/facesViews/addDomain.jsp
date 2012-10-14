@@ -17,13 +17,13 @@
         
             <h:outputLabel value="Enter domain name" for="currentDomainName">
             </h:outputLabel>
-            <h:inputText id="currentDomainName" value="#{domainBean.domainName}">
+            <h:inputText id="currentDomainName" value="#{managedDomain.domainName}">
             </h:inputText>
             
             <h:outputLabel value="Enter parent domain" for="currentParentDomainName">
             </h:outputLabel>
-            <h:selectOneMenu id="currentParentDomainName" value="#{domainBean.parentDomain}" converter="#{domainConverterService}">
-                <f:selectItems value="#{domainBean.domainItems}" />
+            <h:selectOneMenu id="currentParentDomainName" value="#{managedDomain.parentDomain}" converter="#{domainConverterService}">
+                <f:selectItems value="#{managedDomainItems.domainItems}" />
             </h:selectOneMenu>
         
             <f:facet name="footer">
@@ -31,7 +31,7 @@
                     <!-- action attribute - efers to an action method which returns a String  from which the Faces navigation 
                          model can use to decide whether or not a navigation is necessary based on the value of the string 
                     --> 
-                    <h:commandLink action="#{domainBean.createDomain}">
+                    <h:commandLink action="#{managedDomain.createDomain}">
                         <h:outputText value="Create domain (Action)" />
                     </h:commandLink>
         
@@ -39,7 +39,7 @@
                          String. Instead it returns void. It is basically identical to the action method but instead it just 
                          executes the code after an action event (button click or link click) but a navigation is not needed
                     -->
-                    <h:commandLink actionListener="#{domainBean.createDomain}">
+                    <h:commandLink actionListener="#{managedDomain.createDomain}">
                         <h:outputText value="Create domain (ActionListener)" />
                     </h:commandLink>
             </h:panelGroup>

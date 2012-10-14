@@ -15,7 +15,7 @@ import com.hung.auction.service.DomainService;
 @Service("domainConverterService")
 public class DomainConverterService implements Converter {	// spring bean
 
-    private static Logger log = Logger.getLogger(DomainBean.class);
+    private static Logger log = Logger.getLogger(DomainConverterService.class);
 
     @Autowired
     @Qualifier("domainService")

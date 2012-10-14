@@ -1,14 +1,10 @@
 package com.hung.auction.jsfBean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIData;
 import javax.faces.event.ActionEvent;
-import javax.faces.model.SelectItem;
 
 import org.apache.log4j.Logger;
 
@@ -17,19 +13,16 @@ import com.hung.auction.service.DomainService;
 
 @ManagedBean
 @SessionScoped
-public class DomainBean implements Serializable {	//DI via JSF managed bean
+public class ManagedDomain implements Serializable {   // Domain for CRUD operation
 
-    private static Logger log = Logger.getLogger(DomainBean.class);
-
-    private UIData domainTable;
+    private static Logger log = Logger.getLogger(ManagedDomain.class);
 
     private String domainName = "";
     private Domain parentDomain = null;
-
-    private List<Domain> domains = null;
-    private List<SelectItem> domainItems = null;
-
+    
     private DomainService domainService;	// DI via Spring
+    
+    // properties ----------------------------------------------------------------------
 
     public String getDomainName() {
         return domainName;
@@ -49,35 +42,17 @@ public class DomainBean implements Serializable {	//DI via JSF managed bean
         log.info("setParentDomainName - this.parentDomain="+this.parentDomain);
     }
 
-    public List<Domain> getDomains() {
-        log.info("getDomains - entered");
-        domains = domainService.findAll();
+    /*
+        typically one uses an action method to execute some code after a button or link is 
+        clicked and then possibly navigate based on the outcome of executed code.
+    */
+    // for action attribute --------------------------------------------------------------
 
-        log.info("getDomains - domains="+domains);
-        return domains;
-    }
-
-    public List<SelectItem> getDomainItems() {
-        getDomains();
-
-        domainItems = new ArrayList<SelectItem>();
-        for (int i=0; i<domains.size(); i++) {
-            domainItems.add(new SelectItem(domains.get(i), domains.get(i).getName()));
-        }
-
-        return domainItems;
-    }
-
-
-    // ----------------------------------------------------------------------------------
-
-    // navigate to addDomain.jsp
     public String addDomain() {
         log.info("addDomain - entered");
         return "success";
     }
 
-    // for action attribute
     public String createDomain() {
         log.info("createDomain (action) - entered");
 
@@ -101,21 +76,22 @@ public class DomainBean implements Serializable {	//DI via JSF managed bean
         return "success";
     }
 
-    // for actionListener attribute
+    /*
+        An actionlistener method compared to an action method does not return a String.  A good example 
+        of actionlistener could be in response to clicking on a checkbox and having the actionlistener 
+        code behind it change a visual attribute of a page such as render a component that was not 
+        rendered before..
+        
+        for example, manipulating/rendering domainTable
+    */
+    // for actionListener attribute -----------------------------------------------------------
+    
     public void createDomain(ActionEvent event) {
         log.info("createDomain (actionListener) - entered");
         createDomain();
     }
 
-    public UIData getDomainTable() {
-        return this.domainTable;
-    }
-
-    public void setDomainTable(UIData domainTable) {
-        this.domainTable = domainTable;
-    }
-
-    // ---------------------------------------------------
+    // inject -----------------------------------------------------------------------------------
 
     public void setDomainService(DomainService domainService) {
         this.domainService = domainService;

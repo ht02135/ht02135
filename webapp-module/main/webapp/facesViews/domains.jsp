@@ -14,9 +14,9 @@
 <f:view>
     <h:panelGroup>
         <h:dataTable border="1" cellpadding="1" cellspacing="1"
-        value="#{domainBean.domains}"
+        value="#{managedDomains.domains}"
         var="domain"
-        binding="#{domainBean.domainTable}">
+        binding="#{managedDomains.domainTable}">
         
             <f:facet name="header">
                 <h:outputText value="Domains - start" />
@@ -37,10 +37,10 @@
             </h:column>
             
             <f:facet name="footer">
-                <!-- commandLink must be within form... -->
+                <!-- blurr, commandLink must be within form... -->
                 <h:form>
                     <h:panelGroup>
-                        <h:commandLink action="#{domainBean.addDomain}">
+                        <h:commandLink action="#{managedDomain.addDomain}">
                             <h:outputText value="Add domain (Action)" />
                         </h:commandLink>
                     </h:panelGroup>
