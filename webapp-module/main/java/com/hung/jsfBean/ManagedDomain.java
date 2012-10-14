@@ -41,24 +41,43 @@ public class ManagedDomain implements Serializable {   // Domain for CRUD operat
         this.parentDomain = parentDomain;
         log.info("setParentDomainName - this.parentDomain="+this.parentDomain);
     }
+    
+    /*
+    An actionlistener method compared to an action method does not return a String.  A good example 
+    of actionlistener could be in response to clicking on a checkbox and having the actionlistener 
+    code behind it change a visual attribute of a page such as render a component that was not 
+    rendered before..
+    
+    for example, manipulating/rendering domainTable
+    */
+    // for actionListener attribute -----------------------------------------------------------
 
     /*
-        typically one uses an action method to execute some code after a button or link is 
-        clicked and then possibly navigate based on the outcome of executed code.
-    */
-    // for action attribute --------------------------------------------------------------
-
-    public String addDomain() {
-        log.info("addDomain - entered");
-        return "success";
+     flow for actionListener
+     1>handle event from element.  handle nature of this event (notification)
+     */
+    public void createDomain(ActionEvent event) {
+        log.info("createDomain (actionListener) - entered");
+        // nothing
     }
 
+    /*
+    typically one uses an action method to execute some code after a button or link is 
+    clicked and then possibly navigate based on the outcome of executed code.
+    */
+    // for action attribute --------------------------------------------------------------
+    
+    /*
+     flow for actoin should be:
+     1>main business action
+     2>return outcome
+     */
     public String createDomain() {
         log.info("createDomain (action) - entered");
 
         if (((domainName == null) || (domainName.equalsIgnoreCase(""))) || (parentDomain == null))
         {
-            log.info("createDomain - failure, empty domainName or parentDomain");
+            log.info("createDomain - failure, invalid domainName or parentDomain");
             return "failure";
         }
 
@@ -75,20 +94,10 @@ public class ManagedDomain implements Serializable {   // Domain for CRUD operat
         log.info("createDomain - success");
         return "success";
     }
-
-    /*
-        An actionlistener method compared to an action method does not return a String.  A good example 
-        of actionlistener could be in response to clicking on a checkbox and having the actionlistener 
-        code behind it change a visual attribute of a page such as render a component that was not 
-        rendered before..
-        
-        for example, manipulating/rendering domainTable
-    */
-    // for actionListener attribute -----------------------------------------------------------
     
-    public void createDomain(ActionEvent event) {
-        log.info("createDomain (actionListener) - entered");
-        createDomain();
+    public String addDomain() {
+        log.info("addDomain - entered");
+        return "success";
     }
 
     // inject -----------------------------------------------------------------------------------

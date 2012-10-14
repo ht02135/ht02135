@@ -28,20 +28,18 @@
         
             <f:facet name="footer">
                 <h:panelGroup>
-                    <!-- action attribute - efers to an action method which returns a String  from which the Faces navigation 
-                         model can use to decide whether or not a navigation is necessary based on the value of the string 
-                    --> 
-                    <h:commandLink action="#{managedDomain.createDomain}">
-                        <h:outputText value="Create domain (Action)" />
-                    </h:commandLink>
-        
-                    <!-- actionListener attribute - An actionlistener method compared to an action method does not return a 
-                         String. Instead it returns void. It is basically identical to the action method but instead it just 
-                         executes the code after an action event (button click or link click) but a navigation is not needed
+                    <!-- actionListener vs action
+                    1>actionListener is processed before action
+                    2>actionListener should handle ActionEvent
+                    3>action should handle bussiness action and return outcome
                     -->
-                    <h:commandLink actionListener="#{managedDomain.createDomain}">
-                        <h:outputText value="Create domain (ActionListener)" />
+                    <h:commandLink actionListener="#{managedDomain.createDomain}" action="#{managedDomain.createDomain}">
+                        <h:outputText value="Create domain" />
                     </h:commandLink>
+                    
+                    <h:commandButton actionListener="#{managedDomain.createDomain}" action="#{managedDomain.createDomain}" 
+                        value="Create domain">
+                    </h:commandButton>
             </h:panelGroup>
         </f:facet> 
     
