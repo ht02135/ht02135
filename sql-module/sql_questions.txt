@@ -83,7 +83,20 @@ ht02135
 
 --------------------------------------------------------------------------------
 
-4>return list of department name with employee salart > 10000
+4>return 2nd highest price
+
+// return 100.1, return max item price
+select max(ITEM_PRICE) from AUCTION_ITEM  
+
+// return 2nd max item price
+select max(ITEM_PRICE) from AUCTION_ITEM where ITEM_PRICE not in (select max(ITEM_PRICE) from AUCTION_ITEM)
+
+// alternative
+select max(i.ITEM_PRICE) from AUCTION_ITEM i where (i.ITEM_PRICE < (select max(i2.ITEM_PRICE) from AUCTION_ITEM i2))
+
+-------------------------------------------------------------------------------
+
+5>return list of department name with employee salart > 10000
 
 Employee          
 Id
