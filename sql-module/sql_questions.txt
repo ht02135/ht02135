@@ -9,11 +9,12 @@ ITEM_ID, ITEM_NAME, ITEM_PRICE, SELLER_ID
 
 INSERT INTO AUCTION_ITEM VALUES (1, 'item 1', 100.1, 1)
 INSERT INTO AUCTION_ITEM VALUES (2, 'item 2', 40.1, 1)
-INSERT INTO AUCTION_ITEM VALUES (3, 'item 2', 50.1, 2)
+INSERT INTO AUCTION_ITEM VALUES (3, 'item 3', 50.1, 2)
+INSERT INTO AUCTION_ITEM VALUES (4, 'item 4', 50.1, 2)
 
 -------------------------------------------------------------------------------
 
-1>return list of user name that placed item with item price > 100
+1>return list of user name that placed items containing item price > 100
 
 select 
 u.USER_NAME, max(i.ITEM_PRICE) from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
@@ -28,9 +29,61 @@ group by u.USER_NAME having max(i.ITEM_PRICE) > 100
 
 ht02135
 
+-------------------------------------------------------------------------------
+
+2>return list of user name that placed items with total item prixe > 100
+
+select 
+u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
+group by u.USER_NAME having sum(i.ITEM_PRICE) > 100
+
+wt02135
+ht02135
+
+-----------------------------------------------------------------------------------
+
+3>experiment with group by
+
+select u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
+
+ht02135
+ht02135
+wt02135
+
+select u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
+group by u.USER_NAME
+
+wt02135
+ht02135
+
+// this is probably bad query, bad use of group by
+select u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
+where i.ITEM_PRICE > 40
+group by u.USER_NAME
+
+but
+select u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
+where i.ITEM_PRICE > 40
+
+ht02135
+ht02135
+wt02135
+wt02135
+
+// use distinct
+select distinct u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
+where i.ITEM_PRICE > 40
+
+wt02135
+ht02135
+
+// use group by
+1>if you have aggregate function in select
+2>if you have having clause
+
 --------------------------------------------------------------------------------
 
-2>return list of department name with employee salart > 10000
+4>return list of department name with employee salart > 10000
 
 Employee          
 Id
