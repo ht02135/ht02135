@@ -1,0 +1,16 @@
+AUCTION_USER
+USER_TYPE, USER_ID, USER_EMAIL, HOME_CITY, HOME_STREET, HOME_ZIPCODE, USER_NAME, SHIPPING_CITY, SHIPPING_STREET, SHIPPING_ZIPCODE
+
+AUCTION_ITEM
+ITEM_ID, ITEM_NAME, ITEM_PRICE, SELLER_ID
+
+1>return list of user name that placed item with item price > 100
+
+select 
+u.USER_NAME, max(i.ITEM_PRICE) from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
+group by u.USER_NAME having max(i.ITEM_PRICE) > 100
+
+// you can remove max(i.ITEM_PRICE), but you still need group by u.USER_NAME if you have having clause that works on aggregate function
+select 
+u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
+group by u.USER_NAME having max(i.ITEM_PRICE) > 100
