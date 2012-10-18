@@ -1,8 +1,17 @@
 AUCTION_USER
 USER_TYPE, USER_ID, USER_EMAIL, HOME_CITY, HOME_STREET, HOME_ZIPCODE, USER_NAME, SHIPPING_CITY, SHIPPING_STREET, SHIPPING_ZIPCODE
 
+INSERT INTO AUCTION_USER VALUES ('SELLER', 1, 'ht02135@yahoo.com', '','','','ht02135','','','')
+INSERT INTO AUCTION_USER VALUES ('SELLER', 2, 'wt02135@yahoo.com', '','','','wt02135','','','')
+
 AUCTION_ITEM
 ITEM_ID, ITEM_NAME, ITEM_PRICE, SELLER_ID
+
+INSERT INTO AUCTION_ITEM VALUES (1, 'item 1', 100.1, 1)
+INSERT INTO AUCTION_ITEM VALUES (2, 'item 2', 40.1, 1)
+INSERT INTO AUCTION_ITEM VALUES (3, 'item 2', 50.1, 2)
+
+-------------------------------------------------------------------------------
 
 1>return list of user name that placed item with item price > 100
 
@@ -10,7 +19,29 @@ select
 u.USER_NAME, max(i.ITEM_PRICE) from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
 group by u.USER_NAME having max(i.ITEM_PRICE) > 100
 
+ht02135	100.1
+
 // you can remove max(i.ITEM_PRICE), but you still need group by u.USER_NAME if you have having clause that works on aggregate function
 select 
 u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
 group by u.USER_NAME having max(i.ITEM_PRICE) > 100
+
+ht02135
+
+--------------------------------------------------------------------------------
+
+2>return list of department name with employee salart > 10000
+
+Employee          
+Id
+Name
+Salary
+
+Department
+Id
+Name
+Emp_Id
+
+select 
+d.Name from Department d left join Employee e on d.Emp_Id = e.Id
+group by d.Name having max(e.Salary) > 100000
