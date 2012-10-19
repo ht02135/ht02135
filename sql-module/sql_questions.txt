@@ -31,7 +31,7 @@ ht02135
 
 -------------------------------------------------------------------------------
 
-2>return list of user name that placed items with total item prixe > 100
+2>return list of user name that placed items with total item price > 100
 
 select 
 u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
@@ -44,24 +44,14 @@ ht02135
 
 3>experiment with group by
 
-select u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
+// return u.USER_NAME column of all AUCTION_USER rows
+select u.USER_NAME from AUCTION_USER u
 
-ht02135
 ht02135
 wt02135
 
-select u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
-group by u.USER_NAME
-
-wt02135
-ht02135
-
-// this is probably bad query, bad use of group by
-select u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
-where i.ITEM_PRICE > 40
-group by u.USER_NAME
-
-but
+// find user that ever sells item greater than 40
+// problem with is query is not returning unique name
 select u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
 where i.ITEM_PRICE > 40
 
@@ -70,7 +60,16 @@ ht02135
 wt02135
 wt02135
 
-// use distinct
+// find unique user that ever sells item greater than 40
+select u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
+where i.ITEM_PRICE > 40
+group by u.USER_NAME
+
+wt02135
+ht02135
+
+// alternative
+// find unique user that ever sells item greater than 40
 select distinct u.USER_NAME from AUCTION_USER u left join AUCTION_ITEM i on u.USER_ID = i.SELLER_ID
 where i.ITEM_PRICE > 40
 
