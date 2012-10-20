@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <DOMAIN DOMAIN_NAME="root"/>
+  <DOMAIN DOMAIN_NAME="subroot" PARENT_DOMAIN_NAME="root"/>
+  <DOMAIN_USER USER_LOGIN_ID="admin" USER_NAME="admin" USER_DOMAIN_NAME="root"/>
+</dataset>
