@@ -53,10 +53,10 @@ public class DomainDaoDBUnitTest extends DBUnitTest {
         Domain testSaveDomain = new Domain("testSave", "root");
         domainDAO.save(testSaveDomain);
         
-        Domain refTestTransactionalSpringDomain = domainDAO.findByName("testSave");
+        Domain refTestSaveDomain = domainDAO.findByName("testSave");
         
         String expectedDomainName = testSaveDomain.getName();
-        String actualDomainName = refTestTransactionalSpringDomain.getName();
+        String actualDomainName = refTestSaveDomain.getName();
         Assert.assertEquals(expectedDomainName, actualDomainName);
         
         log.info("////////// DomainDaoTransactionTest : testSave - end //////////");
