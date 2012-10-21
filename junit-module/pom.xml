@@ -1,15 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-
+  <parent>
+    <groupId>com.hung</groupId>
+    <artifactId>simple-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
   <groupId>com.hung</groupId>
-  <artifactId>simple-junit</artifactId>
+  <artifactId>simple-junit-module</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
-
-  <name>simple-junit</name>
+  <name>simple-junit-module</name>
   <url>http://maven.apache.org</url>
   
   <repositories>
@@ -39,9 +40,42 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>1.6</source>
+          <target>1.6</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>hibernate3-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <components>
+            <component>
+              <name>hbm2ddl</name>
+              <implementation>annotationconfiguration</implementation>
+            </component>
+          </components>
+          <componentProperties>
+            <drop>true</drop>
+            <!-- <configurationfile>/src/main/resources/mySQL/hibernate.cfg.xml</configurationfile>  -->
+            <configurationfile>/src/main/resources/oracle/hibernate.cfg.xml</configurationfile>
+          </componentProperties>
+        </configuration>
+        <dependencies>
+          <!-- MySQL database driver
+          <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.20-bin</version>
+          </dependency>
+          -->
+          <!-- ORACLE database driver -->
+          <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
     </pluginManagement>
@@ -63,7 +97,18 @@
       <artifactId>simple-service-module</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
-  
+    
+    <dependency>
+      <groupId>com.hung</groupId>
+      <artifactId>simple-controller-module</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.hung</groupId>
+      <artifactId>simple-restful-module</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+
 <!--
     Core utilities used by other modules.
     Define this if you use Spring Utility APIs (org.springframework.core.*/org.springframework.util.*)
@@ -187,6 +232,13 @@
         <version>3.1.0.RELEASE</version>
         <scope>test</scope>
     </dependency>
+    
+    <!-- spring-mock -->
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-mock</artifactId>
+        <version>2.0.8</version>
+    </dependency>
 
     <dependency>
         <groupId>org.hibernate</groupId>
@@ -251,6 +303,13 @@
         <artifactId>stax-api</artifactId>
         <version>1.0-2</version>
     </dependency>
+
+    <!-- org.codehaus.jackson -->
+    <dependency>
+        <groupId>org.codehaus.jackson</groupId>
+        <artifactId>jackson-mapper-asl</artifactId>
+        <version>1.9.9</version>
+    </dependency>           
     
     <!-- MySQL database driver
     <dependency>
@@ -293,7 +352,7 @@
         <version>1.4.ga</version>
     </dependency>
     
-<!-- easymock, depend http://mvnrepository.com/artifact/org.easymock/easymock/3.1 -->
+    <!-- easymock, depend http://mvnrepository.com/artifact/org.easymock/easymock/3.1 -->
     <dependency>
         <groupId>org.easymock</groupId>
         <artifactId>easymock</artifactId>
@@ -321,6 +380,61 @@
         <artifactId>hamcrest-all</artifactId>
         <version>1.3</version>
     </dependency>
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-all</artifactId>
+        <version>1.9.0</version>
+    </dependency>
+
+    <!-- httpunit -->
+    <dependency>
+        <groupId>httpunit</groupId>
+        <artifactId>httpunit</artifactId>
+        <version>1.7</version>
+    </dependency>
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>2.3</version>
+    </dependency>
+    <dependency>
+        <groupId>jtidy</groupId>
+        <artifactId>jtidy</artifactId>
+        <version>4aug2000r7-dev</version>
+    </dependency>
+    <dependency>
+        <groupId>nekohtml</groupId>
+        <artifactId>nekohtml</artifactId>
+        <version>0.9.5</version>
+    </dependency>
+    <dependency>
+        <groupId>xerces</groupId>
+        <artifactId>xerces</artifactId>
+        <version>2.4.0</version>
+    </dependency>
+    <dependency>
+        <groupId>rhino</groupId>
+        <artifactId>js</artifactId>
+        <version>1.6R5</version>
+    </dependency>
+    <dependency>
+        <groupId>xerces</groupId>
+        <artifactId>xercesImpl</artifactId>
+        <version>2.6.2</version>
+    </dependency>
+    <dependency>
+        <groupId>xerces</groupId>
+        <artifactId>xmlParserAPIs</artifactId>
+        <version>2.2.1</version>
+    </dependency>
+
+    <!-- DBUnit -->
+    <dependency>
+        <groupId>org.dbunit</groupId>
+        <artifactId>dbunit</artifactId>
+        <version>2.4.8</version>
+    </dependency>
 
   </dependencies>
+  
 </project>

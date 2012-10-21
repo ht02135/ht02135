@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.hung</groupId>
+    <artifactId>simple-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>simple-parent</name>
+    <url>http://maven.apache.org</url>
+
+    <repositories>
+        <repository>
+            <id>java.net.m2</id>
+            <name>java.net m2 repo</name>
+            <url>http://download.java.net/maven/2</url>
+        </repository>
+        <repository>
+            <id>thirdparty-uploads</id>
+            <name>JBoss Thirdparty Uploads</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-uploads</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <hibernate.version>3.3.2.GA</hibernate.version>
+        <hibernate.annotation.version>3.3.0.ga</hibernate.annotation.version>
+        <cobertura.version>1.9.4.1</cobertura.version>
+    </properties>
+
+    <modules>
+        <module>simple-domain-module</module>
+        <module>simple-dao-module</module>
+        <module>simple-service-module</module>
+        <module>simple-restfulwebapp-module</module>
+        <module>simple-spring3-client</module>
+        <module>simple-setting-module</module>
+        <module>simple-swing-module</module>
+        <module>simple-controller-module</module>
+        <module>simple-restful-module</module>
+        <module>simple-junit-module</module>
+    </modules>
+
+    <!-- need to specifiy using java 1.6 -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>2.5.2</version>
+
+                    <configuration>
+                        <formats>
+                            <format>html</format>
+                            <format>xml</format>
+                        </formats>
+                        <check>
+                            <haltOnFailure>false</haltOnFailure>
+                        </check>
+                        <!-- http://mojo.codehaus.org/cobertura-maven-plugin/usage.html#Instrumentation 
+                            1>instrumentation configuration element which can be used to customize the 
+                            instrumentation done within Cobertura. 2>The Instrument target will prepare 
+                            the compiled classes with Cobertura instrumentation so they are able to record 
+                            their usage. -->
+                        <instrumentation>
+                            <ignores>
+                                <ignore>com.hung.legacy.*</ignore>
+                                <ignore>com.hung.auction.domain2.*</ignore>
+                                <ignore>com.hung.auction.dao2.*</ignore>
+                            </ignores>
+                            <excludes>
+                                <exclude>**/*Test.class</exclude>
+                                <exclude>**/*Fixture.class</exclude>
+                                <exclude>**/I*.class</exclude>
+                                <exclude>**/Abstract*.class</exclude>
+                            </excludes>
+                        </instrumentation>
+                    </configuration>
+<!-- 
+    Maven:
+    Default Lifecycle (http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference)
+    
+    1>validate    validate the project is correct and all necessary information is available.
+    2>initialize  initialize build state, e.g. set properties or create directories.
+    3>generate-sources    generate any source code for inclusion in compilation.
+    4>process-sources process the source code, for example to filter any values.
+    5>generate-resources  generate resources for inclusion in the package.
+    6>process-resources   copy and process the resources into the destination directory, ready for packaging.
+    7>compile compile the source code of the project.
+    8>process-classes post-process the generated files from compilation, for example to do bytecode enhancement on Java classes.
+    9>generate-test-sources   generate any test source code for inclusion in compilation.
+    10>process-test-sources    process the test source code, for example to filter any values.
+    11>generate-test-resources create resources for testing.
+    12>process-test-resources  copy and process the resources into the test destination directory.
+    13>test-compile    compile the test source code into the test destination directory
+    14>process-test-classes    post-process the generated files from test compilation, for example to do bytecode enhancement on Java classes. For Maven 2.0.5 and above.
+    15>test    run tests using a suitable unit testing framework. These tests should not require the code be packaged or deployed.
+    16>prepare-package perform any operations necessary to prepare a package before the actual packaging. This often results in an unpacked, processed version of the package. (Maven 2.1 and above)
+    17>package take the compiled code and package it in its distributable format, such as a JAR.
+    18>pre-integration-test    perform actions required before integration tests are executed. This may involve things such as setting up the required environment.
+    19>integration-test    process and deploy the package if necessary into an environment where integration tests can be run.
+    20>post-integration-test   perform actions required after integration tests have been executed. This may including cleaning up the environment.
+    21>verify  run any checks to verify the package is valid and meets quality criteria.
+    22>install install the package into the local repository, for use as a dependency in other projects locally.
+    23>deploy  done in an integration or release environment, copies the final package to the remote repository for sharing with other developers and projects.
+    
+    Build Lifecycle is Made Up of Phases
+    1>validate - validate the project is correct and all necessary information is available
+    2>compile - compile the source code of the project
+    3>test - test the compiled source code using a suitable unit testing framework. These tests should not require the code be packaged or deployed
+    4>package - take the compiled code and package it in its distributable format, such as a JAR.
+    5>integration-test - process and deploy the package if necessary into an environment where integration tests can be run
+    6>verify - run any checks to verify the package is valid and meets quality criteria
+    7>install - install the package into the local repository, for use as a dependency in other projects locally
+    8>deploy - done in an integration or release environment, copies the final package to the remote repository for sharing with other developers and projects.
+    
+    mvn clean install
+    This command will traverse into all of the subprojects and run clean, then install (including all of the prior steps).
+    
+    Cobertura:
+    http://mojo.codehaus.org/cobertura-maven-plugin/plugin-info.html
+    1>cobertura:check No  Check the Last Instrumentation Results.
+    2>cobertura:clean No  Clean up rogue files that cobertura maven plugin is tracking.
+    3>cobertura:cobertura Yes Instruments, Tests, and Generates a Cobertura Report.
+    4>cobertura:dump-datafile No  Cobertura Datafile Dump Mojo
+    5>cobertura:help  No  Display help information on cobertura-maven-plugin.
+ -->
+                    <executions>
+                        <execution>
+                            <id>cobertura-clean</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>cobertura-instrument</id>
+                            <phase>process-classes</phase>
+                            <goals>
+                                <goal>instrument</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>cobertura-check-cobertura</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12</version>
+                <configuration>
+                    <systemProperties>
+                        <property>
+                            <name>net.sourceforge.cobertura.datafile</name>
+                            <value>target/cobertura/cobertura.ser</value>
+                        </property>
+                    </systemProperties>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <dependencies>
+        <!-- Core utilities used by other modules. Define this if you use 
+            Spring Utility APIs (org.springframework.core.*/org.springframework.util.*) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+        <!-- Expression Language (depends on spring-core) Define this if 
+            you use Spring Expression APIs (org.springframework.expression.*) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+        <!-- Bean Factory and JavaBeans utilities (depends on spring-core) 
+            Define this if you use Spring Bean APIs (org.springframework.beans.*) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+        <!-- Aspect Oriented Programming (AOP) Framework (depends on spring-core, 
+            spring-beans) Define this if you use Spring AOP APIs (org.springframework.aop.*) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+        <!-- Application Context (depends on spring-core, spring-expression, 
+            spring-aop, spring-beans) This is the central artifact for Spring's Dependency 
+            Injection Container and is generally always defined -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+        <!-- Various Application Context utilities, including EhCache, JavaMail, 
+            Quartz, and Freemarker integration Define this if you need any of these integrations -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+        <!-- Transaction Management Abstraction (depends on spring-core, 
+            spring-beans, spring-aop, spring-context) Define this if you use Spring Transactions 
+            or DAO Exception Hierarchy (org.springframework.transaction.*/org.springframework.dao.*) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+        <!-- Object-to-Relation-Mapping (ORM) integration with Hibernate, 
+            JPA, and iBatis. (depends on spring-core, spring-beans, spring-context, spring-tx) 
+            Define this if you need ORM (org.springframework.orm.*) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+        <!-- Object-to-XML Mapping (OXM) abstraction and integration with 
+            JAXB, JiBX, Castor, XStream, and XML Beans. (depends on spring-core, spring-beans, 
+            spring-context) Define this if you need OXM (org.springframework.oxm.*) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+        <!-- Web application development utilities applicable to both Servlet 
+            and Portlet Environments (depends on spring-core, spring-beans, spring-context) 
+            Define this if you use Spring MVC, or wish to use Struts, JSF, or another 
+            web framework with Spring (org.springframework.web.*) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+        <!-- Spring MVC for Servlet Environments (depends on spring-core, 
+            spring-beans, spring-context, spring-web) Define this if you use Spring MVC 
+            with a Servlet Container such as Apache Tomcat (org.springframework.web.servlet.*) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc-portlet</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+        <!-- Support for testing Spring applications with tools such as JUnit 
+            and TestNG This artifact is generally always defined with a 'test' scope 
+            for the integration testing framework and unit testing stubs -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>3.1.0.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.2</version>
+        </dependency>
+        <!-- MySQL database driver <dependency> <groupId>mysql</groupId> 
+            <artifactId>mysql-connector-java</artifactId> <version>5.1.20-bin</version> 
+            </dependency> -->
+        <!-- ORACLE database driver -->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.14</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>junitperf</groupId>
+            <artifactId>junitperf</artifactId>
+            <version>1.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mycila</groupId>
+            <artifactId>mycila-junit</artifactId>
+            <version>1.4.ga</version>
+        </dependency>
+
+    <!-- cobertura -->
+    <dependency>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.5.2</version>
+    </dependency>
+    <dependency>
+        <groupId>net.sourceforge.cobertura</groupId>
+        <artifactId>cobertura</artifactId>
+        <version>${cobertura.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>asm</groupId>
+        <artifactId>asm</artifactId>
+        <version>3.0</version>
+    </dependency>
+    <dependency>
+        <groupId>asm</groupId>
+        <artifactId>asm-tree</artifactId>
+        <version>3.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.ant</groupId>
+        <artifactId>ant</artifactId>
+        <version>1.7.0</version>
+    </dependency>
+    <dependency>
+        <groupId>oro</groupId>
+        <artifactId>oro</artifactId>
+        <version>2.0.8</version>
+    </dependency>         
+            
+    </dependencies>
+</project>
