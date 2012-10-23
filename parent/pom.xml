@@ -28,6 +28,8 @@
         <hibernate.version>3.3.2.GA</hibernate.version>
         <hibernate.annotation.version>3.3.0.ga</hibernate.annotation.version>
         <cobertura.version>1.9.4.1</cobertura.version>
+        
+        <history.directory>${project.basedir}/history</history.directory>
     </properties>
 
     <modules>
@@ -43,55 +45,6 @@
         <module>simple-junit-module</module>
     </modules>
 
-    <!-- need to specifiy using java 1.6 -->
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
-                    </configuration>
-                </plugin>
-                
-                <!-- cobertura-maven-plugin
-                     1>current setup is only good for default maven file convention, src\main and test\main
-                     2>if you have main and test files in separate project, then current setup is not enough.
-                       you will need to use ant to instrument classes, merge, and report -->
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>cobertura-maven-plugin</artifactId>
-                    <version>2.5.2</version>
-
-                    <configuration>
-                        <formats>
-                            <format>html</format>
-                            <format>xml</format>
-                        </formats>
-                        <check>
-                            <haltOnFailure>false</haltOnFailure>
-                        </check>
-                        <!-- http://mojo.codehaus.org/cobertura-maven-plugin/usage.html#Instrumentation 
-                            1>instrumentation configuration element which can be used to customize the 
-                            instrumentation done within Cobertura. 2>The Instrument target will prepare 
-                            the compiled classes with Cobertura instrumentation so they are able to record 
-                            their usage. -->
-                        <instrumentation>
-                            <ignores>
-                                <ignore>com.hung.legacy.*</ignore>
-                                <ignore>com.hung.auction.domain2.*</ignore>
-                                <ignore>com.hung.auction.dao2.*</ignore>
-                            </ignores>
-                            <excludes>
-                                <exclude>**/*Test.class</exclude>
-                                <exclude>**/*Fixture.class</exclude>
-                                <exclude>**/I*.class</exclude>
-                                <exclude>**/Abstract*.class</exclude>
-                            </excludes>
-                        </instrumentation>
-                    </configuration>
 <!-- 
     Maven:
     Default Lifecycle (http://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#Lifecycle_Reference)
@@ -132,15 +85,66 @@
     
     mvn clean install
     This command will traverse into all of the subprojects and run clean, then install (including all of the prior steps).
-    
-    Cobertura:
-    http://mojo.codehaus.org/cobertura-maven-plugin/plugin-info.html
-    1>cobertura:check No  Check the Last Instrumentation Results.
-    2>cobertura:clean No  Clean up rogue files that cobertura maven plugin is tracking.
-    3>cobertura:cobertura Yes Instruments, Tests, and Generates a Cobertura Report.
-    4>cobertura:dump-datafile No  Cobertura Datafile Dump Mojo
-    5>cobertura:help  No  Display help information on cobertura-maven-plugin.
  -->
+
+    <!-- http://mojo.codehaus.org/plugins.html -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+
+                <!-- cobertura-maven-plugin, http://mojo.codehaus.org/cobertura-maven-plugin/
+                    1>current setup is only good for default maven file convention, src\main and test\main 
+                    2>if you have main and test files in separate project, then current setup is not enough. you 
+                      will need to use ant to instrument classes, merge, and report 
+                      
+                    Cobertura: http://mojo.codehaus.org/cobertura-maven-plugin/plugin-info.html
+                    1>cobertura:check No  Check the Last Instrumentation Results.
+                    2>cobertura:clean No  Clean up rogue files that cobertura maven plugin is tracking.
+                    3>cobertura:cobertura Yes Instruments, Tests, and Generates a Cobertura Report.
+                    4>cobertura:dump-datafile No  Cobertura Datafile Dump Mojo
+                    5>cobertura:help  No  Display help information on cobertura-maven-plugin.
+                -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>cobertura-maven-plugin</artifactId>
+                    <version>2.5.2</version>
+
+                    <configuration>
+                        <formats>
+                            <format>html</format>
+                            <format>xml</format>
+                        </formats>
+                        <check>
+                            <haltOnFailure>false</haltOnFailure>
+                        </check>
+                        <!-- http://mojo.codehaus.org/cobertura-maven-plugin/usage.html#Instrumentation 
+                            1>instrumentation configuration element which can be used to customize the 
+                              instrumentation done within Cobertura. 2>The Instrument target will prepare 
+                              the compiled classes with Cobertura instrumentation so they are able to record 
+                              their usage. 
+                        -->
+                        <instrumentation>
+                            <ignores>
+                                <ignore>com.hung.legacy.*</ignore>
+                                <ignore>com.hung.auction.domain2.*</ignore>
+                                <ignore>com.hung.auction.dao2.*</ignore>
+                            </ignores>
+                            <excludes>
+                                <exclude>**/*Test.class</exclude>
+                                <exclude>**/*Fixture.class</exclude>
+                                <exclude>**/I*.class</exclude>
+                                <exclude>**/Abstract*.class</exclude>
+                            </excludes>
+                        </instrumentation>
+                    </configuration>
                     <executions>
                         <execution>
                             <id>cobertura-clean</id>
@@ -160,7 +164,7 @@
                             </configuration>
                         </execution>
                         <execution>
-                            <id>cobertura-check-cobertura</id>
+                            <id>cobertura-check</id>
                             <phase>verify</phase>
                             <goals>
                                 <goal>check</goal>
@@ -168,6 +172,31 @@
                         </execution>
                     </executions>
                 </plugin>
+
+                <!-- chronos-jmeter, http://mojo.codehaus.org/chronos/
+                    http://mojo.codehaus.org/chronos/chronos-jmeter-maven-plugin/usage.html
+                    1>The chronos-jmeter plugin is used for executing performancetests or to integrate results of already 
+                      existing performancetests into the Chronos infrastructure. It may also be used for saving historical 
+                      data, or for validating that performance goals have been met.
+                    2>The chronos-report plugin uses the output from chronos-jmeter, to create current or historical reports.
+                -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>chronos-jmeter-maven-plugin</artifactId>
+                    <version>1.1.0</version>
+                    <configuration>
+                        <input>${basedir}/src/jmx</input>
+                        <historydir>${history.directory}</historydir>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>jmeter</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
             </plugins>
         </pluginManagement>
     </build>
@@ -187,6 +216,33 @@
                     </systemProperties>
                 </configuration>
             </plugin>
+
+            <!-- http://mojo.codehaus.org/chronos/chronos-report-maven-plugin/userguide/usage-basic.html -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>chronos-report-maven-plugin</artifactId>
+                <version>1.1.0</version>
+                <configuration>
+                    <description>Report description</description>
+                    <title>Report title</title>
+                    <showsummary>true</showsummary>
+                    <showdetails>true</showdetails>
+                    <showaverage>true</showaverage>
+                    <showpercentile95>true</showpercentile95>
+                    <showpercentile99>true</showpercentile99>
+                    <showhistogram>true</showhistogram>
+                    <showthroughput>true</showthroughput>
+                    <showgc>true</showgc>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            
         </plugins>
     </reporting>
 
