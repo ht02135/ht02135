@@ -1,4 +1,4 @@
-package com.hung.httpunit;
+package com.hung.perf.httpunit;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package com.hung.service;
+package com.hung.perf.service;
 
 import junit.framework.Assert;
 import junit.framework.Test;
