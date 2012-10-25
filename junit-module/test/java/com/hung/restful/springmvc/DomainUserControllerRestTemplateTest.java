@@ -57,6 +57,7 @@ public class DomainUserControllerRestTemplateTest {
             log.info("JSONString="+JSONString);
             log.info("##### jaxbDomainUser JSON - end ###################################################");
         } catch (Exception e) {
+            log.info("e="+e);
             // Assert.fail();
         }
     }
@@ -77,6 +78,7 @@ public class DomainUserControllerRestTemplateTest {
             log.info("XMLString="+XMLString);
             log.info("##### jaxbDomainUser XML - end ###################################################");
         } catch (Exception e) {
+            log.info("e="+e);
             // Assert.fail();
         }
     }
