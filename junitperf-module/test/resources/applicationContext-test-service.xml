@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:amq="http://activemq.apache.org/schema/core"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+        http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd"
+    default-lazy-init="true">
+    
+    <!-- ////////// AOP Transaction ////////// --> 
+     
+    <!-- 
+        @Pointcut("execute(* com.hung.auction.service.*.*(..))")
+                             com.hung.auction.service.ClassName.MethodName(..)
+                             
+        all methods in Service class or subtype of it:
+        @Pointcut("execution(* com.hung.auction.service.Service+.*(..))")
+        
+        any public method
+        @Pointcut("execution(public * *(..)")
+        
+        execution of any method with name begin with "set"
+        @Pointcut("execution(* set*(..))")
+    -->
+    <aop:config>
+        <aop:pointcut id="serviceMethods" 
+            expression="execution(* com.hung.service.*.*(..)) or execution(* com.hung.auction.service.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods"/>
+    </aop:config>
+
+    <!-- propagation=
+        MANDATORY - Support a current transaction, throw an exception if none exists.
+        REQUIRED - Support a current transaction, create a new one if none exists.
+        REQUIRES_NEW - Create a new transaction, suspend the current transaction if one exists.
+        SUPPORTS - Support a current transaction, execute non-transactionally if none exists.
+    -->
+    <!-- isolation=
+        DEFAULT - Use the default isolation level of the underlying datastore.
+        READ_UNCOMMITTED - A constant indicating that dirty reads, non-repeatable reads and phantom reads can occur.
+        READ_COMMITTED - A constant indicating that dirty reads are prevented; non-repeatable reads and phantom reads can occur.
+        REPEATABLE_READ - A constant indicating that dirty reads and non-repeatable reads are prevented; phantom reads can occur.
+        SERIALIZABLE - A constant indicating that dirty reads, non-repeatable reads and phantom reads are prevented.
+        
+        MySQL installation
+        select @@GLOBAL.tx_isolation, @@tx_isolation;
+        REPEATABLE-READ REPEATABLE-READ
+     -->
+    <!-- read-only=true, if transaction only perform read operation, then data store can apply optimization  -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+          <tx:method name="save*" propagation="REQUIRED"/>
+          <tx:method name="delete*" propagation="REQUIRED"/>
+          <tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+          <tx:method name="get" propagation="SUPPORTS" read-only="true"/>
+          <tx:method name="*" propagation="SUPPORTS"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+      <property name="sessionFactory" ref="sessionFactory" />
+    </bean> 
+    
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+    <!-- TaskExecutor and TaskScheduler 
+         With annotation driven you can only use 1 task-executor, you cannot have multiple task:annotation-driven 
+         in your config (else they would be competing on the @Async)
+    -->
+    
+    <!-- 3.0 -->
+    <!--
+    <task:annotation-driven executor="taskExecutor" scheduler="taskScheduler"/>
+    <task:executor id="taskExecutor" pool-size="5"/>
+    <task:scheduler id="taskScheduler" pool-size="10"/>
+    -->
+
+    <!-- 2.5 -->
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5" />
+        <property name="maxPoolSize" value="10" />
+        <property name="queueCapacity" value="1000" />
+    </bean>
+    
+    <bean id="buildIndexEngine" class="com.hung.auction.engine.BuildIndexEngineImpl">
+        <property name="taskExecutor" ref="taskExecutor"/> 
+    </bean>
+    
+    <bean id="buildIndexService" class="com.hung.auction.service.BuildIndexServiceImpl">
+        <property name="buildIndexEngine" ref="buildIndexEngine"/>
+    </bean>
+    
+    <bean id="domainService" class="com.hung.auction.service.DomainServiceImpl" init-method="initMethod" destroy-method="destroyMethod">
+        <constructor-arg index="0" ref="domainDAO"/>
+        <property name="domainDAO" ref="domainDAO"/>
+    </bean>
+    
+    <bean id="domainServiceMock" class="com.hung.auction.service.DomainServiceImpl" init-method="initMethod" destroy-method="destroyMethod">
+        <constructor-arg index="0" ref="domainDAO"/>
+        <property name="domainDAO" ref="domainDAO"/>
+    </bean>
+    
+    <bean id="domainServiceWithDAOMock" class="com.hung.auction.service.DomainServiceImpl" init-method="initMethod" destroy-method="destroyMethod">
+        <constructor-arg index="0" ref="domainDAO"/>
+        <property name="domainDAO" ref="domainDAO"/>
+    </bean>
+
+</beans>
