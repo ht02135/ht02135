@@ -8,9 +8,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.hung</groupId>
-    <artifactId>simple-junit-module</artifactId>
+    <artifactId>simple-junitperf-module</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>simple-junit-module</name>
+    <name>simple-junitperf-module</name>
     <url>http://maven.apache.org</url>
 
     <repositories>
@@ -70,7 +70,9 @@
                     </dependencies>
                 </plugin>
 
-                <!-- http://nonrepeatable.blogspot.com/2010/01/automated-integration-testing-with.html -->
+                <!-- http://nonrepeatable.blogspot.com/2010/01/automated-integration-testing-with.html 
+                     mvn dbunit:operation -Dtype=CLEAN_INSERT -Dsrc=src\test\resources\data.xml -Dformat=flat
+                -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>dbunit-maven-plugin</artifactId>

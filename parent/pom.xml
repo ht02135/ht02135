@@ -98,6 +98,56 @@
                         <target>1.6</target>
                     </configuration>
                 </plugin>
+            
+                <!-- The Surefire Plugin is used during the test phase of the build lifecycle to execute the unit tests of an application -->
+                <plugin>
+                    <!-- Separates the unit tests from the integration tests. -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.12</version>
+                    <configuration>
+                        <!-- Skip the default running of this plug-in (or everything is run twice...see below) -->
+                        <skip>true</skip>
+                        <!-- Show 100% of the lines from the stack trace (doesn't work) -->
+                        <trimStackTrace>false</trimStackTrace>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>test</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                            <configuration>
+                                <!-- Never skip running the tests when the test phase is invoked -->
+                                <skip>false</skip>
+                                <includes>
+                                    <!-- Include unit tests within integration-test phase. -->
+                                    <include>**/*Test.java</include>
+                                </includes>
+                                <excludes>
+                                    <!-- Exclude integration tests within (unit) test phase. -->
+                                    <exclude>**/*IntegrationTest.java</exclude>
+                                </excludes>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>integration-test</id>
+                            <phase>integration-test</phase>
+                            <goals>
+                                <goal>test</goal>
+                            </goals>
+                            <configuration>
+                                <!-- Never skip running the tests when the integration-test phase is invoked -->
+                                <skip>false</skip>
+                                <includes>
+                                    <!-- Include integration tests within integration-test phase. -->
+                                    <include>**/*IntegrationTest.java</include>
+                                </includes>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
 
                 <!-- cobertura-maven-plugin, http://mojo.codehaus.org/cobertura-maven-plugin/
                     1>current setup is only good for default maven file convention, src\main and test\main 
@@ -132,13 +182,12 @@
                         -->
                         <instrumentation>
                             <ignores>
-                                <ignore>com.hung.legacy.*</ignore>
                                 <ignore>com.hung.auction.domain2.*</ignore>
                                 <ignore>com.hung.auction.dao2.*</ignore>
                             </ignores>
                             <excludes>
-                                <exclude>**/*Test.class</exclude>
-                                <exclude>**/*Fixture.class</exclude>
+                                <exclude>**/*Test*.class</exclude>
+                                <exclude>**/*Fixture*.class</exclude>
                                 <exclude>**/I*.class</exclude>
                                 <exclude>**/Abstract*.class</exclude>
                             </excludes>

@@ -9,8 +9,8 @@ import com.clarkware.junitperf.ConstantTimer;
 import com.clarkware.junitperf.LoadTest;
 import com.clarkware.junitperf.TimedTest;
 
-public class DomainUserHttpUnitTimedLoadedTest {
-    private static Logger log = Logger.getLogger(DomainUserHttpUnitTimedLoadedTest.class);
+public class DomainUserHttpUnitTimedLoadedIntegrationTest {
+    private static Logger log = Logger.getLogger(DomainUserHttpUnitTimedLoadedIntegrationTest.class);
     
     public static Test suite() {
         // 2 testcase, testLogin and testCreateUser
@@ -19,11 +19,11 @@ public class DomainUserHttpUnitTimedLoadedTest {
         long maxElapsedTime = 5000;  // test fail if elapsed time exceed 1 sec
         int users = 50;
         
-        Test testLoginTest = new DomainUserHttpUnitTestCase("testLogin");
+        Test testLoginTest = new DomainUserHttpUnitIntegrationTest("testLogin");
         Test testLoginLoadTest = new LoadTest(testLoginTest, users, new ConstantTimer(10));  // with delay timer
         Test testLoginTimedTest = new TimedTest(testLoginLoadTest, maxElapsedTime);
         
-        Test testCreateUserTest = new DomainUserHttpUnitTestCase("testCreateUser");
+        Test testCreateUserTest = new DomainUserHttpUnitIntegrationTest("testCreateUser");
         Test testCreateUserLoadTest = new LoadTest(testCreateUserTest, users, new ConstantTimer(10));  // with delay timer
         Test testCreateUserTimedTest = new TimedTest(testCreateUserLoadTest, maxElapsedTime);
         

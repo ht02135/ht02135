@@ -25,9 +25,9 @@ import com.hung.auction.jaxbdomain.JaxbDomainUser;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:applicationContext-test-mvc.xml"})
-public class DomainUserControllerRestTemplateTest {
+public class DomainUserControllerRestTemplateIntegrationTest {
     
-    private static Logger log = Logger.getLogger(DomainUserControllerRestTemplateTest.class);
+    private static Logger log = Logger.getLogger(DomainUserControllerRestTemplateIntegrationTest.class);
 
     @Autowired
     @Qualifier("restTemplate")
@@ -57,7 +57,7 @@ public class DomainUserControllerRestTemplateTest {
             log.info("JSONString="+JSONString);
             log.info("##### jaxbDomainUser JSON - end ###################################################");
         } catch (Exception e) {
-            log.info("e="+e);
+            log.error("e="+e);
             // Assert.fail();
         }
     }
@@ -78,7 +78,7 @@ public class DomainUserControllerRestTemplateTest {
             log.info("XMLString="+XMLString);
             log.info("##### jaxbDomainUser XML - end ###################################################");
         } catch (Exception e) {
-            log.info("e="+e);
+            log.error("e="+e);
             // Assert.fail();
         }
     }

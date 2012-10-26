@@ -9,9 +9,9 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DomainUserControllerHttpURLConnectionTest {
+public class DomainUserControllerHttpURLConnectionIntegrationTest {
     
-    private static Logger log = Logger.getLogger(DomainUserControllerHttpURLConnectionTest.class);
+    private static Logger log = Logger.getLogger(DomainUserControllerHttpURLConnectionIntegrationTest.class);
 
     @Before
     public void setUp() {  
@@ -30,7 +30,7 @@ public class DomainUserControllerHttpURLConnectionTest {
             log.info("JSONString="+JSONString);
             log.info("##### jaxbDomainUser JSON - end ###################################################");
         } catch (Exception e) {
-            log.info("e="+e);
+            log.error("e="+e);
             // Assert.fail();
         } 
     }
@@ -47,7 +47,7 @@ public class DomainUserControllerHttpURLConnectionTest {
             log.info("XMLString="+XMLString);
             log.info("##### jaxbDomainUser XML - end ###################################################");
         } catch (Exception e) {
-            log.info("e="+e);
+            log.error("e="+e);
             // Assert.fail();
         }
     }
@@ -68,7 +68,7 @@ public class DomainUserControllerHttpURLConnectionTest {
             }
             conn.disconnect();
         } else {
-            log.info("Failed : HTTP error code :" + conn.getResponseCode());
+            log.error("Failed : HTTP error code :" + conn.getResponseCode());
         }
         return sb.toString();
     }

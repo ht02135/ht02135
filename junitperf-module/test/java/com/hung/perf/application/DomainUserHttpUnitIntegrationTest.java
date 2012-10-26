@@ -12,15 +12,15 @@ import com.meterware.httpunit.WebForm;
 import com.meterware.httpunit.WebRequest;
 import com.meterware.httpunit.WebResponse;
 
-public class DomainUserHttpUnitTestCase extends TestCase {
-    private static Logger log = Logger.getLogger(DomainUserHttpUnitTestCase.class);
+public class DomainUserHttpUnitIntegrationTest extends TestCase {
+    private static Logger log = Logger.getLogger(DomainUserHttpUnitIntegrationTest.class);
     
-    public static final String HOME_URL = "http://127.0.0.1:8081/simple-restfulwebapp-module/auction/";
+    public static final String HOME_URL = "http://localhost:8081/simple-restfulwebapp-module/auction/";
     
     private WebConversation conversation;
     private WebResponse loggedInRequest;
     
-    public DomainUserHttpUnitTestCase(String name) {
+    public DomainUserHttpUnitIntegrationTest(String name) {
         super(name);
     }
     
@@ -53,7 +53,7 @@ public class DomainUserHttpUnitTestCase extends TestCase {
             String expectedLoggedInHomeTitle = "logged In Home";
             Assert.assertEquals(expectedLoggedInHomeTitle, actualLoggedInHomeTitle);
         } catch (Exception e) {
-            log.info("e="+log);
+            log.error("e="+log);
         }
         log.info("////////// testLogin: end //////////");
     }
@@ -90,7 +90,7 @@ public class DomainUserHttpUnitTestCase extends TestCase {
             }
             
         } catch (Exception e) {
-            log.info("e="+log);
+            log.error("e="+log);
         }
         log.info("////////// testCreateUser: end //////////");
     }
