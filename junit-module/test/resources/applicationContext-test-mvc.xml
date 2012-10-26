@@ -19,6 +19,7 @@
         <property name="classesToBeBound">
             <list>
                 <value>com.hung.auction.jaxbdomain.JaxbDomain</value>
+                <value>com.hung.auction.jaxbdomain.JaxbDomainUser</value>
             </list>
         </property>
     </bean>
@@ -45,6 +46,16 @@
         <property name="messageConverters">
             <list>
                 <ref bean="marshallingHttpMessageConverter"/>
+                <ref bean="mappingJacksonHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- ###### REST Template ############################################################################# -->
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <property name="messageConverters">
+            <list>
+                <ref bean="marshallingHttpMessageConverter" />
                 <ref bean="mappingJacksonHttpMessageConverter"/>
             </list>
         </property>

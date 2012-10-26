@@ -1,4 +1,4 @@
-package com.hung.perf.service;
+package com.hung.junit.perf.service;
 
 import junit.framework.Assert;
 import junit.framework.Test;
@@ -11,18 +11,6 @@ import org.apache.log4j.Logger;
 import com.clarkware.junitperf.ConstantTimer;
 import com.clarkware.junitperf.LoadTest;
 import com.clarkware.junitperf.TimedTest;
-
-/* JunitPerf: http://etutorials.org/Programming/Java+extreme+programming/ 
-   1>If any performance issues are found, a new JUnit test is written to isolate the code (if one does not already exist). 
-     For example, the profiling tool reports that the search took ten seconds, but requirements dictate that it execute 
-     in less than three. The new JUnit test is wrapped around a JUnitPerf TimedTest to expose the performance bug. The 
-     timed test should fail; otherwise, there is no performance issue with the code you have isolated. Next, refactor 
-     the code that is causing the performance problem until the timed test passes.
-   2>A TimedTest is a JUnit test decorator that measures the total elapsed time of a JUnit test and fails if the maximum 
-     time allowed is exceeded. A timed test tests time-critical code, such as a sort or search.
-   3>A JUnitPerf LoadTest decorates an existing JUnit test to simulate a given number of concurrent users, in which each 
-     user may execute the test one or more times. By default, each simulated user executes the test once.
- */
 
 public class TermServiceTimedTest extends TestCase {
 	
