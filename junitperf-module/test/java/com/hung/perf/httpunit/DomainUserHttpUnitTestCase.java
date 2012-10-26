@@ -23,7 +23,10 @@ public class DomainUserHttpUnitTestCase extends TestCase {
     private WebConversation conversation;
     private WebResponse loggedInRequest;
     
-    @Before
+    public DomainUserHttpUnitTestCase(String name) {
+        super(name);
+    }
+    
     public void setUp() { 
         // How do I turn off scripting for certain tests?
         HttpUnitOptions.setScriptingEnabled(false);
@@ -32,11 +35,6 @@ public class DomainUserHttpUnitTestCase extends TestCase {
         loggedInRequest = null;
     }
     
-    @After
-    public void tearDown() {
-    }
-    
-    @Test
     public void testLogin() {
         log.info("////////// testLogin: start //////////");
         try {
@@ -63,7 +61,6 @@ public class DomainUserHttpUnitTestCase extends TestCase {
         log.info("////////// testLogin: end //////////");
     }
     
-    @Test
     public void testCreateUser() {
         log.info("////////// testCreateUser: start //////////");
         try {
