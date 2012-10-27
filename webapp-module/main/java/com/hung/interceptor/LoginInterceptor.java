@@ -18,10 +18,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     private String redirectURL;
 
     // before the actual handler will be executed
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public synchronized boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("################################### LoginInterceptor : preHandle ###################################");
         
-        HttpSession session = request.getSession (); 
+        HttpSession session = request.getSession(); 
         
         // check if jaxbClientSession in @SessionAttributes can be accessed via HttpSession 
         JaxbClientSession jaxbClientSession = (JaxbClientSession) session.getAttribute("jaxbClientSession");
@@ -48,29 +48,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     
     // after the handler is executed
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        log.info("################################### LoginInterceptor : postHandle - enter ###################################");
-        
-        HttpSession session = request.getSession (); 
-        
-        // check if jaxbClientSession in @SessionAttributes can be accessed via HttpSession 
-        JaxbClientSession jaxbClientSession = (JaxbClientSession) session.getAttribute("jaxbClientSession");
-        if (jaxbClientSession != null) {
-            log.info("LoginInterceptor : jaxbClientSession="+jaxbClientSession);
-        }
-        
-        // check if jaxbClientSession2 set in HttpSession (via LoginController) can be accessed via HttpSession here
-        JaxbClientSession jaxbClientSession2 = (JaxbClientSession) session.getAttribute("jaxbClientSession2");
-        if (jaxbClientSession2 != null) {
-            log.info("LoginInterceptor : jaxbClientSession2="+jaxbClientSession2);
-        }
-        
-        log.info("################################### LoginInterceptor : postHandle - exit ###################################");
     }
     
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        log.info("################################### LoginInterceptor : afterCompletion - enter ###################################");
-        
-        log.info("################################### LoginInterceptor : afterCompletion - enter ###################################");
     }
     
     public void setRedirectURL(String redirectURL) {

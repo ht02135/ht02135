@@ -246,7 +246,6 @@ public class PricingServiceMockTest {
         }
         
         public void performDiagnostic() {
-            log.info("PricingDAO.performDiagnostic complete");
         }
     }
 }

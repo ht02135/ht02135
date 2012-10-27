@@ -202,7 +202,6 @@ public class FileNameGeneratorMockTest  {
         public void checkStatus() {
             xmlNameGenerator.performDiagnostic();
             htmlNameGenerator.performDiagnostic();
-            log.info("NameGenerator.checkStatus complete");
         }
         
         public int xmlPerformAndTrackDiagnostic() {
@@ -245,7 +244,6 @@ public class FileNameGeneratorMockTest  {
         // for Expect and Nothing expect scenario
         public void performDiagnostic() {
             numberOfDiagnosticPerformed++;
-            log.info("XMLNameGenerator.performDiagnostic complete");
         }
     }
     
@@ -270,7 +268,6 @@ public class FileNameGeneratorMockTest  {
         // for Expect and Nothing expect scenario
         public void performDiagnostic() {
             numberOfDiagnosticPerformed++;
-            log.info("HTMLNameGenerator.performDiagnostic complete");
         }
     }
 }

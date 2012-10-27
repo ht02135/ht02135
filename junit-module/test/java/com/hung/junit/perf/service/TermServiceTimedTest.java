@@ -26,20 +26,17 @@ public class TermServiceTimedTest extends TestCase {
          */
         long maxElapsedTime = 1000;
         
-        Test testCase = new TermServiceTestCase("termServiceTestCase");
-        log.info("instantiated testCase");
+        Test testCase = new TermServiceTest("termServiceTestCase");
         Test timedTest = new TimedTest(testCase, maxElapsedTime);
-        log.info("instantiated timedTest");
         Assert.assertEquals(1, timedTest.countTestCases());
         
         TestResult result = new TestResult();
-        log.info("instantiated result");
         timedTest.run(result);
+        
         log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         log.info("ran timedTest result.runCount()="+result.runCount()+",result.errorCount()="+
             result.errorCount()+",result.failureCount()="+result.failureCount());
         log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        // Assert.assertEquals(0, result.failureCount()); <- comment out, for some reason, failureCount=2
         
         log.info("////////// TermServiceTimedTest : testTermServiceTimed - end //////////");
     }
@@ -50,18 +47,18 @@ public class TermServiceTimedTest extends TestCase {
         long maxElapsedTime = 1000;
         int users = 2;
         
-        Test testCase = new TermServiceTestCase("termServiceTestCase");
+        Test testCase = new TermServiceTest("termServiceTestCase");
         Test loadTest = new LoadTest(testCase, users, new ConstantTimer(100));  // with delay timer
         Test timedTest = new TimedTest(loadTest, maxElapsedTime);
         assertEquals(users, timedTest.countTestCases());
 
         TestResult result = new TestResult();
         timedTest.run(result);
+        
         log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         log.info("ran timedTest result.runCount()="+result.runCount()+",result.errorCount()="+
             result.errorCount()+",result.failureCount()="+result.failureCount());
         log.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        // Assert.assertEquals(0, result.failureCount()); <- comment out, for some reason, failureCount=2
         
         log.info("////////// TermServiceTimedTest : testTermServiceTimedLoaded - end //////////");
     }

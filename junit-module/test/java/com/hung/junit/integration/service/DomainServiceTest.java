@@ -48,8 +48,6 @@ public class DomainServiceTest  {
         
         String expectedDomainName = Domain.ROOT_NAME;
         String actualDomainName = domainService.findByName(Domain.ROOT_NAME).getName();
-        log.info("expectedDomainName="+expectedDomainName+" VS "+"actualDomainName="+actualDomainName);
-        
         Assert.assertEquals(expectedDomainName, actualDomainName);
         
         log.info("////////// DomainServiceTest : testQueryRoot - end //////////");

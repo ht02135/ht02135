@@ -1,0 +1,55 @@
+
+open browser with
+http://127.0.0.1:8081/simple-restfulwebapp-module/auction/
+
+click on login link
+http://127.0.0.1:8081/simple-restfulwebapp-module/auction/login;jsessionid=nb04kc1ge8o3
+
+enter id="domainName" name="domainName"
+enter id="loginId" name="loginId"
+submit request
+<form id="jaxbClientSession" action="/simple-restfulwebapp-module/auction/login" method="post">  
+
+root/admin  
+
+click on domain users
+http://127.0.0.1:8081/simple-restfulwebapp-module/auction/domainUsers
+
+    <tr>
+        <td>admin</td>
+        <td>admin</td>
+        <td>root</td>
+        <td><a href="/simple-restfulwebapp-module/auction/domainUsers/admin">View</a></td>
+        <td><a href="/simple-restfulwebapp-module/auction/domainUsers/admin?edit">Edit</td>
+    </tr>
+    
+create test/test if not exist
+
+create new user
+http://127.0.0.1:8081/simple-restfulwebapp-module/auction/domainUsers?new
+
+id="loginId" name="loginId"
+id="name" name="name"
+id="userDomainName" name="userDomainName"
+
+<div>
+    <table>
+        <tr>
+            <th>Login Id:</th>
+            <td>test2</td>
+        </tr>
+        <tr>
+            <th>Name:</th>
+            <td>test2</td>
+        </tr>
+        <tr>
+            <th>Domain Name:</th>
+            <td>root</td>
+        </tr>
+    </table>
+</div>
+
+test/test
+
+view
+http://127.0.0.1:8081/simple-restfulwebapp-module/auction/domainUsers/test

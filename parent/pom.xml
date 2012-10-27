@@ -41,7 +41,7 @@
         <module>simple-restful-module</module>
         <module>simple-restfulwebapp-module</module>
         <module>simple-junit-module</module>
-        <module>simple-junitperf-module</module>
+        <module>simple-junitintegration-module</module>
   </modules>
 
 <!-- 

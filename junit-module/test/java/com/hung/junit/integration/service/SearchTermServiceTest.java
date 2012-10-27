@@ -59,14 +59,11 @@ public class SearchTermServiceTest {
         log.info("////////// SearchTermServiceTest : testSearchTerm - start //////////");
         
         // search a unlikely searched term
-        log.info("1st term serach");
 		ClientSearchResult clientSearchResult = searchTermService.findByTerm("SearchTermServiceTest");
 		
         String expectedStatus = ClientSearchResult.BUSY_STATUS;
         String actualStatus = clientSearchResult.getStatus();
-        log.info("expectedStatus="+expectedStatus+" VS "+" actualStatus="+actualStatus);
         Assert.assertEquals(expectedStatus, actualStatus);  
-        log.info("passed status check");
 		
 		log.info("////////// SearchTermServiceTest : testSearchTerm - end //////////");
 	}
