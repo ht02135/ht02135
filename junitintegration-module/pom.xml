@@ -195,6 +195,40 @@
                 <artifactId>maven-activemq-plugin</artifactId>
                 <version>5.2.0</version>
             </plugin>
+            
+                <!-- chronos-jmeter, http://mojo.codehaus.org/chronos/
+                    http://mojo.codehaus.org/chronos/chronos-jmeter-maven-plugin/usage.html
+                    1>The chronos-jmeter plugin is used for executing performancetests or to integrate results of already 
+                      existing performancetests into the Chronos infrastructure. It may also be used for saving historical 
+                      data, or for validating that performance goals have been met.
+                    2>The chronos-report plugin uses the output from chronos-jmeter, to create current or historical reports.
+                -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>chronos-jmeter-maven-plugin</artifactId>
+                    <version>1.1.0</version>
+                    <configuration>
+                        <input>${basedir}/src/test/jmx</input>
+                        <historydir>${history.directory}</historydir>
+                    </configuration>
+                    <executions>
+                        <!-- 
+                        <execution>
+                            <id>jmeter-test</id>
+                            <goals>
+                                <goal>jmeter</goal>
+                            </goals>
+                        </execution>
+                        -->
+                        <execution>
+                            <id>jmeter-test</id>
+                            <phase>integration-test</phase>
+                            <goals>
+                                <goal>jmeter</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
 
         </plugins>
     </build>
