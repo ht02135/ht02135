@@ -34,12 +34,12 @@
         <module>simple-domain-module</module>
         <module>simple-dao-module</module>
         <module>simple-service-module</module>
-        <module>simple-restfulwebapp-module</module>
         <module>simple-spring3-client</module>
         <module>simple-setting-module</module>
         <module>simple-swing-module</module>
         <module>simple-controller-module</module>
         <module>simple-restful-module</module>
+        <module>simple-restfulwebapp-module</module>
         <module>simple-junit-module</module>
         <module>simple-junitperf-module</module>
   </modules>

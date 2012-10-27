@@ -33,180 +33,170 @@
     </properties>
 
     <build>
-        <pluginManagement>
-            <plugins>
+        <plugins>
 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
-                    </configuration>
-                </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
 
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>hibernate3-maven-plugin</artifactId>
-                    <version>2.2</version>
-                    <configuration>
-                        <components>
-                            <component>
-                                <name>hbm2ddl</name>
-                                <implementation>annotationconfiguration</implementation>
-                            </component>
-                        </components>
-                        <componentProperties>
-                            <drop>true</drop>
-                            <configurationfile>/src/main/resources/oracle/hibernate.cfg.xml</configurationfile>
-                        </componentProperties>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.oracle</groupId>
-                            <artifactId>ojdbc6</artifactId>
-                            <version>11.2.0</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>hibernate3-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <components>
+                        <component>
+                            <name>hbm2ddl</name>
+                            <implementation>annotationconfiguration</implementation>
+                        </component>
+                    </components>
+                    <componentProperties>
+                        <drop>true</drop>
+                        <configurationfile>/src/main/resources/oracle/hibernate.cfg.xml</configurationfile>
+                    </componentProperties>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc6</artifactId>
+                        <version>11.2.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
 
-                <!-- http://nonrepeatable.blogspot.com/2010/01/automated-integration-testing-with.html -->
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>dbunit-maven-plugin</artifactId>
-                    <version>1.0-beta-3</version>
-                    <configuration>
-                        <dataTypeFactoryName>org.dbunit.ext.oracle.OracleDataTypeFactory</dataTypeFactoryName>
-                        <driver>oracle.jdbc.driver.OracleDriver</driver>
-                        <username>test</username>
-                        <password>admin</password>
-                        <url>jdbc:oracle:thin:@localhost:1521/xe</url>
-                        <schema>test</schema>
-                        <format>flat</format>
-                        <src>${basedir}/src/test/resources/data.xml</src>
-                        <type>CLEAN_INSERT</type>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <phase>pre-integration-test</phase>
-                            <goals>
-                                <goal>operation</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.oracle</groupId>
-                            <artifactId>ojdbc6</artifactId>
-                            <version>11.2.0</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
+            <!-- http://nonrepeatable.blogspot.com/2010/01/automated-integration-testing-with.html -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>dbunit-maven-plugin</artifactId>
+                <version>1.0-beta-3</version>
+                <configuration>
+                    <dataTypeFactoryName>org.dbunit.ext.oracle.OracleDataTypeFactory</dataTypeFactoryName>
+                    <driver>oracle.jdbc.driver.OracleDriver</driver>
+                    <username>test</username>
+                    <password>admin</password>
+                    <url>jdbc:oracle:thin:@localhost:1521/xe</url>
+                    <schema>test</schema>
+                    <format>flat</format>
+                    <src>${basedir}/src/test/resources/data.xml</src>
+                    <type>CLEAN_INSERT</type>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>operation</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc6</artifactId>
+                        <version>11.2.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
 
-                <!-- http://maven.apache.org/plugins/maven-dependency-plugin/, this works via "mvn dependency:copy" -->
-                <!-- 
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <version>2.5.1</version>
-                    <configuration>
-                        <artifactItems>
-                            <artifactItem>
-                                <groupId>com.hung</groupId>
-                                <artifactId>simple-restfulwebapp-module</artifactId>
-                                <version>0.0.1-SNAPSHOT</version>
-                                <type>war</type>
-                                <overWrite>true</overWrite>
-                                <outputDirectory>${project.build.directory}</outputDirectory>
-                                <destFileName>simple-restfulwebapp-module.war</destFileName>
-                            </artifactItem>
-                        </artifactItems>
-                        <outputDirectory>${project.build.directory}</outputDirectory>
-                        <overWriteReleases>true</overWriteReleases>
-                        <overWriteSnapshots>true</overWriteSnapshots>
-                    </configuration>
-                </plugin>
-                -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <version>2.5.1</version>
-                    <executions>
-                        <execution>
-                            <id>copy-war</id>
-                            <phase>install</phase>
-                            <goals>
-                                <goal>copy</goal>
-                            </goals>
-                            <configuration>
-                                <artifactItems>
-                                    <artifactItem>
-                                        <groupId>com.hung</groupId>
-                                        <artifactId>simple-restfulwebapp-module</artifactId>
-                                        <version>0.0.1-SNAPSHOT</version>
-                                        <type>war</type>
-                                        <overWrite>true</overWrite>
-                                        <outputDirectory>${project.build.directory}</outputDirectory>
-                                        <destFileName>simple-restfulwebapp-module.war</destFileName>
-                                    </artifactItem>
-                                </artifactItems>
-                                <outputDirectory>${project.build.directory}</outputDirectory>
-                                <overWriteReleases>true</overWriteReleases>
-                                <overWriteSnapshots>true</overWriteSnapshots>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
+            <!-- http://maven.apache.org/plugins/maven-dependency-plugin/, 
+                this works via "mvn dependency:copy" -->
+            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-dependency-plugin</artifactId> 
+                <version>2.5.1</version> <configuration> <artifactItems> <artifactItem> <groupId>com.hung</groupId> 
+                <artifactId>simple-restfulwebapp-module</artifactId> <version>0.0.1-SNAPSHOT</version> 
+                <type>war</type> <overWrite>true</overWrite> <outputDirectory>${project.build.directory}</outputDirectory> 
+                <destFileName>simple-restfulwebapp-module.war</destFileName> </artifactItem> 
+                </artifactItems> <outputDirectory>${project.build.directory}</outputDirectory> 
+                <overWriteReleases>true</overWriteReleases> <overWriteSnapshots>true</overWriteSnapshots> 
+                </configuration> </plugin> -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.5.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-war</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.hung</groupId>
+                                    <artifactId>simple-restfulwebapp-module</artifactId>
+                                    <version>0.0.1-SNAPSHOT</version>
+                                    <type>war</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                    <destFileName>simple-restfulwebapp-module.war</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
-                <!-- http://jetty.codehaus.org/jetty/maven-plugin/run-mojo.html, this works via "mvn jetty:run-war" -->
-                <plugin>
-                    <groupId>org.mortbay.jetty</groupId>
-                    <artifactId>maven-jetty-plugin</artifactId>
-                    <version>6.1.11</version>
-                    <configuration>
-                        <contextPath>simple-restfulwebapp-module</contextPath>
-                        <connectors>
-                            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                                <port>8081</port>
-                                <maxIdleTime>60000</maxIdleTime>
-                            </connector>
-                        </connectors>
-                        <webApp>${project.build.directory}/simple-restfulwebapp-module.war</webApp>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>start-jetty</id>
-                            <phase>pre-integration-test</phase>
-                            <goals>
-                                <goal>run-war</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>stop-jetty</id>
-                            <phase>post-integration-test</phase>
-                            <goals>
-                                <goal>stop</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.oracle</groupId>
-                            <artifactId>ojdbc6</artifactId>
-                            <version>11.2.0</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
-      
-      <!-- activemq plugin, later launch ActiveMQ via mvn org.apache.activemq.tooling:maven-activemq-plugin:5.2.0:run -->
-      <plugin>
-        <groupId>org.apache.activemq.tooling</groupId>
-        <artifactId>maven-activemq-plugin</artifactId>
-        <version>5.2.0</version>
-      </plugin>
-      
-            </plugins>
-        </pluginManagement>
+            <!-- http://jetty.codehaus.org/jetty/maven-plugin/run-mojo.html, 
+                this works via "mvn jetty:run-war" -->
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.11</version>
+                <configuration>
+                    <contextPath>simple-restfulwebapp-module</contextPath>
+                    <connectors>
+                        <connector
+                            implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                            <port>8081</port>
+                            <maxIdleTime>60000</maxIdleTime>
+                        </connector>
+                    </connectors>
+                    <webApp>${project.build.directory}/simple-restfulwebapp-module.war</webApp>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>start-jetty</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>run-war</goal>
+                        </goals>
+                        <configuration>
+                            <reload>manual</reload> 
+                            <daemon>true</daemon>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>stop-jetty</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc6</artifactId>
+                        <version>11.2.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!-- activemq plugin, later launch ActiveMQ via mvn org.apache.activemq.tooling:maven-activemq-plugin:5.2.0:run -->
+            <plugin>
+                <groupId>org.apache.activemq.tooling</groupId>
+                <artifactId>maven-activemq-plugin</artifactId>
+                <version>5.2.0</version>
+            </plugin>
+
+        </plugins>
     </build>
 
     <dependencies>
