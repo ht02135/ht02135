@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>simple-parent</artifactId>
+        <groupId>com.hung</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <groupId>com.hung</groupId>
+    <artifactId>simple-restfulwebapp-module</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>simple-restfulwebapp-module Maven Webapp</name>
+    <url>http://maven.apache.org</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.hung</groupId>
+            <artifactId>simple-domain-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hung</groupId>
+            <artifactId>simple-dao-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hung</groupId>
+            <artifactId>simple-service-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hung</groupId>
+            <artifactId>simple-controller-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hung</groupId>
+            <artifactId>simple-restful-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>simple-restfulwebapp-module</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.11</version>
+                <configuration>
+                    <connectors>
+                        <connector
+                            implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                            <port>8081</port>
+                            <maxIdleTime>60000</maxIdleTime>
+                        </connector>
+                    </connectors>
+                </configuration>
+                <dependencies>
+                    <!-- MySQL database driver <dependency> <groupId>mysql</groupId> 
+                        <artifactId>mysql-connector-java</artifactId> <version>5.1.20-bin</version> 
+                        </dependency> -->
+                    <!-- ORACLE database driver -->
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc6</artifactId>
+                        <version>11.2.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!-- activemq plugin, later launch ActiveMQ via mvn org.apache.activemq.tooling:maven-activemq-plugin:5.2.0:run -->
+            <plugin>
+                <groupId>org.apache.activemq.tooling</groupId>
+                <artifactId>maven-activemq-plugin</artifactId>
+                <version>5.2.0</version>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>
