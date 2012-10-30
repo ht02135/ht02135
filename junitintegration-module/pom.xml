@@ -176,8 +176,6 @@
                     <historydir>${history.directory}</historydir>
                 </configuration>
                 <executions>
-                    <!-- <execution> <id>jmeter-test</id> <goals> <goal>jmeter</goal> 
-                        </goals> </execution> -->
                     <execution>
                         <id>jmeter-test</id>
                         <phase>integration-test</phase>

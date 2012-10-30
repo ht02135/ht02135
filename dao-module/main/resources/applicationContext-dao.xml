@@ -35,14 +35,16 @@
         <property name="location" value="classpath:/oracle.properties" />
     </bean>
   
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <bean id="dataSource" 
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${db.driver}" />
         <property name="url" value="${db.url}" />
         <property name="username" value="${db.username}" />
         <property name="password" value="${db.password}" />
     </bean> 
 
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+	<bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <property name="annotatedClasses">
             <list>
@@ -67,20 +69,6 @@
                 <value>com.hung.auction.domain.AbstractIndexRequest</value>
                 <value>com.hung.auction.domain.TermIndexRequest</value>
                 <value>com.hung.auction.domain.DocumentIndexRequest</value>
-
-                <value>com.hung.auction.domain2.ImplicitPolymorphicAnimal</value>
-                <value>com.hung.auction.domain2.ImplicitPolymorphicCat</value>
-                <value>com.hung.auction.domain2.ImplicitPolymorphicDog</value>
-                <value>com.hung.auction.domain2.JoinedAnimal</value>
-                <value>com.hung.auction.domain2.JoinedCat</value>
-                <value>com.hung.auction.domain2.JoinedDog</value>
-                <value>com.hung.auction.domain2.SingleTableAnimal</value>
-                <value>com.hung.auction.domain2.SingleTableCat</value>
-                <value>com.hung.auction.domain2.SingleTableDog</value>
-                <value>com.hung.auction.domain2.TablePerClassAnimal</value>
-                <value>com.hung.auction.domain2.TablePerClassCat</value>
-                <value>com.hung.auction.domain2.TablePerClassDog</value>
-                <value>com.hung.auction.domain2.Owner</value>
             </list>
         </property>
         <property name="hibernateProperties">
@@ -94,6 +82,7 @@
                 <prop key="hibernate.dialect">${db.dialect}</prop>
                 <!-- hibernate internal connection pooling algorithm is rudimentry.  it is recommended to use third party pool for best
                      performance.  just replace hibernate.connection.pool_size with specific setting will turn off hibernate internal pool -->
+                <prop key="hibernate.connection.SetBigStringTryClob">true</prop>
                 <prop key="hibernate.connection.pool_size">10</prop>
         		<prop key="hibernate.connection.driver_class">${db.driver}</prop>
         		<prop key="hibernate.connection.url">${db.url}</prop>
@@ -164,32 +153,30 @@
         </property>
     </bean>
     
+    <!-- ////////// DAO ////////// -->
+    
+    <bean id="bidDAO" class="com.hung.auction.dao.hibernate.HibernateBidDAO">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="sellerDAO" class="com.hung.auction.dao.hibernate.HibernateSellerDAO">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
     <bean id="domainDAO" class="com.hung.auction.dao.hibernate.HibernateDomainDAO">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-
+    
     <bean id="domainUserDAO" class="com.hung.auction.dao.hibernate.HibernateDomainUserDAO">
         <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+    </bean>   
     
-    <bean id="documentDAO" class="com.hung.auction.dao.hibernate.HibernateDocumentDAO">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-
-    <bean id="animalDAO" class="com.hung.auction.dao2.HibernateAnimalDAO">
+    <bean id="domainSettingDAO" class="com.hung.auction.dao.hibernate.HibernateDomainSettingDAO">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
-    <bean id="sqlQueryDomainDAO" class="com.hung.auction.dao2.HibernateSQLQueryDomainDAO">
+    <bean id="clientCacheDAO" class="com.hung.auction.dao.hibernate.HibernateClientCacheDAO">
         <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-
-    <bean id="hqlQueryDomainDAO" class="com.hung.auction.dao2.HibernateHQLQueryDomainDAO">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-
-    <bean id="criteriaQueryDomainDAO" class="com.hung.auction.dao2.HibernateCriteriaQueryDomainDAO">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+    </bean>  
     
  </beans>

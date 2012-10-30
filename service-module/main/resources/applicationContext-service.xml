@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:amq="http://activemq.apache.org/schema/core"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd"
+    default-lazy-init="true">
+
+    <!-- ////////// enable AspectJ annotation ////////// -->
+
+    <!-- enable AspectJ : to integrate AspectJ annotation with Spring AOP framework -->
+    <aop:aspectj-autoproxy />
+
+    <!-- specifies from where to look for annotated components like @Repository, @Autowired -->
+    <context:component-scan base-package="com.hung.auction" />
+
+    <!-- ////////// Legacy AOP ////////// -->
+
+    <bean id="sellerAspect" class="com.hung.auction.aspect.SellerAspect">
+    </bean>
+
+    <!-- ////////// AOP Transaction ////////// -->
+
+    <!--
+        @Pointcut("execute(* com.hung.auction.service.*.*(..))")
+                             com.hung.auction.service.ClassName.MethodName(..)
+
+        all methods in Service class or subtype of it:
+        @Pointcut("execution(* com.hung.auction.service.Service+.*(..))")
+
+        any public method
+        @Pointcut("execution(public * *(..)")
+
+        execution of any method with name begin with "set"
+        @Pointcut("execution(* set*(..))")
+    -->
+    <!-- to make service transactional -->
+    <aop:config>
+        <aop:pointcut id="serviceMethods"
+            expression="execution(* com.hung.service.*.*(..)) or execution(* com.hung.auction.service.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods"/>
+    </aop:config>
+
+    <!-- propagation=
+        MANDATORY - Support a current transaction, throw an exception if none exists.
+        REQUIRED - Support a current transaction, create a new one if none exists.
+        REQUIRES_NEW - Create a new transaction, suspend the current transaction if one exists.
+        SUPPORTS - Support a current transaction, execute non-transactionally if none exists.
+    -->
+    <!-- isolation=
+        DEFAULT - Use the default isolation level of the underlying datastore.
+        READ_UNCOMMITTED - A constant indicating that dirty reads, non-repeatable reads and phantom reads can occur.
+        READ_COMMITTED - A constant indicating that dirty reads are prevented; non-repeatable reads and phantom reads can occur.
+        REPEATABLE_READ - A constant indicating that dirty reads and non-repeatable reads are prevented; phantom reads can occur.
+        SERIALIZABLE - A constant indicating that dirty reads, non-repeatable reads and phantom reads are prevented.
+
+        MySQL installation
+        select @@GLOBAL.tx_isolation, @@tx_isolation;
+        REPEATABLE-READ REPEATABLE-READ
+     -->
+    <!-- read-only=true, if transaction only perform read operation, then data store can apply optimization  -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+          <tx:method name="save*" propagation="REQUIRED"/>
+          <tx:method name="delete*" propagation="REQUIRED"/>
+          <tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+          <tx:method name="get" propagation="SUPPORTS" read-only="true"/>
+          <tx:method name="*" propagation="SUPPORTS"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+      <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- TaskExecutor and TaskScheduler
+         With annotation driven you can only use 1 task-executor, you cannot have multiple task:annotation-driven
+         in your config (else they would be competing on the @Async)
+    -->
+
+    <!-- 3.0
+    http://www.springframework.org/schema/task/spring-task-3.0.xsd
+    Following will create ThreadPoolTaskScheduler and ThreadPoolTaskExecutor instance
+    -->
+    <task:annotation-driven executor="taskExecutor" scheduler="taskScheduler"/>
+    <task:executor id="taskExecutor" pool-size="5-10" queue-capacity="1000"/>
+    <task:scheduler id="taskScheduler" pool-size="10"/>
+
+    <task:scheduled-tasks scheduler="taskScheduler">
+        <!-- 600000=10min, 3600000=60min -->
+        <task:scheduled ref="buildIndexEngine" method="handleCompletedIndexRequest" fixed-rate="3600000"/>
+    </task:scheduled-tasks>
+
+    <!-- 2.5 -->
+    <!--
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5" />
+        <property name="maxPoolSize" value="10" />
+        <property name="queueCapacity" value="1000" />
+    </bean>
+    -->
+
+    <bean id="buildIndexEngine" class="com.hung.auction.engine.BuildIndexEngineImpl">
+        <property name="taskExecutor" ref="taskExecutor"/>
+    </bean>
+
+    <bean id="buildIndexService" class="com.hung.auction.service.BuildIndexServiceImpl">
+        <property name="buildIndexEngine" ref="buildIndexEngine"/>
+    </bean>
+
+    <!-- ////////// JavaMail ////////// -->
+
+    <!--  Loads externalized configuration details from googleMail.properties  -->
+    <bean id="googleMailProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <!-- need to set order and ignoreUnresolvablePlaceholders for 2nd org.springframework.beans.factory.config.PropertyPlaceholderConfigurer to work -->
+        <property name="order" value="2"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="location" value="classpath:/googleMail.properties" />
+    </bean>
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host"><value>${mail.host}</value></property>
+        <property name="port"><value>${mail.port}</value></property>
+        <property name="protocol"><value>${mail.transport.protocol}</value></property>
+        <property name="username"><value>${mail.username}</value></property>
+        <property name="password"><value>${mail.password}</value></property>
+
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+                <prop key="mail.smtp.socketFactory.port">${mail.smtp.socketFactory.port}</prop>
+                <prop key="mail.smtp.socketFactory.class">${mail.smtp.socketFactory.class}</prop>
+                <prop key="mail.smtp.socketFactory.fallback">${mail.smtp.socketFactory.fallback}</prop>
+                <prop key="mail.smtp.timeout">${mail.smtp.timeout}</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- ////////// JMS Send/Receive Connection ////////// -->
+
+    <!-- make sure to add send/send to C:\Software\ActiveMQ\apache-activemq-5.6.0\conf\credentials.properties -->
+    <bean id="sendConnectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+        <property name="brokerURL"><value>tcp://localhost:61616</value></property>
+        <property name="userName"><value>send</value></property>
+        <property name="password"><value>send</value></property>
+    </bean>
+
+    <!-- make sure to add receive/receive to C:\Software\ActiveMQ\apache-activemq-5.6.0\conf\credentials.properties -->
+    <bean id="receiveConnectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+        <property name="brokerURL"><value>tcp://localhost:61616</value></property>
+        <property name="userName"><value>receive</value></property>
+        <property name="password"><value>receive</value></property>
+    </bean>
+
+    <!-- ////////// Topics ////////// -->
+
+    <bean id="bidTopic" class="org.apache.activemq.command.ActiveMQTopic">
+      <constructor-arg index="0" value="bid.topic"/>
+    </bean>
+
+    <bean id="clientReservationTopic" class="org.apache.activemq.command.ActiveMQTopic">
+      <constructor-arg index="0" value="client.reservation.topic"/>
+    </bean>
+
+    <bean id="serverReservationTopic" class="org.apache.activemq.command.ActiveMQTopic">
+      <constructor-arg index="0" value="server.reservation.topic"/>
+    </bean>
+
+    <!-- ////////// Topics Listener and MDP ////////// -->
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="sendConnectionFactory" />
+        <!-- Value = javax.jms.DeliveryMode.PERSISTENT -->
+        <property name="deliveryMode" value="2" />
+        <!-- Value = javax.jms.Session.CLIENT_ACKNOWLEDGE -->
+        <property name="sessionAcknowledgeMode" value="2" />
+        <!-- Needs to be true for the deliveryMode to work -->
+        <property name="explicitQosEnabled" value="true" />
+    </bean>
+
+    <bean id="serverReservationMDP" class="com.hung.auction.mdp.ServerReservationMDP">
+        <property name="serverReservationService" ref="serverReservationService" />
+    </bean>
+
+    <bean id="serverReservationMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="autoStartup" value="true" />
+
+        <!-- Specify topic style publish/subscribe -->
+        <property name="pubSubDomain" value="true" />
+        <!-- never use concurrentConsumers with topics ! -->
+        <property name="concurrentConsumers" value="1" />
+
+        <property name="destination" ref="clientReservationTopic" />
+        <property name="destinationName" value="client.reservation.topic" />
+
+        <property name="connectionFactory" ref="receiveConnectionFactory" />
+        <property name="sessionTransacted" value="true" />
+        <!-- Value = javax.jms.Session.CLIENT_ACKNOWLEDGE -->
+        <property name="sessionAcknowledgeMode" value="2" />
+        <property name="messageListener" ref="serverReservationMDP" />
+
+        <!-- Will guaranty that we receive messages in queue after broker goes down -->
+        <property name="subscriptionDurable" value="true" />
+        <property name="clientId" value="serverReservationMDP" />
+        <property name="durableSubscriptionName" value="serverReservationMDP" />
+
+        <property name="cacheLevelName" value="CACHE_CONSUMER" />
+        <property name="receiveTimeout" value="60000"/>
+    </bean>
+
+    <!-- ////////// Legacy Topics Listener and MDP ////////// -->
+
+    <bean id="bidMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="autoStartup" value="true" />
+
+        <!-- Specify topic style publish/subscribe -->
+        <property name="pubSubDomain" value="true" />
+        <!-- never use concurrentConsumers with topics ! -->
+        <property name="concurrentConsumers" value="1" />
+
+        <property name="destination" ref="bidTopic" />
+        <property name="destinationName" value="bid.topic" />
+
+        <property name="connectionFactory" ref="receiveConnectionFactory" />
+        <property name="sessionTransacted" value="true" />
+        <!-- Value = javax.jms.Session.CLIENT_ACKNOWLEDGE -->
+        <property name="sessionAcknowledgeMode" value="2" />
+        <property name="messageListener" ref="bidMessageDrivenPOJO" />
+
+        <!-- Will guaranty that we receive messages in queue after broker goes down -->
+        <property name="subscriptionDurable" value="true" />
+        <property name="clientId" value="bidMessageDrivenPOJO" />
+        <property name="durableSubscriptionName" value="bidMessageDrivenPOJO" />
+
+        <property name="cacheLevelName" value="CACHE_CONSUMER" />
+        <property name="receiveTimeout" value="60000"/>
+    </bean>
+
+    <bean id="bidMessageDrivenPOJO" class="com.hung.auction.mdp.BidMessageDrivenPOJO">
+        <property name="emailService" ref="emailService" />
+        <property name="bidDAO" ref="bidDAO" />
+    </bean>
+
+    <!-- ////////// Services ////////// -->
+
+    <bean id="serverReservationService" class="com.hung.auction.service.ServerReservationServiceImpl">
+        <property name="jmsTemplate" ref="jmsTemplate" />
+        <property name="destination" ref="serverReservationTopic" />
+    </bean>
+
+    <bean id="bidService" class="com.hung.auction.service.BidServiceImpl">
+        <property name="jmsTemplate" ref="jmsTemplate" />
+        <property name="destination" ref="bidTopic" />
+        <property name="bidDAO" ref="bidDAO"/>
+    </bean>
+
+    <bean id="domainService" class="com.hung.auction.service.DomainServiceImpl" init-method="initMethod" destroy-method="destroyMethod">
+        <constructor-arg index="0" ref="domainDAO"/>
+        <property name="domainDAO" ref="domainDAO"/>
+    </bean>
+
+    <bean id="domainUserService" class="com.hung.auction.service.DomainUserServiceImpl" init-method="initMethod" destroy-method="destroyMethod">
+        <constructor-arg index="0" ref="domainDAO"/>
+        <constructor-arg index="1" ref="domainUserDAO"/>
+        <property name="domainDAO" ref="domainDAO"/>
+        <property name="domainUserDAO" ref="domainUserDAO"/>
+
+    </bean>
+
+    <bean id="domainSettingService" class="com.hung.auction.service.DomainSettingServiceImpl">
+        <constructor-arg index="0" ref="domainService"/>
+        <constructor-arg index="1" ref="domainSettingDAO"/>
+        <property name="domainService" ref="domainService"/>
+        <property name="domainSettingDAO" ref="domainSettingDAO"/>
+    </bean>
+
+    <!-- scoped-proxy
+        1>You can inject wider scope (longer life-span) bean (ex singleton) into narrower scope (shorter life-span) bean (ex session)
+        2>but to do it the other way around (inject (shorter life-span) bean (ex session) into (longer life-span) bean (ex singleton)),
+          you need <aop:scoped-proxy/>
+        3>so below, i want to inject HTTP session scope bean into singleton bean (default spring bean scope is singleton).
+          i need an AOP proxy in place of the HTTP session scope bean.  to create such a proxy, i need only to insert a
+          <aop:scoped-proxy/> element into a HTTP session scope bean like below
+    -->
+    <bean id="clientSession" class="com.hung.auction.client.ClientSession" scope="session">
+        <aop:scoped-proxy/>
+    </bean>
+
+    <bean id="loginService" class="com.hung.auction.service.LoginServiceImpl">
+        <property name="clientSession" ref="clientSession"/>
+        <property name="domainUserService" ref="domainUserService"/>
+    </bean>
+
+    <bean id="clientCacheService" class="com.hung.auction.service.ClientCacheServiceImpl">
+        <property name="clientCacheDAO" ref="clientCacheDAO"/>
+    </bean>
+
+    <bean id="emailService" class="com.hung.auction.service.EmailServiceImpl">
+        <property name="mailSender" ref="mailSender"/>
+    </bean>
+
+    <!-- ////////// Legacy Services ////////// -->
+
+    <bean id="sellerService" class="com.hung.auction.service.SellerServiceImpl">
+        <property name="sellerDAO" ref="sellerDAO"/>
+    </bean>
+
+</beans>

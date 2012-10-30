@@ -105,7 +105,7 @@
                 <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
                 <prop key="hibernate.cache.provider_configuration_file_resource_path">ehcache.xml</prop>
                 <prop key="hibernate.cache.use_second_level_cache">true</prop>
-                <prop key="hibernate.generate_statistics">true</prop>
+                <prop key="hibernate.generate_statistics">false</prop>
                 <!--  automatically exports schema DDL to the database when the SessionFactory is created
                 <prop key="hibernate.hbm2ddl.auto">true</prop>
                 -->

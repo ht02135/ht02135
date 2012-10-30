@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory name="">
+  <!-- SQL dialect -->
+  <property name="dialect">org.hibernate.dialect.Oracle10gDialect</property>
+  <!-- Database connection settings -->
+  <property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+  <property name="connection.url">jdbc:oracle:thin:@localhost:1521/xe</property>
+  <property name="connection.username">root</property>
+  <property name="connection.password">admin</property>
+  <property name="connection.shutdown">true</property>
+  <!-- JDBC connection pool (use the built-in one) -->
+  <property name="connection.pool_size">1</property>
+  <!-- Enable Hibernate's automatic session context management -->
+  <property name="current_session_context_class">thread</property>
+  <!-- Disable the second-level cache  -->
+  <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+  <!-- Echo all executed SQL to stdout -->
+  <property name="show_sql">true</property>
+  <!-- disable batching so HSQLDB will propagate errors correctly. -->
+  <property name="jdbc.batch_size">0</property>
+  <!-- List all the mapping documents we're using -->
+  <mapping class="com.hung.auction.domain.Address"/>
+  <mapping class="com.hung.auction.domain.User"/>
+  <mapping class="com.hung.auction.domain.Seller"/>
+  <mapping class="com.hung.auction.domain.Bidder"/>
+  <mapping class="com.hung.auction.domain.Bid"/>
+  <mapping class="com.hung.auction.domain.Item"/>
+  <mapping class="com.hung.auction.domain.DomainUser"/>
+  <mapping class="com.hung.auction.domain.Domain"/>
+  <mapping class="com.hung.auction.domain.StringDomainSetting"/>
+  <mapping class="com.hung.auction.domain.BooleanDomainSetting"/>
+  <mapping class="com.hung.auction.domain.IntegerDomainSetting"/>
+  <mapping class="com.hung.auction.domain.ClientCache"/>
+  <mapping class="com.hung.auction.domain.ClientCacheId"/>
+  <mapping class="com.hung.auction.domain.AbstractDocument"/>
+  <mapping class="com.hung.auction.domain.BinaryDocument"/>
+  <mapping class="com.hung.auction.domain.StringDocument"/>
+  <mapping class="com.hung.auction.domain.Term"/>
+  <mapping class="com.hung.auction.domain.TermDocumentIndex"/>
+  <mapping class="com.hung.auction.domain.AbstractIndexRequest"/>
+  <mapping class="com.hung.auction.domain.TermIndexRequest"/>
+  <mapping class="com.hung.auction.domain.DocumentIndexRequest"/>
+
+  <mapping class="com.hung.auction.domain2.ImplicitPolymorphicAnimal"/>
+  <mapping class="com.hung.auction.domain2.ImplicitPolymorphicCat"/>
+  <mapping class="com.hung.auction.domain2.ImplicitPolymorphicDog"/>
+  <mapping class="com.hung.auction.domain2.JoinedAnimal"/>
+  <mapping class="com.hung.auction.domain2.JoinedCat"/>
+  <mapping class="com.hung.auction.domain2.JoinedDog"/>
+  <mapping class="com.hung.auction.domain2.SingleTableAnimal"/>
+  <mapping class="com.hung.auction.domain2.SingleTableCat"/>
+  <mapping class="com.hung.auction.domain2.SingleTableDog"/>
+  <mapping class="com.hung.auction.domain2.TablePerClassAnimal"/>
+  <mapping class="com.hung.auction.domain2.TablePerClassCat"/>
+  <mapping class="com.hung.auction.domain2.TablePerClassDog"/>
+  <mapping class="com.hung.auction.domain2.Owner"/>
+
+  <mapping resource="oracle/com/hung/auction/domain/Domain.hbm.xml"/>
+ </session-factory>
+</hibernate-configuration>
