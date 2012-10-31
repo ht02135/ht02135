@@ -6,9 +6,8 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-    <title>All Domains</title>
-    <link rel="stylesheet" type="text/css" href="../css/auction_styles.css">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>All Domains</title>
 </head>
 
 <body>

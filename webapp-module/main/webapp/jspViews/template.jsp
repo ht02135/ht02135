@@ -5,6 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title><tile:insertAttribute name="title" ignore="true" /></title>
         <link rel="stylesheet" type="text/css" href="../css/auction_styles.css">  
+        <script type="text/javascript" src="../js/gen_validatorv4.js"></script>
     </head>
     <body>
         <table border="1" cellpadding="2" cellspacing="2" align="center">

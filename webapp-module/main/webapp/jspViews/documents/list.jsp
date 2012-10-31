@@ -50,3 +50,10 @@
     </table>
 </c:if>
 </div> 
+
+<script  type="text/javascript">
+    // http://www.javascript-coder.com/html-form/javascript-form-validation.phtml
+    var documentFrmValidator = new Validator("document");
+    documentFrmValidator.addValidation("name", "req");
+    documentFrmValidator.addValidation("file", "req_file");
+</script>
