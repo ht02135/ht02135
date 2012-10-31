@@ -161,11 +161,11 @@
     <bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
         <property name="definitions">
             <list>
-                <value>/WEB-INF/jspViews/tileDefs.xml</value>
-                <value>/WEB-INF/jspViews/domains/tileDefs.xml</value>
-                <value>/WEB-INF/jspViews/domainUsers/tileDefs.xml</value>
-                <value>/WEB-INF/jspViews/documents/tileDefs.xml</value>
-                <value>/WEB-INF/jspViews/searchdocuments/tileDefs.xml</value>
+                <value>/jspViews/tileDefs.xml</value>
+                <value>/jspViews/domains/tileDefs.xml</value>
+                <value>/jspViews/domainUsers/tileDefs.xml</value>
+                <value>/jspViews/documents/tileDefs.xml</value>
+                <value>/jspViews/searchdocuments/tileDefs.xml</value>
             </list>
         </property>
     </bean>
@@ -195,7 +195,7 @@
 
     <!-- ////////// JSTL ////////// -->
 
-    <!-- Resolves jspViews selected for rendering by @Controllers to .jsp resources in the /WEB-INF/jspViews directory -->
+    <!-- Resolves jspViews selected for rendering by @Controllers to .jsp resources in the jspViews directory -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="order" value="2"/>
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>

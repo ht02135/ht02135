@@ -1,0 +1,25 @@
+/*
+Hung: refresh my memory
+http://www.w3.org/TR/CSS2/selector.html
+
+CSS rule structure
+
+Selector   Declaration
+H1        {color: red; backgroud: yellow} 
+           property: value
+*/
+
+/* class selector, precede by .
+   html source contain class="warning", class="urgent", or class="warning urgent"
+*/
+.warning {
+    color: red; 
+    font-weight: bold;
+}
+.urgent {
+    font-style: italic;
+}
+
+a[href] {
+    font-weight: bold
+}

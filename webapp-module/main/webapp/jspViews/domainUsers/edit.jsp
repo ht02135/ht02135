@@ -38,7 +38,7 @@
             </tr>
             <tr>
                 <th></th>
-                <td><input name="submit" type="submit" value="submit" /></td>
+                <td><input name="submit" type="submit" value="submit" class="warning" /></td>
             </tr>
         </table>
         </fieldset>

@@ -6,8 +6,8 @@
 
    <definition name="searchdocuments/list" extends="template">
      <put-attribute name="title"  value="Document Manager"/>
-     <put-attribute name="menu" value="/WEB-INF/jspViews/loggedInMenu.jsp" />
-     <put-attribute name="content" value="/WEB-INF/jspViews/searchdocuments/list.jsp" />
+     <put-attribute name="menu" value="/jspViews/loggedInMenu.jsp" />
+     <put-attribute name="content" value="/jspViews/searchdocuments/list.jsp" />
    </definition>
 
 </tiles-definitions>

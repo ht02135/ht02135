@@ -55,7 +55,6 @@ domainNS.Domain.prototype.toJSONString = function(name, parentDomainName) {
 };
 
 // --------------------------------------------- DOMAIN METHODS -------------------------------------------------
-
 // findAll method (shared across Domain instance)
 domainNS.Domain.prototype.findAll = function () {
 	console.log('Domain.prototype.findAll: called');

@@ -4,28 +4,28 @@
   
 <tiles-definitions>
 
-   <definition name="template" template="/WEB-INF/jspViews/template.jsp">
+   <definition name="template" template="/jspViews/template.jsp">
       <put-attribute name="title"  value="Template"/>
-      <put-attribute name="header" value="/WEB-INF/jspViews/header.jsp"/>
-      <put-attribute name="menu"   value="/WEB-INF/jspViews/menu.jsp"/>
-      <put-attribute name="content"   value="/WEB-INF/jspViews/content.jsp"/>
-      <put-attribute name="footer"   value="/WEB-INF/jspViews/footer.jsp"/>
+      <put-attribute name="header" value="/jspViews/header.jsp"/>
+      <put-attribute name="menu"   value="/jspViews/menu.jsp"/>
+      <put-attribute name="content"   value="/jspViews/content.jsp"/>
+      <put-attribute name="footer"   value="/jspViews/footer.jsp"/>
    </definition>
  
    <definition name="home" extends="template">
      <put-attribute name="title"  value="Home"/>
-     <put-attribute name="content" value="/WEB-INF/jspViews/home.jsp" />
+     <put-attribute name="content" value="/jspViews/home.jsp" />
    </definition> 
    
    <definition name="login" extends="template">
      <put-attribute name="title"  value="Login"/>
-     <put-attribute name="content" value="/WEB-INF/jspViews/login.jsp" />
+     <put-attribute name="content" value="/jspViews/login.jsp" />
    </definition> 
    
    <definition name="loggedInHome" extends="template">
      <put-attribute name="title"  value="logged In Home"/>
-     <put-attribute name="menu" value="/WEB-INF/jspViews/loggedInMenu.jsp" />
-     <put-attribute name="content" value="/WEB-INF/jspViews/loggedInHome.jsp" />
+     <put-attribute name="menu" value="/jspViews/loggedInMenu.jsp" />
+     <put-attribute name="content" value="/jspViews/loggedInHome.jsp" />
    </definition>  
    
 </tiles-definitions>

@@ -35,5 +35,5 @@
 
 <div>  
     <s:url var="newDomainUserUrl" value="/auction/domainUsers?new" />
-    <a href="${newDomainUserUrl}">Create a new domain user</a> 
+    <a href="${newDomainUserUrl}" class="warning" >Create a new domain user</a> 
 </div>   
