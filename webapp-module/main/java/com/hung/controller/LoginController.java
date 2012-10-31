@@ -1,6 +1,7 @@
 package com.hung.auction.controller;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,8 +73,8 @@ public class LoginController {
 	*/
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public String login(@ModelAttribute("jaxbClientSession") JaxbClientSession jaxbClientSession, 
-	                                    BindingResult bindingResult, Model model, HttpSession session)
+	public String login(@ModelAttribute("jaxbClientSession") @Valid JaxbClientSession jaxbClientSession, 
+	                    BindingResult bindingResult, Model model, HttpSession session)
 	{
 		log.info("********** login: start **********");
 		log.info("login: jaxbClientSession="+jaxbClientSession);
@@ -81,6 +82,7 @@ public class LoginController {
 		String url = "home";
 		if (bindingResult.hasErrors()) {
 			log.info("login: bindingResult hasErrors");
+			url = "login";
 		} else {
 			if (loginService.login(jaxbClientSession.getLoginId(), jaxbClientSession.getDomainName()).booleanValue()) {
 			    session.setAttribute("jaxbClientSession2", jaxbClientSession);
@@ -94,17 +96,6 @@ public class LoginController {
 
 		return url;
 	}
-	
-	/*
-        1>SessionStatus.setComplete() method will trigger cleaning of Session Attributes, but only those which Spring 
-        will find "actual session attribute"
-        2>Only the "jaxbClientSession" attribute will be considered as "actual session attribute", and removed on POST request
-
-    @RequestMapping(method = RequestMethod.POST)
-    public void onPost(@ModelAttribute("jaxbClientSession") String something, BindingResult bindingResult, SessionStatus sessionStatus) {
-        sessionStatus.setComplete();
-    }
-    */
 	    
 	// injection methods
 

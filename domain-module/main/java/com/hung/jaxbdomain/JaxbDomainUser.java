@@ -7,18 +7,23 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.hung.auction.domain.DomainUser;
 
 @XmlRootElement(name="JaxbDomainUser")
 @XmlAccessorType(javax.xml.bind.annotation.XmlAccessType.FIELD)
 public class JaxbDomainUser implements Serializable {
 
+    @NotEmpty
 	@XmlAttribute(name="loginId")
 	private String loginId = "";
 	
+    @NotEmpty
 	@XmlElement(name="name")
 	private String name = "";
 	
+    @NotEmpty
 	@XmlElement(name="userDomainName")
 	private String userDomainName = "";
 	

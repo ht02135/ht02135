@@ -3,6 +3,8 @@ package com.hung.auction.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -122,7 +124,7 @@ public class DomainUsersController implements IAuthenticateController {
 	// value=/add map to jsp page form action=/domainUsers/add
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public String addDomainUserFromForm(@ModelAttribute("jaxbClientSession") JaxbClientSession jaxbClientSession, 
-									    @ModelAttribute("jaxbDomainUser") JaxbDomainUser jaxbDomainUser, 
+	                                    @ModelAttribute("jaxbDomainUser") @Valid JaxbDomainUser jaxbDomainUser, 
 										BindingResult bindingResult, Model model)
 	{
 		log.info("********** addDomainUserFromForm: start, jaxbDomainUser="+jaxbDomainUser+" **********");
@@ -133,6 +135,7 @@ public class DomainUsersController implements IAuthenticateController {
 		String url = "domainUsers/edit";
 	    if (bindingResult.hasErrors()) {
 	    	log.info("addDomainUserFromForm: bindingResult hasErrors");
+	    	model.addAttribute("action", "add");
 	    } else {
 	    	Domain domain = domainService.findByName(jaxbDomainUser.getUserDomainName());
 	    	DomainUser domainUser = new DomainUser(jaxbDomainUser.getLoginId(), jaxbDomainUser.getName(), domain);
@@ -152,7 +155,7 @@ public class DomainUsersController implements IAuthenticateController {
 	// value=/edit map to jsp page form action=/domainUsers/edit
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
 	public String updateDomainUserFromForm(@ModelAttribute("jaxbClientSession") JaxbClientSession jaxbClientSession, 
-										   @ModelAttribute("jaxbDomainUser") JaxbDomainUser jaxbDomainUser,
+	                                       @ModelAttribute("jaxbDomainUser") @Valid JaxbDomainUser jaxbDomainUser,
 										   BindingResult bindingResult, Model model) 
 	{
 		log.info("********** updateDomainUserFromForm: start, jaxbDomainUser="+jaxbDomainUser+" **********");
@@ -163,6 +166,7 @@ public class DomainUsersController implements IAuthenticateController {
 		String url = "domainUsers/edit";
 	    if (bindingResult.hasErrors()) {
 	    	log.info("updateDomainUserFromForm: bindingResult hasErrors");
+	    	model.addAttribute("action", "edit");
 	    } else {
 	    	Domain domain = domainService.findByName(jaxbDomainUser.getUserDomainName());
 	    	DomainUser domainUser = new DomainUser(jaxbDomainUser.getLoginId(), jaxbDomainUser.getName(), domain);
