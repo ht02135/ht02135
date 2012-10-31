@@ -133,6 +133,18 @@ public class NewDomainUserCSSIntegrationTest {
         Assert.assertTrue(selenium.isElementPresent("css=input[name='submit'][type='submit']"));  // multiple condition
     }
     
+    @Test
+    public void testUserDomainNameDropdownSelect() {
+        // <form id="jaxbDomainUser" action="/simple-restfulwebapp-module/auction/domainUsers/add" method="post"> 
+        // <select name="userDomainName" id="userDomainName"><option value="root">root</option><option value="subroot">subroot</option><option value="testSave">testSave</option></select>
+        selenium.select("css=form#jaxbDomainUser select#userDomainName", "value=root");
+        Assert.assertTrue(selenium.isSomethingSelected("css=form#jaxbDomainUser select#userDomainName"));
+        
+        String ActualValueOfSelectedItem = selenium.getValue("css=form#jaxbDomainUser select#userDomainName");
+        log.info("ActualValueOfSelectedItem="+ActualValueOfSelectedItem);
+        Assert.assertEquals("root", ActualValueOfSelectedItem);
+    }
+    
     @AfterClass
     public static void tearDownOnce() throws Exception {
         selenium.close();
