@@ -43,8 +43,8 @@
         <s:url var="deleteDocumentUrl" value="/auction/documents/${document.id}?remove" />
         <tr>
             <td width="100px">${document.name}</td>
-            <td width="20px"><a href="${downloadDocumentUrl}">Download</a></td>
-            <td width="20px"><a href="${deleteDocumentUrl}">Delete</td>
+            <td width="20px"><a name="${document.name}" href="${downloadDocumentUrl}">Download</a></td>
+            <td width="20px"><a name="${document.name}" href="${deleteDocumentUrl}">Delete</td>
         </tr>
     </c:forEach>
     </table>
