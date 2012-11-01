@@ -8,39 +8,37 @@ import org.junit.Before;
 import org.junit.Test;
 import org.testng.Assert;
 
-import com.hung.selenium.pom.LoginPage;
+import com.hung.selenium.pom.domainUsers.DomainUsersPage;
 import com.hung.selenium.utils.MyDefaultSelenium;
 import com.hung.selenium.utils.MySelenium;
 
-public class LoginPageTest {
+public class DomainUsersPageIntegrationTest {
     
-    private static Logger log = Logger.getLogger(LoginPageTest.class);
+    private static Logger log = Logger.getLogger(DomainUsersPageIntegrationTest.class);
     
     private MySelenium selenium;
-    private LoginPage loginPage;
+    private DomainUsersPage domainUsersPage;
     
     @Before
     public void setUp() throws IOException{
         selenium = new MyDefaultSelenium("localhost", 4444, "*chrome", "http://localhost:8081/simple-restfulwebapp-module/auction/");
         selenium.start();
-        loginPage = new LoginPage(selenium);
-        loginPage.open();
+        domainUsersPage = new DomainUsersPage(selenium);
+        domainUsersPage.open();
     }
     
     @Test
-    public void testLogin() {
-        loginPage.typeDomainName("root");
-        loginPage.typeLoginId("admin");
-        loginPage.clickSubmit();
+    public void testAdmin() {
+        Assert.assertTrue(domainUsersPage.isViewAdminURLPresent());
+        Assert.assertTrue(domainUsersPage.isEditAdminURLPresent());
+    }
+    
+    @Test
+    public void testNewUserURL() {
+        Assert.assertTrue(domainUsersPage.isNewUserURLPresent());
         
-        loginPage.isTextPresent("Welcome!!!!");
-    }
-    
-    @Test
-    public void testLoginFormFields() {
-        Assert.assertTrue(loginPage.isDomainNameFieldPresent());
-        Assert.assertTrue(loginPage.isLoginIdFieldPresent());
-        Assert.assertTrue(loginPage.isSubmitButtonPresent());
+        domainUsersPage.clickNewUserLink();
+        Assert.assertTrue(domainUsersPage.isNewUserFormPresent());
     }
 
     @After

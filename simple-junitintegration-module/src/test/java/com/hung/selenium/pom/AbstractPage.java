@@ -13,4 +13,16 @@ public abstract class AbstractPage {
     public boolean isTextPresent(String text) {
         return selenium.isTextPresent(text);
     }
+    
+    public boolean isAlertPresent() {
+        return selenium.isAlertPresent();
+    }
+    
+    public String getAlert() {
+        return selenium.getAlert();
+    }
+    
+    public void waitForPageToLoad(String time) {
+        selenium.waitForPageToLoad(time);
+    }
 }
