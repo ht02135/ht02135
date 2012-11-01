@@ -1,0 +1,35 @@
+<ehcache>
+    <diskStore path="java.io.tmpdir"/>
+    <defaultCache
+        maxElementsInMemory="10000"
+        eternal="false"
+        timeToIdleSeconds="120"
+        timeToLiveSeconds="120"
+        overflowToDisk="true"
+        diskPersistent="false"
+        diskExpiryThreadIntervalSeconds="120"
+        memoryStoreEvictionPolicy="LRU"
+    />
+    
+    <!-- Hibernate allows the caching of query results using two caches. "net.sf.hibernate.cache.StandardQueryCache" 
+         and "net.sf.hibernate.cache.UpdateTimestampsCache" -->
+         
+    <!-- This implementation is very good at recognizing stale query results and and re-running queries when it 
+         detects this condition, recaching the new results -->
+    <cache
+        name="org.hibernate.cache.StandardQueryCache"
+        maxElementsInMemory="1000"
+        eternal="false"
+        timeToLiveSeconds="120"
+    />
+    
+    <!-- Tracks the timestamps of the most recent updates to particular tables. It is important that the cache timeout 
+         of the underlying cache implementation be set to a higher value than the timeouts of any of the query caches. 
+         In fact, we recommend that the the underlying cache not be configured for expiry at all -->
+    <cache
+        name="org.hibernate.cache.UpdateTimestampsCache"
+        maxElementsInMemory="1000"
+        eternal="true"
+    />
+
+</ehcache>

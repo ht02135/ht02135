@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.hung.auction.domain">
+
+    <!-- Store Procedures -->
+    <!-- Trick Question, there shouldn't be any COMMIT in store procedure, function, or trigger.  transaction
+         should be managed outside -->
+    <database-object>
+        <create>
+            CREATE PROCEDURE SELECT_NAME_BY_PATTERN(retDomainName OUT DOMAIN.DOMAIN_NAME%TYPE, pattern IN DOMAIN.DOMAIN_NAME%TYPE) 
+            AS
+                CURSOR curDomainName IS
+                    SELECT DOMAIN_NAME FROM DOMAIN WHERE DOMAIN_NAME LIKE pattern;
+            BEGIN
+                OPEN curDomainName;
+                LOOP
+                    FETCH curDomainName INTO retDomainName;
+                    EXIT WHEN curDomainName%NOTFOUND;
+                END LOOP;
+            END SELECT_NAME_BY_PATTERN;
+        </create>
+        <drop>
+            DROP PROCEDURE IF EXISTS SELECT_NAME_BY_PATTERN
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQLDialect"></dialect-scope>
+    </database-object>
+    
+    <database-object>
+        <create>
+            CREATE PROCEDURE SELECT_DOMAIN_BY_PATTERN (retCurSor OUT SYS_REFCURSOR, pattern IN DOMAIN.DOMAIN_NAME%TYPE)  
+            AS
+            BEGIN  
+                OPEN retCurSor FOR
+                    SELECT * FROM DOMAIN WHERE DOMAIN_NAME LIKE pattern;
+            END SELECT_DOMAIN_BY_PATTERN;
+        </create>
+        <drop>
+            DROP PROCEDURE IF EXISTS SELECT_DOMAIN_BY_PATTERN
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQLDialect"></dialect-scope>
+    </database-object>
+    
+</hibernate-mapping>

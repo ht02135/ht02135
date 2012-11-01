@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.hung</groupId>
+        <artifactId>simple-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <groupId>com.hung</groupId>
+    <artifactId>simple-junit-module</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>simple-junit-module</name>
+    <url>http://maven.apache.org</url>
+
+    <repositories>
+        <repository>
+            <id>java.net.m2</id>
+            <name>java.net m2 repo</name>
+            <url>http://download.java.net/maven/2</url>
+        </repository>
+        <repository>
+            <id>thirdparty-uploads</id>
+            <name>JBoss Thirdparty Uploads</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/thirdparty-uploads</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>hibernate3-maven-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>hbm2ddl</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <components>
+                        <component>
+                            <name>hbm2ddl</name>
+                            <implementation>annotationconfiguration</implementation>
+                        </component>
+                    </components>
+                    <componentProperties>
+                        <drop>true</drop>
+                        <!-- <configurationfile>/src/main/resources/mySQL/hibernate.cfg.xml</configurationfile> -->
+                        <configurationfile>/src/test/resources/oracle/hibernate.cfg.xml</configurationfile>
+                    </componentProperties>
+                </configuration>
+                <dependencies>
+                    <!-- MySQL database driver <dependency> <groupId>mysql</groupId> 
+                        <artifactId>mysql-connector-java</artifactId> <version>5.1.20-bin</version> 
+                        </dependency> -->
+                    <!-- ORACLE database driver -->
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc6</artifactId>
+                        <version>11.2.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            
+            <!-- http://nonrepeatable.blogspot.com/2010/01/automated-integration-testing-with.html -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>dbunit-maven-plugin</artifactId>
+                <version>1.0-beta-3</version>
+                <configuration>
+                    <dataTypeFactoryName>org.dbunit.ext.oracle.OracleDataTypeFactory</dataTypeFactoryName>
+                    <driver>oracle.jdbc.driver.OracleDriver</driver>
+                    <username>test</username>
+                    <password>admin</password>
+                    <url>jdbc:oracle:thin:@localhost:1521/xe</url>
+                    <schema>test</schema>
+                    <format>flat</format>
+                    <src>${basedir}/src/test/resources/data.xml</src>
+                    <type>CLEAN_INSERT</type>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>operation</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.oracle</groupId>
+                        <artifactId>ojdbc6</artifactId>
+                        <version>11.2.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.hung</groupId>
+            <artifactId>simple-domain-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hung</groupId>
+            <artifactId>simple-dao-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hung</groupId>
+            <artifactId>simple-service-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hung</groupId>
+            <artifactId>simple-restfulwebapp-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>com.hung</groupId>
+            <artifactId>simple-controller-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hung</groupId>
+            <artifactId>simple-restful-module</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+  
+</project>

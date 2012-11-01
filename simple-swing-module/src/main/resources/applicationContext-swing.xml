@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+             http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+        http://www.springframework.org/schema/jee 
+             http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
+        http://www.springframework.org/schema/util 
+             http://www.springframework.org/schema/util/spring-util-2.0.xsd
+        http://www.springframework.org/schema/aop 
+             http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+        http://www.springframework.org/schema/tx 
+             http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+    default-lazy-init="true">
+    
+    <!-- ////////// Restful ////////// -->
+    
+    <!-- JAXB2 marshaller. Automagically turns beans into xml -->
+    <bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="classesToBeBound">
+            <list>
+                <value>com.hung.auction.jaxbdomain.JaxbClientSession</value>
+                <value>com.hung.auction.jaxbdomain.JaxbDomain</value>
+                <value>com.hung.auction.jaxbdomain.JaxbDomainUser</value>
+                <value>com.hung.auction.jaxbdomain.JaxbSeller</value>
+            </list>
+        </property>   
+    </bean>
+
+    <!-- Spring's built-in converter MarshallingHttpMessageConverter is used to map between an object and XML (OXM) -->
+    <bean id="marshallingHttpMessageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+        <constructor-arg ref="jaxbMarshaller" />
+        <property name="supportedMediaTypes" value="application/xml"/>
+        <property name="marshaller" ref="jaxbMarshaller"/>
+        <property name="unmarshaller" ref="jaxbMarshaller"/>
+    </bean>
+    
+    <bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+        <property name="supportedMediaTypes" value="application/json" />
+    </bean>
+
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <property name="messageConverters">
+            <list>
+                <ref bean="marshallingHttpMessageConverter" />
+                <ref bean="mappingJacksonHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+    
+    <!-- ////////// Exporter ////////// -->
+    
+    <bean id="httpDomainServiceExporter" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+      <property name="serviceUrl" value="http://127.0.0.1:8081/simple-restfulwebapp-module/auction/webservices/httpDomainServiceExporter"/>
+      <property name="serviceInterface" value="com.hung.auction.service.DomainService"/>
+    </bean>
+    
+    <bean id="httpDomainUserServiceExporter" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+      <property name="serviceUrl" value="http://127.0.0.1:8081/simple-restfulwebapp-module/auction/webservices/httpDomainUserServiceExporter"/>
+      <property name="serviceInterface" value="com.hung.auction.service.DomainUserService"/>
+    </bean>
+    
+    <bean id="httpServerReservationServiceExporter" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+      <property name="serviceUrl" value="http://127.0.0.1:8081/simple-restfulwebapp-module/auction/webservices/httpServerReservationServiceExporter"/>
+      <property name="serviceInterface" value="com.hung.auction.service.ServerReservationService"/>
+    </bean>
+    
+    <bean id="httpDomainSettingServiceExporter" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean" scope="prototype">
+      <property name="serviceUrl" value="http://127.0.0.1:8081/simple-restfulwebapp-module/auction/webservices/httpDomainSettingServiceExporter"/>
+      <property name="serviceInterface" value="com.hung.auction.service.DomainSettingService"/>
+      <property name="httpInvokerRequestExecutor"><ref bean="httpDomainSettingServiceRequestExecutor"/></property>
+    </bean>
+    
+    <bean id="httpDomainSettingServiceRequestExecutor" class="org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor"/>
+    
+    <bean id="httpClientCacheServiceExporter" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean" scope="prototype">
+      <property name="serviceUrl" value="http://127.0.0.1:8081/simple-restfulwebapp-module/auction/webservices/httpClientCacheServiceExporter"/>
+      <property name="serviceInterface" value="com.hung.auction.service.ClientCacheService"/>
+      <property name="httpInvokerRequestExecutor"><ref bean="httpClientCacheServiceRequestExecutor"/></property>
+    </bean>
+    
+    <bean id="httpClientCacheServiceRequestExecutor" class="org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor"/>
+    
+    <bean id="httpLoginServiceExporter" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean" scope="prototype">
+      <property name="serviceUrl" value="http://127.0.0.1:8081/simple-restfulwebapp-module/auction/webservices/httpLoginServiceExporter"/>
+      <property name="serviceInterface" value="com.hung.auction.service.LoginService"/>
+      <property name="httpInvokerRequestExecutor"><ref bean="httpLoginServiceRequestExecutor"/></property>
+    </bean>
+    
+    <bean id="httpLoginServiceRequestExecutor" class="org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor"/>
+    
+    <!-- ////////// JMS Send/Receive Connection ////////// --> 
+    
+    <!-- make sure to add send/send to C:\Software\ActiveMQ\apache-activemq-5.6.0\conf\credentials.properties -->
+    <bean id="sendConnectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+        <property name="brokerURL"><value>tcp://localhost:61616</value></property>
+        <property name="userName"><value>send</value></property>
+        <property name="password"><value>send</value></property>
+    </bean>
+    
+    <!-- make sure to add receive/receive to C:\Software\ActiveMQ\apache-activemq-5.6.0\conf\credentials.properties -->
+    <bean id="receiveConnectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+        <property name="brokerURL"><value>tcp://localhost:61616</value></property>
+        <property name="userName"><value>receive</value></property>
+        <property name="password"><value>receive</value></property>
+    </bean>
+    
+    <!-- ////////// Topics ////////// --> 
+    
+    <bean id="clientReservationTopic" class="org.apache.activemq.command.ActiveMQTopic">
+      <constructor-arg index="0" value="client.reservation.topic"/>
+    </bean>
+    
+    <bean id="serverReservationTopic" class="org.apache.activemq.command.ActiveMQTopic">
+      <constructor-arg index="0" value="server.reservation.topic"/>
+    </bean>
+    
+    <!-- ////////// Topics Listener and MDP ////////// --> 
+    
+     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="sendConnectionFactory" />
+        <!-- Value = javax.jms.DeliveryMode.PERSISTENT -->
+        <property name="deliveryMode" value="2" />
+        <!-- Value = javax.jms.Session.CLIENT_ACKNOWLEDGE -->
+        <property name="sessionAcknowledgeMode" value="2" />
+        <!-- Needs to be true for the deliveryMode to work -->
+        <property name="explicitQosEnabled" value="true" />
+    </bean>
+    
+    <bean id="clientReservationMDP" class="com.hung.mdp.ClientReservationMDP">
+    </bean>
+    
+    <bean id="clientReservationMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="autoStartup" value="true" />
+        
+        <!-- Specify topic style publish/subscribe -->
+        <property name="pubSubDomain" value="true" />
+        <!-- never use concurrentConsumers with topics ! -->
+        <property name="concurrentConsumers" value="1" />
+        
+        <property name="destination" ref="serverReservationTopic" />
+        <property name="destinationName" value="server.reservation.topic" />
+        
+        <property name="connectionFactory" ref="receiveConnectionFactory" />
+        <property name="sessionTransacted" value="true" />
+        <!-- Value = javax.jms.Session.CLIENT_ACKNOWLEDGE -->
+        <property name="sessionAcknowledgeMode" value="2" />
+        <property name="messageListener" ref="clientReservationMDP" />
+
+        <!-- Will guaranty that we receive messages in queue after broker goes down -->
+        <property name="subscriptionDurable" value="true" />
+        <property name="clientId" value="clientReservationMDP" />
+        <property name="durableSubscriptionName" value="clientReservationMDP" />
+                
+        <property name="cacheLevelName" value="CACHE_CONSUMER" />
+        <property name="receiveTimeout" value="60000"/>
+    </bean>
+    
+    <!-- ////////// Legacy Exporter ////////// -->
+    
+    <!-- running inside servlet container -->
+    <bean id="sellerService" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+      <property name="serviceUrl" value="http://127.0.0.1:8081/simple-restfulwebapp-module/auction/webservices/httpSellerServiceExporter"/>
+      <property name="serviceInterface" value="com.hung.auction.service.SellerService"/>
+    </bean>
+     
+</beans>

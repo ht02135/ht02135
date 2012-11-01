@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+  <session-factory>
+
+    <!-- SQL dialect -->
+    <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+    <!-- Database connection settings -->
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/weather</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">admin</property>
+    <property name="connection.shutdown">true</property>
+
+    <!-- JDBC connection pool (use the built-in one) -->
+    <property name="connection.pool_size">1</property>
+
+    <!-- Enable Hibernate's automatic session context management -->
+    <property name="current_session_context_class">thread</property>
+
+    <!-- Disable the second-level cache  -->
+    <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+
+    <!-- Echo all executed SQL to stdout -->
+    <property name="show_sql">true</property>
+
+    <!-- disable batching so HSQLDB will propagate errors correctly. -->
+    <property name="jdbc.batch_size">0</property>
+
+    <!-- List all the mapping documents we're using -->
+    <mapping class="com.hung.auction.domain.Address"/>
+    <mapping class="com.hung.auction.domain.User"/>
+    <mapping class="com.hung.auction.domain.Seller"/>
+    <mapping class="com.hung.auction.domain.Bidder"/>
+    <mapping class="com.hung.auction.domain.Bid"/>
+    <mapping class="com.hung.auction.domain.Item"/>
+    <mapping class="com.hung.auction.domain.DomainUser"/>
+    <mapping class="com.hung.auction.domain.Domain"/>
+    <mapping class="com.hung.auction.domain.StringDomainSetting"/>
+    <mapping class="com.hung.auction.domain.BooleanDomainSetting"/>
+    <mapping class="com.hung.auction.domain.IntegerDomainSetting"/>
+    <mapping class="com.hung.auction.domain.ClientCache"/>
+    <mapping class="com.hung.auction.domain.ClientCacheId"/>
+    <mapping class="com.hung.auction.domain.AbstractDocument"/>
+    <mapping class="com.hung.auction.domain.BinaryDocument"/>
+    <mapping class="com.hung.auction.domain.StringDocument"/>
+    <mapping class="com.hung.auction.domain.Term"/>
+    <mapping class="com.hung.auction.domain.TermDocumentIndex"/>
+    <mapping class="com.hung.auction.domain.AbstractIndexRequest"/>
+    <mapping class="com.hung.auction.domain.TermIndexRequest"/>
+    <mapping class="com.hung.auction.domain.DocumentIndexRequest"/>
+
+    <mapping resource="mySQL/com/hung/auction/domain/Domain.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

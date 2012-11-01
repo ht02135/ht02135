@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping package="com.hung.auction.domain">
+
+    <!-- Store Procedures -->
+    <!-- Trick Question, there shouldn't be any COMMIT in store procedure, function, or trigger.  transaction
+         should be managed outside -->
+    <database-object>
+        <create>
+            CREATE PROCEDURE `SELECT_NAME_BY_PATTERN` (IN pattern VARCHAR(255))  
+            BEGIN  
+                SELECT DOMAIN_NAME FROM DOMAIN
+                WHERE DOMAIN_NAME LIKE pattern;
+            END
+        </create>
+        <drop>
+            DROP PROCEDURE IF EXISTS SELECT_NAME_BY_PATTERN
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQLDialect"></dialect-scope>
+    </database-object>
+    <database-object>
+        <create>
+            CREATE PROCEDURE `SELECT_DOMAIN_BY_PATTERN` (IN pattern VARCHAR(255))  
+            BEGIN  
+                SELECT * FROM DOMAIN
+                WHERE DOMAIN_NAME LIKE pattern;
+            END
+        </create>
+        <drop>
+            DROP PROCEDURE IF EXISTS SELECT_DOMAIN_BY_PATTERN
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQLDialect"></dialect-scope>
+    </database-object>
+    
+    <!-- Triggers -->
+    <!-- The actions that can cause a trigger to run are INSERT, UPDATE and DELETE. -->
+    <!-- Trick Question, there shouldn't be any COMMIT in store procedure, function, or trigger.  transaction
+         should be managed outside -->
+    <database-object>
+        <create>
+            CREATE TRIGGER `BEFORE_INSERT_DESCRIPTION_TRIGGER`
+            BEFORE INSERT ON DOMAIN
+            FOR EACH ROW BEGIN
+                IF (NEW.DOMAIN_DESCRIPTION IS NULL) THEN 
+                    SET NEW.DOMAIN_DESCRIPTION = 'default-description';
+                END IF;
+            END;
+        </create>
+        <drop>
+            DROP TRIGGER IF EXISTS BEFORE_INSERT_DESCRIPTION_TRIGGER;
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQLDialect"></dialect-scope>
+    </database-object>
+    
+</hibernate-mapping>
