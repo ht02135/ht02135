@@ -7,8 +7,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.hung.selenium.css.MyDefaultSelenium;
-import com.hung.selenium.css.MySelenium;
+import com.hung.selenium.utils.MyDefaultSelenium;
+import com.hung.selenium.utils.MySelenium;
 
 public class AddDeleteDocumentCSSIntegrationTest {
     

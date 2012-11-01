@@ -1,4 +1,4 @@
-package com.hung.selenium.css;
+package com.hung.selenium.utils;
 
 import com.thoughtworks.selenium.Selenium;
 
