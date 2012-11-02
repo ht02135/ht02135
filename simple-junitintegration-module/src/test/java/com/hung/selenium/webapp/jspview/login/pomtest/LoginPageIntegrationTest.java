@@ -19,6 +19,7 @@ public class LoginPageIntegrationTest {
     private MySelenium selenium;
     private LoginPage loginPage;
     
+    // here i want clean selenium for each @Test scenario
     @Before
     public void setUp() throws IOException{
         selenium = new MyDefaultSelenium("localhost", 4444, "*chrome", "http://localhost:8081/simple-restfulwebapp-module/auction/");

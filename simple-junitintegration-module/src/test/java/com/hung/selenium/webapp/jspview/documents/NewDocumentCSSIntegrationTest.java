@@ -13,6 +13,7 @@ public class NewDocumentCSSIntegrationTest extends MySeleniumIntegrationTestFixt
     
     private static Logger log = Logger.getLogger(NewDocumentCSSIntegrationTest.class);
     
+    // here i want single selenium for this entire class
     @BeforeClass
     public static void setUpOnce() throws Exception { 
         gotoNewDocumentCSS();

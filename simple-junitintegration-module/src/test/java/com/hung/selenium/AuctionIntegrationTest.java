@@ -16,6 +16,7 @@ public class AuctionIntegrationTest {
     
     private Selenium selenium;
     
+    // here i want clean selenium for each @Test scenario
 	@Before
 	public void setUp() throws Exception {
 		selenium = new DefaultSelenium("localhost", 4444, "*chrome", "http://127.0.0.1:8081/simple-restfulwebapp-module/auction/");

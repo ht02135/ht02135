@@ -15,6 +15,7 @@ public class NewDomainUserCSSIntegrationTest extends MySeleniumIntegrationTestFi
     
     private static Logger log = Logger.getLogger(NewDomainUserCSSIntegrationTest.class);
     
+    // here i want single selenium for this entire class
     @BeforeClass
     public static void setUpOnce() throws Exception { 
         gotoNewDomainUserCSS();
