@@ -1,9 +1,9 @@
-package com.hung.utils.domainUsers;
+package com.hung.utils.parameters.domainUsers;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import com.hung.utils.Parameters;
+import com.hung.utils.parameters.Parameters;
 
 public class DomainUserSimpleParameters implements Parameters {
 

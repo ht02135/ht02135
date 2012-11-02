@@ -1,4 +1,4 @@
-package com.hung.utils.domains;
+package com.hung.utils.parameters.domains;
 
 import java.util.Collection;
 

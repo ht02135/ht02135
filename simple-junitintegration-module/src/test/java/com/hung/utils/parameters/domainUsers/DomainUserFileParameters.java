@@ -1,10 +1,10 @@
-package com.hung.utils.domainUsers;
+package com.hung.utils.parameters.domainUsers;
 
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
 
-import com.hung.utils.FileParameters;
+import com.hung.utils.parameters.FileParameters;
 
 public class DomainUserFileParameters extends FileParameters {
     

@@ -1,4 +1,4 @@
-package com.hung.experiment.domainUsers;
+package com.hung.experiment.params.domainUsers;
 
 import java.util.Collection;
 
@@ -9,18 +9,18 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.hung.utils.domainUsers.DomainUserFileParameters;
+import com.hung.utils.parameters.domainUsers.DomainUserSimpleParameters;
 
 @RunWith(Parameterized.class)
-public class DomainUserFileParamIntegrationTest {
+public class DomainUserSimpleParamIntegrationTest {
     
-    private static Logger log = Logger.getLogger(DomainUserFileParamIntegrationTest.class);
+    private static Logger log = Logger.getLogger(DomainUserSimpleParamIntegrationTest.class);
     
     private String loginId;
     private String name;
     private String domainName;
     
-    public DomainUserFileParamIntegrationTest(String loginId, String name, String domainName) {
+    public DomainUserSimpleParamIntegrationTest(String loginId, String name, String domainName) {
         this.loginId = loginId;
         this.name = name;
         this.domainName = domainName;
@@ -29,7 +29,7 @@ public class DomainUserFileParamIntegrationTest {
     @Parameters
     public static Collection data() {
         // JaxbDomainUser(String loginId, String name, String userDomainName)
-        return new DomainUserFileParameters().data();
+        return new DomainUserSimpleParameters().data();
     }
     
     @Before
