@@ -13,6 +13,7 @@ public class AddDeleteDocumentCSSIntegrationTest extends MySeleniumIntegrationTe
     
     private static Logger log = Logger.getLogger(AddDeleteDocumentCSSIntegrationTest.class);
     
+    // here i want single selenium for this entire class
     @Before
     public void setUp() throws Exception { 
         gotoDocumentFormCSS();
