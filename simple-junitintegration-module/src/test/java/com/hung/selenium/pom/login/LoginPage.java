@@ -3,7 +3,7 @@ package com.hung.selenium.pom.login;
 import org.apache.log4j.Logger;
 
 import com.hung.selenium.pom.HomePage;
-import com.hung.selenium.utils.MySelenium;
+import com.hung.utils.selenium.MySelenium;
 
 public class LoginPage extends HomePage {
     

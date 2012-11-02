@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 
 import com.hung.selenium.pom.domainUsers.DomainUsersPage;
 import com.hung.selenium.pom.login.LoginPage;
-import com.hung.selenium.utils.MySelenium;
+import com.hung.utils.selenium.MySelenium;
 
 public class DocumentsPage extends LoginPage {
 

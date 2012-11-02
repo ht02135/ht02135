@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.hung.selenium.pom.documents.DocumentsPage;
-import com.hung.selenium.utils.MyDefaultSelenium;
-import com.hung.selenium.utils.MySelenium;
+import com.hung.utils.selenium.MyDefaultSelenium;
+import com.hung.utils.selenium.MySelenium;
 
 public class DocumentsPageIntegrationTest {
     

@@ -1,4 +1,4 @@
-package com.hung.selenium.utils.testwatcher;
+package com.hung.utils.testwatcher;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
 import com.hung.common.SettingConstants;
-import com.hung.selenium.utils.MySelenium;
+import com.hung.utils.selenium.MySelenium;
 
 public class CaptureFailedTestWatcher extends TestWatcher {
     

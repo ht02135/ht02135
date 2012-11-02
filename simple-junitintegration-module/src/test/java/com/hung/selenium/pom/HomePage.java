@@ -2,7 +2,7 @@ package com.hung.selenium.pom;
 
 import org.apache.log4j.Logger;
 
-import com.hung.selenium.utils.MySelenium;
+import com.hung.utils.selenium.MySelenium;
 
 public class HomePage extends AbstractPage {
     
