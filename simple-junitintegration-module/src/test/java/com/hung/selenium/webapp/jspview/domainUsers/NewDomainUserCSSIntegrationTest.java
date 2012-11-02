@@ -9,19 +9,11 @@ import org.junit.Test;
 
 import com.hung.selenium.utils.MyDefaultSelenium;
 import com.hung.selenium.utils.MySelenium;
+import com.hung.selenium.utils.MySeleniumIntegrationTestFixture;
 
-public class NewDomainUserCSSIntegrationTest {
+public class NewDomainUserCSSIntegrationTest extends MySeleniumIntegrationTestFixture {
     
     private static Logger log = Logger.getLogger(NewDomainUserCSSIntegrationTest.class);
-    
-    private static MySelenium selenium;
-    
-    /*
-        Strategy with this test
-        1>we only gonna fully test edit domain user pages
-        2>so just need static @BeforeClass setUpOnce and go to edit domain user page
-        3>each test will just test against domain users UI
-     */
     
     @BeforeClass
     public static void setUpOnce() throws Exception { 
@@ -29,7 +21,6 @@ public class NewDomainUserCSSIntegrationTest {
     }
     
     private static void gotoNewDomainUserCSS() throws Exception {
-        selenium = new MyDefaultSelenium("localhost", 4444, "*chrome", "http://127.0.0.1:8081/simple-restfulwebapp-module/auction/");
         selenium.start();
         
         // open

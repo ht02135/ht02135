@@ -7,14 +7,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.hung.selenium.utils.MyDefaultSelenium;
-import com.hung.selenium.utils.MySelenium;
+import com.hung.selenium.utils.MySeleniumIntegrationTestFixture;
 
-public class AddDeleteDocumentCSSIntegrationTest {
+public class AddDeleteDocumentCSSIntegrationTest extends MySeleniumIntegrationTestFixture {
     
     private static Logger log = Logger.getLogger(AddDeleteDocumentCSSIntegrationTest.class);
-    
-    private static MySelenium selenium;
     
     @Before
     public void setUp() throws Exception { 
@@ -22,7 +19,6 @@ public class AddDeleteDocumentCSSIntegrationTest {
     }
     
     private void gotoDocumentFormCSS() throws Exception {
-        selenium = new MyDefaultSelenium("localhost", 4444, "*chrome", "http://127.0.0.1:8081/simple-restfulwebapp-module/auction/");
         selenium.start();
         
         // open

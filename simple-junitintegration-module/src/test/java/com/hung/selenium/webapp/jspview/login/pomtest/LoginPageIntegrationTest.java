@@ -33,7 +33,7 @@ public class LoginPageIntegrationTest {
         loginPage.typeLoginId("admin");
         loginPage.clickSubmit();
         
-        loginPage.isTextPresent("Welcome!!!!");
+        Assert.assertTrue(loginPage.isTextPresent("Welcome!!!!"));
     }
     
     @Test

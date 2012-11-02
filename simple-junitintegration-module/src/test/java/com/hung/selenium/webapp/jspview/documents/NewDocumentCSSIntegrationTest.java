@@ -7,14 +7,11 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.hung.selenium.utils.MyDefaultSelenium;
-import com.hung.selenium.utils.MySelenium;
+import com.hung.selenium.utils.MySeleniumIntegrationTestFixture;
 
-public class NewDocumentCSSIntegrationTest {
+public class NewDocumentCSSIntegrationTest extends MySeleniumIntegrationTestFixture {
     
     private static Logger log = Logger.getLogger(NewDocumentCSSIntegrationTest.class);
-    
-    private static MySelenium selenium;
     
     @BeforeClass
     public static void setUpOnce() throws Exception { 
@@ -22,7 +19,6 @@ public class NewDocumentCSSIntegrationTest {
     }
     
     private static void gotoNewDocumentCSS() throws Exception {
-        selenium = new MyDefaultSelenium("localhost", 4444, "*chrome", "http://127.0.0.1:8081/simple-restfulwebapp-module/auction/");
         selenium.start();
         
         // open

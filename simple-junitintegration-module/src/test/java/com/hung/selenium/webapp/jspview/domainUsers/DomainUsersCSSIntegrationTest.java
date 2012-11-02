@@ -7,21 +7,11 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.hung.selenium.utils.MyDefaultSelenium;
-import com.hung.selenium.utils.MySelenium;
+import com.hung.selenium.utils.MySeleniumIntegrationTestFixture;
 
-public class DomainUsersCSSIntegrationTest {
+public class DomainUsersCSSIntegrationTest extends MySeleniumIntegrationTestFixture {
     
     private static Logger log = Logger.getLogger(DomainUsersCSSIntegrationTest.class);
-    
-    private static MySelenium selenium;
-    
-    /*
-        Strategy with this test
-        1>we only gonna fully test domain users pages
-        2>so just need static @BeforeClass setUpOnce and go to domain users page
-        3>each test will just test against domain users UI
-     */
     
     @BeforeClass
     public static void setUpOnce() throws Exception { 
@@ -29,7 +19,6 @@ public class DomainUsersCSSIntegrationTest {
     }
     
     private static void gotoDomainUsersCSS() throws Exception {
-        selenium = new MyDefaultSelenium("localhost", 4444, "*chrome", "http://127.0.0.1:8081/simple-restfulwebapp-module/auction/");
         selenium.start();
         
         // open
