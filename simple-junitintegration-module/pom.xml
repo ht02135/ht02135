@@ -129,7 +129,7 @@
                 <artifactId>chronos-jmeter-maven-plugin</artifactId>
                 <version>1.1.0</version>
                 <configuration>
-                    <input>${basedir}/src/test/jmx</input>
+                    <input>${basedir}/src/test/jmeter/jmx</input>
                     <historydir>${history.directory}</historydir>
                 </configuration>
                 <executions>

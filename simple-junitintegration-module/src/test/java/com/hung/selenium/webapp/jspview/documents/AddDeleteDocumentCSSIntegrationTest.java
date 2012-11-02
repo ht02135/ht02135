@@ -51,7 +51,7 @@ public class AddDeleteDocumentCSSIntegrationTest {
     public void testAddDocument() {
         // <a href="/simple-restfulwebapp-module/auction/documents/1?remove" name="data.xml">Delete</a>
         String nameField = "data.xml";
-        String fileField = "file://C:/Software/Data/data.xml";
+        String fileField = "file://C:/Software/Selenium/IntegrationTest/Data/data.xml";
         
         if (!selenium.isElementPresent("css=form#document a[href$='remove'][name='"+nameField+"']")) {
             selenium.type("css=form#document input#name", nameField);

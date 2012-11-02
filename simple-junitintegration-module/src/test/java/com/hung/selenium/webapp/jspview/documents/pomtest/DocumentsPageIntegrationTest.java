@@ -52,7 +52,7 @@ public class DocumentsPageIntegrationTest {
     @Test
     public void testAddDocument() {
         String nameField = "data.xml";
-        String fileField = "file://C:/Software/Data/data.xml";
+        String fileField = "file://C:/Software/Selenium/IntegrationTest/Data/data.xml";
         
         if (!documentsPage.isDocumentAlreadyAdded(nameField)) {
             documentsPage.typeName(nameField);
