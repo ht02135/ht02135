@@ -15,20 +15,20 @@ import org.junit.runner.Description;
 import com.hung.common.SettingConstants;
 import com.hung.utils.selenium.MySelenium;
 
-public class CaptureFailedTestWatcher extends TestWatcher {
+public class DefaultSeleniumCaptureFailedTestWatcher extends TestWatcher {
     
-    private static Logger log = Logger.getLogger(CaptureFailedTestWatcher.class);
+    private static Logger log = Logger.getLogger(DefaultSeleniumCaptureFailedTestWatcher.class);
     
-    private MySelenium selenium;
-    private String browser;
-    private String screenShotFolder;
+    protected MySelenium selenium;
+    protected String browser;
+    protected String screenShotFolder;
     
-    public CaptureFailedTestWatcher() {
+    public DefaultSeleniumCaptureFailedTestWatcher() {
         super();
         this.screenShotFolder = createNowfolder();
     }
     
-    public CaptureFailedTestWatcher(MySelenium selenium, String browser) {
+    public DefaultSeleniumCaptureFailedTestWatcher(MySelenium selenium, String browser) {
         super();
         this.selenium = selenium;
         this.browser = browser;
@@ -54,7 +54,7 @@ public class CaptureFailedTestWatcher extends TestWatcher {
     
     // ################### private ###################
     
-    private void captureScreenShot(String fileNameAppend) {
+    protected void captureScreenShot(String fileNameAppend) {
         log.info("########## captureScreenShot : start ##########");
         log.info("fileNameAppend="+fileNameAppend);
         
@@ -64,8 +64,6 @@ public class CaptureFailedTestWatcher extends TestWatcher {
             Thread.sleep(2000); // give the browser a chance to maximise properly
             
             String filename = screenShotFolder + File.separator + browser + "_" + fileNameAppend + "_screenshot.png";
-            log.info("captureScreenShot : filename="+filename);
-            
             selenium.captureScreenshot(filename);
             selenium.captureEntirePageScreenshot(filename.replace(".png","full.png"), "");   
         } catch (Exception e) {
