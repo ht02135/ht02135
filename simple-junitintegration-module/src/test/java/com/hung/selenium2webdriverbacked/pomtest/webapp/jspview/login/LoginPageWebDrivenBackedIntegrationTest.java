@@ -1,4 +1,4 @@
-package com.hung.selenium2webdriverbacked.webapp.jspview.login.pomtest;
+package com.hung.selenium2webdriverbacked.pomtest.webapp.jspview.login;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.hung.fixture.MyWebDriverBackedSeleniumIntegrationTestFixture;
+import com.hung.fixture.selenium2webdriverbacked.MyWebDriverBackedSeleniumIntegrationTestFixture;
 import com.hung.selenium.pom.login.LoginPage;
 import com.hung.utils.parameters.domainUsers.DomainUserFileParameters;
 

@@ -1,4 +1,4 @@
-package com.hung.fixture;
+package com.hung.fixture.selenium;
 
 import org.junit.Rule;
 

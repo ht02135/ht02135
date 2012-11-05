@@ -1,4 +1,4 @@
-package com.hung.fixture;
+package com.hung.fixture.selenium2webdriverbacked;
 
 import org.junit.Rule;
 import org.openqa.selenium.WebDriver;

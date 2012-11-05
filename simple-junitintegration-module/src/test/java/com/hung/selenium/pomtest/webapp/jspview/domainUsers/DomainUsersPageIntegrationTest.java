@@ -1,4 +1,4 @@
-package com.hung.selenium.webapp.jspview.domainUsers.pomtest;
+package com.hung.selenium.pomtest.webapp.jspview.domainUsers;
 
 import java.io.IOException;
 

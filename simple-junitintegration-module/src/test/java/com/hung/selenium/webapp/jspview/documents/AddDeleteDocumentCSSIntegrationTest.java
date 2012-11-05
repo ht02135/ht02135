@@ -7,7 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.hung.fixture.MySeleniumIntegrationTestFixture;
+import com.hung.fixture.selenium.MySeleniumIntegrationTestFixture;
 
 public class AddDeleteDocumentCSSIntegrationTest extends MySeleniumIntegrationTestFixture {
     
