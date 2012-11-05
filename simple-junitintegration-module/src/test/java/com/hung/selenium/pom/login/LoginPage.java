@@ -16,8 +16,12 @@ public class LoginPage extends HomePage {
     public void open() {
         super.open();
         
+        /*
+        both works, but i like the partial match
         String jsessionid = selenium.getCookieByName("JSESSIONID");
         selenium.click("css=a[href='/simple-restfulwebapp-module/auction/login;jsessionid="+jsessionid+"']");
+        */
+        selenium.click("css=a[href^='/simple-restfulwebapp-module/auction/login']");
         selenium.waitForPageToLoad("30000");
     }
     

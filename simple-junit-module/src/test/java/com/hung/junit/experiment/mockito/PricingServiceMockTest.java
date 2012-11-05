@@ -3,9 +3,8 @@ package com.hung.junit.experiment.mockito;
 import java.io.Serializable;
 import java.util.Hashtable;
 
-import junit.framework.Assert;
-
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

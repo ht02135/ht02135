@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testng.Assert;
 
 import com.hung.fixture.MySeleniumIntegrationTestFixture;
 import com.hung.selenium.pom.login.LoginPage;

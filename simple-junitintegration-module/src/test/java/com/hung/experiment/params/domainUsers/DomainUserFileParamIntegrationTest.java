@@ -29,7 +29,7 @@ public class DomainUserFileParamIntegrationTest {
     @Parameters
     public static Collection data() {
         // JaxbDomainUser(String loginId, String name, String userDomainName)
-        return new DomainUserFileParameters().data();
+        return new DomainUserFileParameters("src/test/resources/data/domainUsers.properties").data();
     }
     
     @Before

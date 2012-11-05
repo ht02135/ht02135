@@ -1,11 +1,10 @@
 package com.hung.junit.experiment.easymock;
 
-import junit.framework.Assert;
-
 import org.apache.log4j.Logger;
 import org.easymock.EasyMock;
 import org.easymock.IAnswer;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.testng.Assert;
 
 import com.hung.selenium.pom.domainUsers.DomainUsersPage;
 import com.hung.utils.selenium.MyDefaultSelenium;
