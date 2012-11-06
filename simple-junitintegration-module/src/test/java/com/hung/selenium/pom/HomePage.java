@@ -8,11 +8,13 @@ public class HomePage extends AbstractPage {
     
     private static Logger log = Logger.getLogger(HomePage.class);
     
+    public static final String HOME_LOCATOR = "/simple-restfulwebapp-module/auction/";
+    
     public HomePage(MySelenium selenium) {
         super(selenium);
     }
     
     public void open() {
-        selenium.open("/simple-restfulwebapp-module/auction/");
+        selenium.open(HOME_LOCATOR);
     }
 }

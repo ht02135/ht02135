@@ -30,13 +30,13 @@ public class DomainUsersPageIntegrationTest {
     
     @Test
     public void testAdmin() {
-        Assert.assertTrue(domainUsersPage.isViewAdminURLPresent());
-        Assert.assertTrue(domainUsersPage.isEditAdminURLPresent());
+        Assert.assertTrue(domainUsersPage.isAdminViewLinkPresent());
+        Assert.assertTrue(domainUsersPage.isAdminEditLinkPresent());
     }
     
     @Test
     public void testNewUserURL() {
-        Assert.assertTrue(domainUsersPage.isNewUserURLPresent());
+        Assert.assertTrue(domainUsersPage.isNewUserLinkPresent());
         
         domainUsersPage.clickNewUserLink();
         Assert.assertTrue(domainUsersPage.isNewUserFormPresent());

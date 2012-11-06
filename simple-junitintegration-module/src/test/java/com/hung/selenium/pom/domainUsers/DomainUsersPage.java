@@ -9,6 +9,17 @@ public class DomainUsersPage extends LoginPage {
 
     private static Logger log = Logger.getLogger(DomainUsersPage.class);
     
+    public static final String DOMAIN_USERS_LINK_LOCATOR = "css=a[href='/simple-restfulwebapp-module/auction/domainUsers']";
+    
+    // links
+    public static final String DOMAIN_USERS_VIEW_LINK_LOCATOR = "css=table a[href='/simple-restfulwebapp-module/auction/domainUsers/%s']";
+    public static final String DOMAIN_USERS_EDIT_LINK_LOCATOR = "css=table a[href='/simple-restfulwebapp-module/auction/domainUsers/%s?edit']";
+    public static final String DOMAIN_USERS_NEW_LINK_LOCATOR = "css=table a[href='/simple-restfulwebapp-module/auction/domainUsers?new']";
+    
+    // form
+    // later add form fields
+    public static final String DOMAIN_USER_FORM_LOCATOR = "css=form#jaxbDomainUser";
+    
     public DomainUsersPage(MySelenium selenium) {
         super(selenium);
     }
@@ -22,28 +33,30 @@ public class DomainUsersPage extends LoginPage {
         clickSubmit();
         
         // click domainUsers link
-        selenium.click("css=a[href='/simple-restfulwebapp-module/auction/domainUsers']");
+        selenium.click(DOMAIN_USERS_LINK_LOCATOR);
         selenium.waitForPageToLoad("30000");
     }
     
-    public boolean isViewAdminURLPresent() {
-        return selenium.isElementPresent("css=table a[href='/simple-restfulwebapp-module/auction/domainUsers/admin']");
+    // links
+    public boolean isAdminViewLinkPresent() {
+        return selenium.isElementPresent(String.format(DOMAIN_USERS_VIEW_LINK_LOCATOR, "admin"));
     }
     
-    public boolean isEditAdminURLPresent() {
-        return selenium.isElementPresent("css=table a[href='/simple-restfulwebapp-module/auction/domainUsers/admin?edit']");
+    public boolean isAdminEditLinkPresent() {
+        return selenium.isElementPresent(String.format(DOMAIN_USERS_EDIT_LINK_LOCATOR, "admin"));
     }
     
-    public boolean isNewUserURLPresent() {
-        return selenium.isElementPresent("css=table a[href='/simple-restfulwebapp-module/auction/domainUsers?new']");
-    }
-    
-    public boolean isNewUserFormPresent() {
-        return selenium.isElementPresent("css=form#jaxbDomainUser");
+    public boolean isNewUserLinkPresent() {
+        return selenium.isElementPresent(DOMAIN_USERS_NEW_LINK_LOCATOR);
     }
     
     public void clickNewUserLink() {
-        selenium.click("css=table a[href='/simple-restfulwebapp-module/auction/domainUsers?new']");
+        selenium.click(DOMAIN_USERS_NEW_LINK_LOCATOR);
         selenium.waitForPageToLoad("30000");
+    }
+    
+    // form
+    public boolean isNewUserFormPresent() {
+        return selenium.isElementPresent(DOMAIN_USER_FORM_LOCATOR);
     }
 }

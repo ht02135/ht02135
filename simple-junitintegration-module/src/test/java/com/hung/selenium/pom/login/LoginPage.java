@@ -9,6 +9,12 @@ public class LoginPage extends HomePage {
     
     private static Logger log = Logger.getLogger(LoginPage.class);
     
+    public static final String LOGIN_LINK_LOCATOR = "css=a[href^='/simple-restfulwebapp-module/auction/login']";
+    
+    public static final String LOGIN_FORM_DOMAIN_NAME_LOCATOR = "css=form#jaxbClientSession input#domainName";
+    public static final String LOGIN_FORM_LOGIN_ID_LOCATOR = "css=form#jaxbClientSession input#loginId";
+    public static final String LOGIN_FORM_SUBMIT_LOCATOR = "css=form#jaxbClientSession input[name='login'][type='submit']";
+    
     public LoginPage(MySelenium selenium) {
         super(selenium);
     }
@@ -21,36 +27,36 @@ public class LoginPage extends HomePage {
         String jsessionid = selenium.getCookieByName("JSESSIONID");
         selenium.click("css=a[href='/simple-restfulwebapp-module/auction/login;jsessionid="+jsessionid+"']");
         */
-        selenium.click("css=a[href^='/simple-restfulwebapp-module/auction/login']");
+        selenium.click(LOGIN_LINK_LOCATOR);
         selenium.waitForPageToLoad("30000");
     }
     
     // #################### Is Login form fields present ####################
     
     public boolean isDomainNameFieldPresent() {
-        return selenium.isElementPresent("css=form#jaxbClientSession input#loginId");
+        return selenium.isElementPresent(LOGIN_FORM_DOMAIN_NAME_LOCATOR);
     }
     
     public boolean isLoginIdFieldPresent() {
-        return selenium.isElementPresent("css=form#jaxbClientSession input#loginId");
+        return selenium.isElementPresent(LOGIN_FORM_LOGIN_ID_LOCATOR);
     }
     
     public boolean isSubmitButtonPresent() {
-        return selenium.isElementPresent("css=form#jaxbClientSession input[name='login'][type='submit']");
+        return selenium.isElementPresent(LOGIN_FORM_SUBMIT_LOCATOR);
     }
     
     // #################### Login ####################
     
     public void typeDomainName(String domainName) {
-        selenium.type("css=form#jaxbClientSession input#domainName", domainName);
+        selenium.type(LOGIN_FORM_DOMAIN_NAME_LOCATOR, domainName);
     }
     
     public void typeLoginId(String loginId) {
-        selenium.type("css=form#jaxbClientSession input#loginId", loginId);
+        selenium.type(LOGIN_FORM_LOGIN_ID_LOCATOR, loginId);
     }
     
     public void clickSubmit() {
-        selenium.click("css=form#jaxbClientSession input[name='login'][type='submit']");
+        selenium.click(LOGIN_FORM_SUBMIT_LOCATOR);
         selenium.waitForPageToLoad("30000");
     }
 }

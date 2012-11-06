@@ -10,6 +10,17 @@ public class DocumentsPage extends LoginPage {
 
     private static Logger log = Logger.getLogger(DomainUsersPage.class);
     
+    public static final String DOCUMENTS_LINK_LOCATOR = "css=a[href='/simple-restfulwebapp-module/auction/documents']";
+    
+    // link
+    public static final String DOCUMENTS_REMOVE_LINK_LOCATOR = "css=form#document a[href$='remove'][name='%s']";
+    
+    // form
+    public static final String DOCUMENT_FORM_LOCATOR = "css=form#document";
+    public static final String DOCUMENT_FORM_NAME_LOCATOR = "css=form#document input#name";
+    public static final String DOCUMENT_FORM_FILE_LOCATOR = "css=form#document input#file";
+    public static final String DOCUMENT_FORM_SUBMIT_LOCATOR = "css=form#document :submit[type='submit']";
+    
     public DocumentsPage(MySelenium selenium) {
         super(selenium);
     }
@@ -23,36 +34,42 @@ public class DocumentsPage extends LoginPage {
         clickSubmit();
         
         // click domainUsers link
-        selenium.click("css=a[href='/simple-restfulwebapp-module/auction/documents']");
+        selenium.click(DOCUMENTS_LINK_LOCATOR);
         selenium.waitForPageToLoad("30000");
     }
     
+    // form
+    public boolean isDocumentFormPresent() {
+        return selenium.isElementPresent(DOCUMENT_FORM_LOCATOR);
+    }
+    
     public boolean isDocumentNameFieldPresent() {
-        return selenium.isElementPresent("css=form#document input#name");
+        return selenium.isElementPresent(DOCUMENT_FORM_NAME_LOCATOR);
     }
     
     public boolean isDocumentFileFieldPresent() {
-        return selenium.isElementPresent("css=form#document input#file");
+        return selenium.isElementPresent(DOCUMENT_FORM_FILE_LOCATOR);
     }
     
     public boolean isSubmitButtonPresent() {
-        return selenium.isElementPresent("css=form#document :submit[type='submit']");
+        return selenium.isElementPresent(DOCUMENT_FORM_SUBMIT_LOCATOR);
     }
     
+    // action
     public boolean isDocumentAlreadyAdded(String name) {
-        return selenium.isElementPresent("css=form#document a[href$='remove'][name='"+name+"']");
+        return selenium.isElementPresent(String.format(DOCUMENTS_REMOVE_LINK_LOCATOR, name));
     }
     
     public void typeName(String name) {
-        selenium.type("css=form#document input#name", name);
+        selenium.type(DOCUMENT_FORM_NAME_LOCATOR, name);
     }
     
     public void typeFile(String file) {
-        selenium.type("css=form#document input#file", file);
+        selenium.type(DOCUMENT_FORM_FILE_LOCATOR, file);
     }
     
     public void clickSubmitFireEvent() {
-        selenium.fireEvent("css=form#document :submit[type='submit']", "submit");
-        selenium.click("css=form#document :submit[type='submit']"); 
+        selenium.fireEvent(DOCUMENT_FORM_SUBMIT_LOCATOR, "submit");
+        selenium.click(DOCUMENT_FORM_SUBMIT_LOCATOR); 
     }
 }
