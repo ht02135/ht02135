@@ -1,9 +1,7 @@
-package com.hung.fixture.selenium;
+package com.hung.utils.selenium;
 
 import org.junit.Rule;
 
-import com.hung.utils.selenium.MyDefaultSelenium;
-import com.hung.utils.selenium.MySelenium;
 import com.hung.utils.testwatcher.DefaultSeleniumCaptureFailedTestWatcher;
 
 public class MySeleniumIntegrationTestFixture {

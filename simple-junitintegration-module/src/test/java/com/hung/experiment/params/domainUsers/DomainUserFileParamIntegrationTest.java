@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.hung.utils.parameters.domainUsers.DomainUserFileParameters;
+import com.hung.utils.parameters.domainUsers.DomainUserParameters;
 
 @RunWith(Parameterized.class)
 public class DomainUserFileParamIntegrationTest {
@@ -28,8 +28,7 @@ public class DomainUserFileParamIntegrationTest {
     
     @Parameters
     public static Collection data() {
-        // JaxbDomainUser(String loginId, String name, String userDomainName)
-        return new DomainUserFileParameters("src/test/resources/data/domainUsers.properties").data();
+        return DomainUserParameters.NEW_DOMAIN_USERS_FILE_DATA;
     }
     
     @Before

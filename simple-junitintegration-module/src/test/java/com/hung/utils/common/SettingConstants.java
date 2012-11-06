@@ -1,4 +1,4 @@
-package com.hung.common;
+package com.hung.utils.common;
 
 public class SettingConstants {
     

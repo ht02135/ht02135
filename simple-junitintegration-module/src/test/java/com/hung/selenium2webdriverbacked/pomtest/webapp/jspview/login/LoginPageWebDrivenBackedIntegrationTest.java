@@ -12,9 +12,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.hung.fixture.selenium2webdriverbacked.MyWebDriverBackedSeleniumIntegrationTestFixture;
 import com.hung.selenium.pom.login.LoginPage;
-import com.hung.utils.parameters.domainUsers.DomainUserFileParameters;
+import com.hung.utils.parameters.domainUsers.DomainUserParameters;
+import com.hung.utils.selenium2webdriverbacked.MyWebDriverBackedSeleniumIntegrationTestFixture;
 
 @RunWith(Parameterized.class)
 public class LoginPageWebDrivenBackedIntegrationTest extends MyWebDriverBackedSeleniumIntegrationTestFixture {
@@ -33,8 +33,7 @@ public class LoginPageWebDrivenBackedIntegrationTest extends MyWebDriverBackedSe
     
     @Parameters
     public static Collection data() {
-        // JaxbDomainUser(String loginId, String name, String userDomainName)
-        return new DomainUserFileParameters("src/test/resources/data/webdriverbacked/domainUserLoginIds.properties").data();
+        return DomainUserParameters.DOMAIN_USER_LOGINIDS_FILE_DATA;
     }
     
     // here i want clean selenium for each @Test scenario

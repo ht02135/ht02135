@@ -8,8 +8,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.hung.fixture.selenium.MySeleniumIntegrationTestFixture;
 import com.hung.selenium.pom.login.LoginPage;
+import com.hung.utils.selenium.MySeleniumIntegrationTestFixture;
 
 public class CaptureFailedWatcherIntegrationTest extends MySeleniumIntegrationTestFixture {
     

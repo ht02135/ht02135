@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.hung.utils.parameters.domainUsers.DomainUserSimpleParameters;
+import com.hung.utils.parameters.domainUsers.DomainUserParameters;
 
 @RunWith(Parameterized.class)
 public class DomainUserSimpleParamIntegrationTest {
@@ -28,8 +28,7 @@ public class DomainUserSimpleParamIntegrationTest {
     
     @Parameters
     public static Collection data() {
-        // JaxbDomainUser(String loginId, String name, String userDomainName)
-        return new DomainUserSimpleParameters().data();
+        return DomainUserParameters.NEW_DOMAIN_USERS_SIMPLE_DATA;
     }
     
     @Before

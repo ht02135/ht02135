@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
-import com.hung.common.SettingConstants;
+import com.hung.utils.common.SettingConstants;
 import com.hung.utils.selenium.MySelenium;
 
 public class DefaultSeleniumCaptureFailedTestWatcher extends TestWatcher {

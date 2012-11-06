@@ -1,11 +1,10 @@
-package com.hung.fixture.selenium2webdriverbacked;
+package com.hung.utils.selenium2webdriverbacked;
 
 import org.junit.Rule;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 
-import com.hung.utils.selenium2webdriverbacked.MyWebDriverBackedSelenium;
 import com.hung.utils.testwatcher.WebDriverSeleniumCaptureFailedTestWatcher;
 
 public class MyWebDriverBackedSeleniumIntegrationTestFixture {

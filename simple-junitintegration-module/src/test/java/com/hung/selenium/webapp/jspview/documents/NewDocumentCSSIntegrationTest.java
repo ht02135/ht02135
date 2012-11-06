@@ -7,7 +7,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.hung.fixture.selenium.MySeleniumIntegrationTestFixture;
+import com.hung.utils.selenium.MySeleniumIntegrationTestFixture;
 
 public class NewDocumentCSSIntegrationTest extends MySeleniumIntegrationTestFixture {
     

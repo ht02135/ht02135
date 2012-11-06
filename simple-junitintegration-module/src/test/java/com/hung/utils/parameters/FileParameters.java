@@ -10,10 +10,16 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
-public abstract class FileParameters implements Parameters {
+public class FileParameters implements Parameters {
     private static Logger log = Logger.getLogger(FileParameters.class);
     
-    protected Collection getDataFromFile(String fileName) {
+    private String fileName;
+    
+    public FileParameters(String fileName) {
+        this.fileName = fileName;
+    }
+    
+    protected Collection getDataFromFile() {
         log.info("########## getDataFromFile : start ##########");
         log.info("fileName="+fileName);
         
@@ -35,5 +41,11 @@ public abstract class FileParameters implements Parameters {
         log.info("########## getDataFromFile : start ##########");
         
         return data;
+    }
+    
+    @Override
+    public Collection data() {
+        // return this.getDataFromFile("src/test/resources/data/domainUsers.properties");
+        return this.getDataFromFile();
     }
 }
