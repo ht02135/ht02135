@@ -7,7 +7,8 @@ import com.hung.utils.parameters.FileParameters;
 import com.hung.utils.parameters.SimpleParameters;
 
 public class DomainUserParameters {
-    // File
+	
+    // File, generic data
     public static final Collection NEW_DOMAIN_USERS_FILE_DATA;
     static
     {
@@ -17,7 +18,14 @@ public class DomainUserParameters {
     public static final Collection DOMAIN_USER_LOGINIDS_FILE_DATA;
     static
     {
-        DOMAIN_USER_LOGINIDS_FILE_DATA = (new FileParameters("src/test/resources/data/webdriverbacked/domainUserLoginIds.properties")).data();
+        DOMAIN_USER_LOGINIDS_FILE_DATA = (new FileParameters("src/test/resources/data/domainUserLoginIds.properties")).data();
+    }
+    
+    // File, selenium2webdriverbacked
+    public static final Collection NEW_DOMAIN_USERS_WEBDRIVERBACKED_FILE_DATA;
+    static
+    {
+    	NEW_DOMAIN_USERS_WEBDRIVERBACKED_FILE_DATA = (new FileParameters("src/test/resources/data/selenium2webdriverbacked/domainUsers.properties")).data();
     }
     
     // Simple Default data
