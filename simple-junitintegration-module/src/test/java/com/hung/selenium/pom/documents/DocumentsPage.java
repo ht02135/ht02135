@@ -29,7 +29,7 @@ public class DocumentsPage extends LoginPage {
         super.open();
         
         // login
-        typeDomainName("root");
+        selectDomainName("root");
         typeLoginId("admin");
         clickSubmit();
         

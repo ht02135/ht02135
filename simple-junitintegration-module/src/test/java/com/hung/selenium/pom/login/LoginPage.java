@@ -27,6 +27,7 @@ public class LoginPage extends HomePage {
         String jsessionid = selenium.getCookieByName("JSESSIONID");
         selenium.click("css=a[href='/simple-restfulwebapp-module/auction/login;jsessionid="+jsessionid+"']");
         */
+        log.info("selenium.isElementPresent(LOGIN_LINK_LOCATOR)="+selenium.isElementPresent(LOGIN_LINK_LOCATOR));
         selenium.click(LOGIN_LINK_LOCATOR);
         selenium.waitForPageToLoad("30000");
     }
@@ -47,7 +48,7 @@ public class LoginPage extends HomePage {
     
     // #################### Login ####################
     
-    public void typeDomainName(String domainName) {
+    public void selectDomainName(String domainName) {
         selenium.type(LOGIN_FORM_DOMAIN_NAME_LOCATOR, domainName);
     }
     

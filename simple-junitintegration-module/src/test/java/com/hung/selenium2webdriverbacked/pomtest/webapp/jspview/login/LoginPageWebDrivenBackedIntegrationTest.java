@@ -56,7 +56,7 @@ public class LoginPageWebDrivenBackedIntegrationTest extends MyWebDriverBackedSe
         Assert.assertTrue(loginPage.isLoginIdFieldPresent());
         Assert.assertTrue(loginPage.isSubmitButtonPresent());
         
-        loginPage.typeDomainName(domainName);
+        loginPage.selectDomainName(domainName);
         loginPage.typeLoginId(loginId);
         loginPage.clickSubmit();
         

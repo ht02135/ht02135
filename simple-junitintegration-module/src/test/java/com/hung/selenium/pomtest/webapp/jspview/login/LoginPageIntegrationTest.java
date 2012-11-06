@@ -30,7 +30,7 @@ public class LoginPageIntegrationTest {
     
     @Test
     public void testLogin() {
-        loginPage.typeDomainName("root");
+        loginPage.selectDomainName("root");
         loginPage.typeLoginId("admin");
         loginPage.clickSubmit();
         
