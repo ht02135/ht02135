@@ -77,7 +77,7 @@ public class DomainRESTfulControllerEasyMockTest {
         log.info("testGetDomains -  start");
 
         // request specific setup
-        requestMock.setRequestURI("/restfuldomaincontroller");
+        requestMock.setRequestURI("/springrest/domains");
         requestMock.setMethod("GET");
         // requestMock.addHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_XML.toString());
         requestMock.addHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON.toString());
@@ -121,7 +121,7 @@ public class DomainRESTfulControllerEasyMockTest {
         log.info("testGetDomainByName -  start");
 
         // request specific setup
-        requestMock.setRequestURI("/restfuldomaincontroller/root");
+        requestMock.setRequestURI("/springrest/domains/root");
         requestMock.setMethod("GET");
         // requestMock.addHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_XML.toString());
         requestMock.addHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON.toString());

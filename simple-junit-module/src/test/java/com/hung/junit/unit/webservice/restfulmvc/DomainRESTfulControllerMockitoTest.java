@@ -78,7 +78,7 @@ public class DomainRESTfulControllerMockitoTest {
         log.info("testGetDomains -  start");
 
         // request specific setup
-        requestMock.setRequestURI("/restfuldomaincontroller");
+        requestMock.setRequestURI("/springrest/domains");
         requestMock.setMethod("GET");
         // requestMock.addHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_XML.toString());
         requestMock.addHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON.toString());
