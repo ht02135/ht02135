@@ -17,9 +17,9 @@ import com.hung.utils.parameters.domainUsers.DomainUserParameters;
 import com.hung.utils.selenium2webdriverbacked.MyWebDriverBackedSeleniumIntegrationTestFixture;
 
 @RunWith(Parameterized.class)
-public class DomainUsersWebDrivenBackedIntegrationTest extends MyWebDriverBackedSeleniumIntegrationTestFixture {
+public class DomainUsersWebDriverBackedIntegrationTest extends MyWebDriverBackedSeleniumIntegrationTestFixture {
 
-    private static Logger log = Logger.getLogger(DomainUsersWebDrivenBackedIntegrationTest.class);
+    private static Logger log = Logger.getLogger(DomainUsersWebDriverBackedIntegrationTest.class);
     
     private static DomainUsersPage domainUsersPage;
     
@@ -27,7 +27,7 @@ public class DomainUsersWebDrivenBackedIntegrationTest extends MyWebDriverBacked
     private String name;
     private String domainName;
     
-    public DomainUsersWebDrivenBackedIntegrationTest(String loginId, String name, String domainName) {
+    public DomainUsersWebDriverBackedIntegrationTest(String loginId, String name, String domainName) {
         this.loginId = loginId;
         this.name = name;
         this.domainName = domainName;

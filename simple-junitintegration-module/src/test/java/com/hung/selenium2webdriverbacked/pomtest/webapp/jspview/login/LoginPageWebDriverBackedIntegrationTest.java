@@ -17,16 +17,16 @@ import com.hung.utils.parameters.domainUsers.DomainUserParameters;
 import com.hung.utils.selenium2webdriverbacked.MyWebDriverBackedSeleniumIntegrationTestFixture;
 
 @RunWith(Parameterized.class)
-public class LoginPageWebDrivenBackedIntegrationTest extends MyWebDriverBackedSeleniumIntegrationTestFixture {
+public class LoginPageWebDriverBackedIntegrationTest extends MyWebDriverBackedSeleniumIntegrationTestFixture {
     
-    private static Logger log = Logger.getLogger(LoginPageWebDrivenBackedIntegrationTest.class);
+    private static Logger log = Logger.getLogger(LoginPageWebDriverBackedIntegrationTest.class);
     
     private static LoginPage loginPage;
     
     private String domainName;
     private String loginId;
     
-    public LoginPageWebDrivenBackedIntegrationTest(String domainName, String loginId) {
+    public LoginPageWebDriverBackedIntegrationTest(String domainName, String loginId) {
         this.domainName = domainName;
         this.loginId = loginId;
     }

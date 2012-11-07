@@ -23,24 +23,11 @@ public class DefaultSeleniumCaptureFailedTestWatcher extends TestWatcher {
     protected String browser;
     protected String screenShotFolder;
     
-    public DefaultSeleniumCaptureFailedTestWatcher() {
-        super();
-        this.screenShotFolder = createNowfolder();
-    }
-    
     public DefaultSeleniumCaptureFailedTestWatcher(MySelenium selenium, String browser) {
         super();
         this.selenium = selenium;
         this.browser = browser;
         this.screenShotFolder = createNowfolder();
-    }
-    
-    public void setSelenium(MySelenium selenium) {
-        this.selenium = selenium;
-    }
-    
-    public void setBrowser(String browser) {
-        this.browser = browser;
     }
     
     // ################### override ###################
