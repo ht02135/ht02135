@@ -1,20 +1,24 @@
-package com.example.tests;
+package com.hung.experiment.convertedfromrecorded.selenium2webdriverbacked;
 
-import com.thoughtworks.selenium.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.regex.Pattern;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverBackedSelenium;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class AuctionSeleniumTest {
+import com.thoughtworks.selenium.SeleneseTestCase;
+
+public class AuctionSeleniumIDETest extends SeleneseTestCase {
 	@Before
 	public void setUp() throws Exception {
-		selenium = new DefaultSelenium("localhost", 4444, "*chrome", "http://change-this-to-the-site-you-are-testing/");
-		selenium.start();
+		WebDriver driver = new FirefoxDriver();
+		String baseUrl = "http://change-this-to-the-site-you-are-testing/";
+		selenium = new WebDriverBackedSelenium(driver, baseUrl);
 	}
 
 	@Test
-	public void testAuctionTestPlan() throws Exception {
+	public void testAuctionSeleniumIDE() throws Exception {
 		selenium.open("http://127.0.0.1:8081/simple-restfulwebapp-module/auction/");
 		assertEquals("Home", selenium.getTitle());
 		selenium.click("link=Log In!");
