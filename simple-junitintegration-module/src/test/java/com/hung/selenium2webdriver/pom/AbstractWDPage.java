@@ -1,5 +1,6 @@
 package com.hung.selenium2webdriver.pom;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
@@ -35,5 +36,17 @@ public abstract class AbstractWDPage {
     
     public boolean contains(String text) {
     	return driver.getPageSource().contains(text);
+    }
+    
+    public void clickSelectOption(WebElement select, String optionText) {
+    	List<WebElement> options = select.findElements(By.tagName("option"));
+    	
+       	for (WebElement option : options) {
+       		if (option.getText().equals(optionText)) {
+       			log.info("found option.getText()="+option.getText()+", optionText="+optionText);
+       			option.click();
+       			break;
+       		}
+       	}
     }
 }

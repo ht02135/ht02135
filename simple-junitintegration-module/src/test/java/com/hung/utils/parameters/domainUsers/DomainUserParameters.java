@@ -28,6 +28,13 @@ public class DomainUserParameters {
     	NEW_DOMAIN_USERS_WEBDRIVERBACKED_FILE_DATA = (new FileParameters("src/test/resources/data/selenium2webdriverbacked/domainUsers.properties")).data();
     }
     
+    // File, selenium2webdriverbacked
+    public static final Collection NEW_DOMAIN_USERS_WEBDRIVER_FILE_DATA;
+    static
+    {
+    	NEW_DOMAIN_USERS_WEBDRIVER_FILE_DATA = (new FileParameters("src/test/resources/data/selenium2webdriver/domainUsers.properties")).data();
+    }
+    
     // Simple Default data
     public static final Collection NEW_DOMAIN_USERS_SIMPLE_DATA;
     static

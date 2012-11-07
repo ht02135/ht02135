@@ -45,9 +45,11 @@ public class LoginWebDriverIntegrationTest extends MyWebDriverIntegrationTestFix
     public void testLogin() {
         log.info("########## testLogin : start ##########");
         
-        loginWDPage.visit();
+        loginWDPage.visit();	// go to login page with login form
         
-        Assert.assertTrue(loginWDPage.getForm() != null);
+        // verify login form
+        log.info("verify login form and fields");
+        Assert.assertTrue(loginWDPage.getLoginForm() != null);
         Assert.assertTrue(loginWDPage.getDomainNameInput() != null);
         Assert.assertTrue(loginWDPage.getLoginIdInput() != null);
         Assert.assertTrue(loginWDPage.getSubmitInput() != null);
@@ -55,6 +57,7 @@ public class LoginWebDriverIntegrationTest extends MyWebDriverIntegrationTestFix
         log.info("domainName="+domainName);
         log.info("loginId="+loginId);
         
+        // login
         loginWDPage.login(domainName, loginId);
         Assert.assertTrue(loginWDPage.contains("Welcome!!!!"));
         

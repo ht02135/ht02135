@@ -5,9 +5,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.hung.selenium2webdriver.pom.AbstractWDPage;
 import com.hung.selenium2webdriver.pom.HomeWDPage;
 
-public class LoginWDPage extends HomeWDPage {
+public class LoginWDPage extends AbstractWDPage {
 	
 	private static Logger log = Logger.getLogger(LoginWDPage.class);
 	
@@ -24,16 +25,19 @@ public class LoginWDPage extends HomeWDPage {
     }
     
     public void visit() {
-    	super.visit();	// first visit homepage
+    	HomeWDPage homeWDPage = new HomeWDPage(driver, baseURL);
+    	homeWDPage.visit();	// first visit homepage
     	
-    	WebElement loginLink = driver.findElement(By.cssSelector(LOGIN_LINK_LOCATOR));
-    	loginLink.click();
-    	
-    	// explicit wait
-    	explicitWaitUntilWebElementIsVisible(LOGIN_FORM_LOCATOR, WAIT_TIME_IN_SECONDS);
+    	getLoginLink().click();
+    	explicitWaitUntilWebElementIsVisible(LOGIN_FORM_LOCATOR, WAIT_TIME_IN_SECONDS);	// explicit wait
+    	log.info("after clicked login link");
     }
     
-    public WebElement getForm() {
+    public WebElement getLoginLink() {
+    	return driver.findElement(By.cssSelector(LOGIN_LINK_LOCATOR));
+    }
+    
+    public WebElement getLoginForm() {
     	return driver.findElement(By.cssSelector(LOGIN_FORM_LOCATOR));
     }
     
@@ -50,11 +54,15 @@ public class LoginWDPage extends HomeWDPage {
     }
     
     public void login(String domainName, String loginId) {
+    	log.info("domainName="+domainName);
+    	log.info("loginId="+loginId);
+    	
     	getDomainNameInput().clear();	// need to clear before sendKeys.  otherwise, you just append
     	getDomainNameInput().sendKeys(domainName);
     	getLoginIdInput().clear();	// need to clear before sendKeys.  otherwise, you just append
     	getLoginIdInput().sendKeys(loginId);
     	getSubmitInput().submit();
+    	log.info("after submit login");
     	
     	// implicit wait
     	implicitWait(WAIT_TIME_IN_SECONDS);
