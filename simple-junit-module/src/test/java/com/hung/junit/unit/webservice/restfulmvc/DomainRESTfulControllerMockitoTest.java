@@ -29,7 +29,7 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 
 import com.hung.auction.domain.Domain;
 import com.hung.auction.jaxbdomain.JaxbDomain;
-import com.hung.auction.restful.springmvc.RestfulDomainController;
+import com.hung.auction.restfulmvccontroller.RestfulDomainsController;
 import com.hung.auction.service.DomainService;
 
 
@@ -49,7 +49,7 @@ public class DomainRESTfulControllerMockitoTest {
     private MockHttpServletResponse responseMock;
     
     // #######################################################################
-    private RestfulDomainController restfulDomainController = null; 
+    private RestfulDomainsController restfulDomainsController = null; 
     
     @Autowired
     @Qualifier("annotationMethodHandlerAdapter")
@@ -67,8 +67,8 @@ public class DomainRESTfulControllerMockitoTest {
         
         // no need to setup adapter, it will be wired in
 
-        restfulDomainController = new RestfulDomainController(); 
-        restfulDomainController.setDomainService(domainServiceMock);
+        restfulDomainsController = new RestfulDomainsController(); 
+        restfulDomainsController.setDomainService(domainServiceMock);
         
         objectMapper = new ObjectMapper();
     }
@@ -89,7 +89,7 @@ public class DomainRESTfulControllerMockitoTest {
             Mockito.when(domainServiceMock.findAll(true)).thenReturn(mockDomains());
             
             // run the method
-            ModelAndView mav = adapter.handle(requestMock, responseMock, restfulDomainController);
+            ModelAndView mav = adapter.handle(requestMock, responseMock, restfulDomainsController);
             
             // debug
             if (mav != null) {

@@ -30,21 +30,22 @@
             <artifactId>simple-service-module</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>com.hung</groupId>
-            <artifactId>simple-controller-module</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.hung</groupId>
-            <artifactId>simple-restful-module</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
     <build>
         <finalName>simple-restfulwebapp-module</finalName>
         <plugins>
+
+			<!-- produce additional 'classes' jar artifact:  -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+		        <configuration>
+					<attachClasses>true</attachClasses>
+				</configuration>
+			</plugin> 
+        
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>maven-jetty-plugin</artifactId>

@@ -8,8 +8,8 @@ import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.hung.auction.controller.IAuthenticateController;
 import com.hung.auction.jaxbdomain.JaxbClientSession;
+import com.hung.auction.mvccontroller.IAuthenticateController;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
     
@@ -19,8 +19,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     // before the actual handler will be executed
     public synchronized boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("################################### LoginInterceptor : preHandle ###################################");
-        
         HttpSession session = request.getSession(); 
         
         // check if jaxbClientSession in @SessionAttributes can be accessed via HttpSession 

@@ -28,7 +28,7 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 
 import com.hung.auction.domain.Domain;
 import com.hung.auction.jaxbdomain.JaxbDomain;
-import com.hung.auction.restful.springmvc.RestfulDomainController;
+import com.hung.auction.restfulmvccontroller.RestfulDomainsController;
 import com.hung.auction.service.DomainService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,7 +48,7 @@ public class DomainRESTfulControllerEasyMockTest {
     
     // #######################################################################
     
-    private RestfulDomainController restfulDomainController; 
+    private RestfulDomainsController restfulDomainsController; 
     
     @Autowired
     @Qualifier("annotationMethodHandlerAdapter")
@@ -66,8 +66,8 @@ public class DomainRESTfulControllerEasyMockTest {
         
         // no need to setup adapter, it will be wired in
 
-        restfulDomainController = new RestfulDomainController(); 
-        restfulDomainController.setDomainService(domainServiceMock);
+        restfulDomainsController = new RestfulDomainsController(); 
+        restfulDomainsController.setDomainService(domainServiceMock);
         
         objectMapper = new ObjectMapper();
     }
@@ -91,7 +91,7 @@ public class DomainRESTfulControllerEasyMockTest {
             EasyMock.replay(domainServiceMock);
             
             // run the method
-            ModelAndView mav = adapter.handle(requestMock, responseMock, restfulDomainController);
+            ModelAndView mav = adapter.handle(requestMock, responseMock, restfulDomainsController);
             
             // debug
             if (mav != null) {
@@ -135,7 +135,7 @@ public class DomainRESTfulControllerEasyMockTest {
             EasyMock.replay(domainServiceMock);
             
             // run the method
-            ModelAndView mav = adapter.handle(requestMock, responseMock, restfulDomainController);
+            ModelAndView mav = adapter.handle(requestMock, responseMock, restfulDomainsController);
             
             // debug
             if (mav != null) {
