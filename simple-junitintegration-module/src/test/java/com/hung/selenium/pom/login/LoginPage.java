@@ -2,10 +2,11 @@ package com.hung.selenium.pom.login;
 
 import org.apache.log4j.Logger;
 
+import com.hung.selenium.pom.AbstractPage;
 import com.hung.selenium.pom.HomePage;
 import com.hung.utils.selenium.MySelenium;
 
-public class LoginPage extends HomePage {
+public class LoginPage extends AbstractPage {
     
     private static Logger log = Logger.getLogger(LoginPage.class);
     
@@ -20,7 +21,8 @@ public class LoginPage extends HomePage {
     }
     
     public void open() {
-        super.open();
+    	HomePage homePage = new HomePage(selenium);
+    	homePage.open();	// first visit home page
         
         /*
         both works, but i like the partial match

@@ -2,10 +2,12 @@ package com.hung.selenium.pom.domainUsers;
 
 import org.apache.log4j.Logger;
 
+import com.hung.selenium.pom.AbstractPage;
+import com.hung.selenium.pom.HomePage;
 import com.hung.selenium.pom.login.LoginPage;
 import com.hung.utils.selenium.MySelenium;
 
-public class DomainUsersPage extends LoginPage {
+public class DomainUsersPage extends AbstractPage {
 
     private static Logger log = Logger.getLogger(DomainUsersPage.class);
     
@@ -30,12 +32,16 @@ public class DomainUsersPage extends LoginPage {
     }
     
     public void open() {
-        super.open();
+    	HomePage homePage = new HomePage(selenium);
+    	homePage.open();	// first visit home page
+    	
+    	LoginPage loginPage = new LoginPage(selenium);
+    	loginPage.open();	// then visit login page
         
         // login
-        super.selectDomainName("root");
-        super.typeLoginId("admin");
-        super.clickSubmit();
+    	loginPage.selectDomainName("root");
+    	loginPage.typeLoginId("admin");
+    	loginPage.clickSubmit();
         
         // click domainUsers link
         log.info("selenium.isElementPresent(DOMAIN_USERS_LINK_LOCATOR)="+selenium.isElementPresent(DOMAIN_USERS_LINK_LOCATOR));

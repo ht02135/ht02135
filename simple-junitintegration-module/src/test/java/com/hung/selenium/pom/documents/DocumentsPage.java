@@ -2,11 +2,13 @@ package com.hung.selenium.pom.documents;
 
 import org.apache.log4j.Logger;
 
+import com.hung.selenium.pom.AbstractPage;
+import com.hung.selenium.pom.HomePage;
 import com.hung.selenium.pom.domainUsers.DomainUsersPage;
 import com.hung.selenium.pom.login.LoginPage;
 import com.hung.utils.selenium.MySelenium;
 
-public class DocumentsPage extends LoginPage {
+public class DocumentsPage extends AbstractPage {
 
     private static Logger log = Logger.getLogger(DomainUsersPage.class);
     
@@ -26,12 +28,16 @@ public class DocumentsPage extends LoginPage {
     }
     
     public void open() {
-        super.open();
+    	HomePage homePage = new HomePage(selenium);
+    	homePage.open();	// first visit home page
+    	
+    	LoginPage loginPage = new LoginPage(selenium);
+    	loginPage.open();	// then visit login page
         
         // login
-        selectDomainName("root");
-        typeLoginId("admin");
-        clickSubmit();
+    	loginPage.selectDomainName("root");
+    	loginPage.typeLoginId("admin");
+    	loginPage.clickSubmit();
         
         // click domainUsers link
         selenium.click(DOCUMENTS_LINK_LOCATOR);
