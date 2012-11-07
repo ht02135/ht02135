@@ -16,13 +16,14 @@ public class WebDriverSeleniumCaptureFailedTestWatcher extends DefaultSeleniumCa
     
     protected WebDriver driver;
     
-    public WebDriverSeleniumCaptureFailedTestWatcher() {
-        super();
-    }
-    
     public WebDriverSeleniumCaptureFailedTestWatcher(MyWebDriverBackedSelenium selenium, String browser) {
         super(selenium, browser);
         driver = selenium.getWrappedDriver();
+    }
+    
+    public WebDriverSeleniumCaptureFailedTestWatcher(WebDriver driver, String browser) {
+        super(null, browser);
+        this.driver = driver;
     }
     
     protected void captureScreenShot(String fileNameAppend) {
