@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.Selenium;
 
-public class AuctionSeleniumTest {
+public class AuctionSeleniumIDETestIntegration {
 	
 	private Selenium selenium;
 	

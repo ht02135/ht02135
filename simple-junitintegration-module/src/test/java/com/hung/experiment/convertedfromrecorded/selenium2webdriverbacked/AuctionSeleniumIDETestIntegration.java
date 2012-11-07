@@ -9,7 +9,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.thoughtworks.selenium.SeleneseTestCase;
 
-public class AuctionSeleniumIDETest extends SeleneseTestCase {
+public class AuctionSeleniumIDETestIntegration extends SeleneseTestCase {
 	@Before
 	public void setUp() throws Exception {
 		WebDriver driver = new FirefoxDriver();
