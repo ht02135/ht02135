@@ -55,7 +55,7 @@ public class ServerReservationServiceAdaptor {
                 }
             });
         } catch (JMSException e) {
-            log.info("publishReserveUnReserve: e="+e);
+            log.error("publishReserveUnReserve: e="+e);
         }
     }
 }

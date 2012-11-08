@@ -109,8 +109,7 @@ public class RestfulDomainControllerEasyMockTest {
             // verify mock
             EasyMock.verify(domainServiceMock);
         } catch (Exception e) {
-            log.info("e.getMessage()="+e.getMessage());
-            e.printStackTrace();
+            log.error("e.getMessage()="+e.getMessage());
         }
         
         log.info("testGetDomains -  end");
@@ -150,8 +149,7 @@ public class RestfulDomainControllerEasyMockTest {
             // verify mock
             EasyMock.verify(domainServiceMock);
         } catch (Exception e) {
-            log.info("e.getMessage()="+e.getMessage());
-            e.printStackTrace();
+            log.error("e.getMessage()="+e.getMessage());
         }
         
         log.info("testGetDomainByName -  end");

@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,42 +45,29 @@ public class RestfulDomainController {
     private static Logger log = Logger.getLogger(RestfulDomainController.class);
 
     @Autowired
+    @Qualifier("domainService")
     private DomainService domainService;	// dont need setXXX method when autowire
 
     // return list of domain
     @RequestMapping(method=RequestMethod.GET, headers="Accept=application/json, application/xml")
-    public @ResponseBody List<JaxbDomain> getAllDomains(@RequestHeader("Accept") String accept) {
-        log.info("********** getAllDomains: enter **********");
-        log.info("getAllDomains: accept="+accept);
-
+    public @ResponseBody List<JaxbDomain> getAllDomains() {
         List<Domain> domains = domainService.findAll(true);
         List<JaxbDomain> jaxbDomains = new ArrayList<JaxbDomain>(domains.size());
         for (int i=0; i<domains.size(); i++) {
             Domain domain = domains.get(i);
             jaxbDomains.add(new JaxbDomain(domain));
         }
-
-        log.info("getAllDomains: domains="+domains+" jaxbDomains="+jaxbDomains);
-        log.info("********** getAllDomains: exit **********");
-
         return jaxbDomains;
     }
 
     // get a domain by name
     @RequestMapping(value="/{name}", method=RequestMethod.GET, headers="Accept=application/json, application/xml")
-    public @ResponseBody JaxbDomain getDomainByName(@PathVariable String name, @RequestHeader("Accept") String accept) {
-        log.info("********** getDomainByName: enter, name="+name+" **********");
-        log.info("getDomainByName: accept="+accept);
-
+    public @ResponseBody JaxbDomain getDomainByName(@PathVariable String name) {
         JaxbDomain jaxbDomain = null;
         Domain domain = domainService.findByName(name, true);
         if (domain != null) {
             jaxbDomain = new JaxbDomain(domain);
         }
-
-        log.info("getDomainByName: name="+name+" domain="+domain+" jaxbDomain="+jaxbDomain);
-        log.info("********** getDomainByName: exit **********");
-
         return jaxbDomain;
     }
 
@@ -88,28 +75,18 @@ public class RestfulDomainController {
     @RequestMapping(method=RequestMethod.PUT, headers="Accept=application/json, application/xml")
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody JaxbDomain createDomainViaPut(@RequestBody JaxbDomain jaxbDomain) {
-        log.info("********** createDomainViaPut: enter, jaxbDomain="+jaxbDomain+" **********");
         Domain domain = new Domain(jaxbDomain.getName(), domainService.findByName(jaxbDomain.getParentDomainName()));
         domainService.save(domain);
-        JaxbDomain createdJaxbDomain = new JaxbDomain(domain);
-        log.info("createDomainViaPut: jaxbDomain="+jaxbDomain+" domain="+domain+" return createdJaxbDomain="+createdJaxbDomain);
-        log.info("********** createDomainViaPut: exit **********");
-
-        return createdJaxbDomain;
+        return new JaxbDomain(domain);
     }
 
     // create a domain via post
     @RequestMapping(method=RequestMethod.POST, headers="Accept=application/json, application/xml")
     @ResponseStatus(HttpStatus.CREATED)
     public @ResponseBody JaxbDomain createDomainViaPost(@RequestBody JaxbDomain jaxbDomain) {
-        log.info("********** createDomainViaPost: enter, jaxbDomain="+jaxbDomain+" **********");
         Domain domain = new Domain(jaxbDomain.getName(), domainService.findByName(jaxbDomain.getParentDomainName()));
         domainService.save(domain);
-        JaxbDomain createdJaxbDomain = new JaxbDomain(domain);
-        log.info("createDomainViaPost: jaxbDomain="+jaxbDomain+" domain="+domain+" return createdJaxbDomain="+createdJaxbDomain);
-        log.info("********** createDomainViaPost: exit **********");
-
-        return createdJaxbDomain;
+        return new JaxbDomain(domain);
     }
 
     /*
@@ -133,20 +110,14 @@ public class RestfulDomainController {
     @RequestMapping(value="/{name}", method=RequestMethod.POST, headers="Accept=application/json, application/xml")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateDomainByName(@PathVariable String name, @RequestBody JaxbDomain jaxbDomain) {
-        log.info("********** updateDomainByName: enter, jaxbDomain="+jaxbDomain+" **********");
-        // need abstract factory pattern to abstract away this mess...
         Domain domain = new Domain(name, domainService.findByName(jaxbDomain.getParentDomainName()));
         domainService.save(domain);
-        log.info("updateDomain: name="+name+" jaxbDomain="+jaxbDomain+" domain="+domain);
-        log.info("********** updateDomainByName: exit **********");
     }
 
     @RequestMapping(value="/{name}", method=RequestMethod.DELETE, headers="Accept=application/json, application/xml")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDomainByName(@PathVariable String name) {
-        log.info("********** deleteDomainByName: enter, name="+name+" **********");
         domainService.deleteByName(name);
-        log.info("********** deleteDomainByName: exit **********");
     }
     
     // ----- injection -------------

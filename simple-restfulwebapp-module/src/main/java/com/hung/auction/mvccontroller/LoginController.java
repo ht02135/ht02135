@@ -52,13 +52,11 @@ public class LoginController {
 	// populate jaxbClientSession (backing-bean) for the first time if its null
 	@ModelAttribute("jaxbClientSession")
 	public JaxbClientSession populateClientSession() {
-		log.info("populateClientSession: populate jaxbClientSession for the first time if its null ");
 		return new JaxbClientSession();
 	}
 
 	@RequestMapping(method=RequestMethod.GET)
 	public String displayLogin(@ModelAttribute("jaxbClientSession") JaxbClientSession jaxbClientSession, Model model) {
-	    log.info("displayLogin: jaxbClientSession="+jaxbClientSession);
 		return "login";	// return 'login' tile definition
 	}
 	
@@ -76,12 +74,9 @@ public class LoginController {
 	public String login(@ModelAttribute("jaxbClientSession") @Valid JaxbClientSession jaxbClientSession, 
 	                    BindingResult bindingResult, Model model, HttpSession session)
 	{
-		log.info("********** login: start **********");
-		log.info("login: jaxbClientSession="+jaxbClientSession);
-		
 		String url = "home";
 		if (bindingResult.hasErrors()) {
-			log.info("login: bindingResult hasErrors");
+			log.error("login: bindingResult hasErrors");
 			url = "login";
 		} else {
 			if (loginService.login(jaxbClientSession.getLoginId(), jaxbClientSession.getDomainName()).booleanValue()) {
@@ -92,8 +87,6 @@ public class LoginController {
 				log.info("login: failed to login, jaxbClientSession="+jaxbClientSession);
 			}
 		}
-		log.info("********** login: end **********");
-
 		return url;
 	}
 	    

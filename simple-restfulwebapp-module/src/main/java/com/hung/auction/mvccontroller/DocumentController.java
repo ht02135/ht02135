@@ -39,27 +39,17 @@ public class DocumentController implements IAuthenticateController {
     // display list of documents
     @RequestMapping(method=RequestMethod.GET)
     public String displayDocuments(Model model) {
-        log.info("displayDocuments: enter");
-
-        // debug domainUsers
         model.addAttribute("document", new BinaryDocument());
-
         List<AbstractDocument> documents = documentService.findAll();
-        log.info("displayDocuments: documents="+documents);
         model.addAttribute("documents", documents);
-
         return "documents/list";
     }
 
     // probably should use /upload, must intuitive than /save
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(@ModelAttribute("document") BinaryDocument document, @RequestParam("file") MultipartFile file) {
-        log.info("save: enter");
-
-        log.info("save: file.getName()=" + file.getName());
-        log.info("save: file.getContentType()=" + file.getContentType());
-
         AbstractDocument tobeUploadDocument = null;
+        
         if (file.getContentType().contains(TEXT_TYPE)) {
             tobeUploadDocument = new StringDocument();
         } else {
@@ -74,11 +64,10 @@ public class DocumentController implements IAuthenticateController {
             tobeUploadDocument.uploadFrom(in);
             in.close();
         } catch (IOException e) {
-            log.info("save: e="+e.toString());
+            log.error("save: e="+e.toString());
         } catch(Exception e) {
-            log.info("save: e="+e.toString());
+            log.error("save: e="+e.toString());
         }
-
         documentService.save(tobeUploadDocument);
 
         return "redirect:/auction/documents";
@@ -87,7 +76,6 @@ public class DocumentController implements IAuthenticateController {
     // download an document.  params=download is passed by ?download
     @RequestMapping(value="/{documentId}", params="download", method=RequestMethod.GET)
     public String downloadFromForm(@PathVariable("documentId") Integer documentId, HttpServletResponse response) {
-        log.info("downloadFromForm: enter");
 
         AbstractDocument document = documentService.findById(documentId);
         response.setHeader("Content-Disposition","attachment; filename=\""+document.getFileName()+"\"");
@@ -99,7 +87,7 @@ public class DocumentController implements IAuthenticateController {
             out.flush();
             out.close();
         } catch (IOException e) {
-            log.info("downloadFromForm: e="+e.toString());
+            log.error("downloadFromForm: e="+e.toString());
         }
 
         return null;
@@ -108,8 +96,6 @@ public class DocumentController implements IAuthenticateController {
     // download an document.  params=remove is passed by ?remove
     @RequestMapping(value="/{documentId}", params="remove", method=RequestMethod.GET)
     public String removeFromForm(@PathVariable("documentId") Integer documentId) {
-        log.info("removeFromForm: enter");
-
         documentService.deleteById(documentId);
         return "redirect:/auction/documents";
     }

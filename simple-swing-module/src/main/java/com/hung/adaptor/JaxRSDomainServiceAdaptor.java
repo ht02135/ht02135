@@ -51,10 +51,10 @@ public class JaxRSDomainServiceAdaptor {
                 throw new NotOKStatusException(response.getStatus());
             }
         } catch (UniformInterfaceException uie) {
-            log.info("getTestResult: uie="+uie);	// just log runtime exception and rethrow it
+            log.error("getTestResult: uie="+uie);	// just log runtime exception and rethrow it
             throw uie;
         } catch (ClientHandlerException che) {
-            log.info("getTestResult: che="+che);	// just log runtime exception and rethrow it
+            log.error("getTestResult: che="+che);	// just log runtime exception and rethrow it
             throw che;
         }
 
@@ -83,10 +83,10 @@ public class JaxRSDomainServiceAdaptor {
             }
             */
         } catch (UniformInterfaceException uie) {
-            log.info("getAllDomains: uie="+uie);	// just log runtime exception and rethrow it
+            log.error("getAllDomains: uie="+uie);	// just log runtime exception and rethrow it
             throw uie;
         } catch (ClientHandlerException che) {
-            log.info("getAllDomains: che="+che);	// just log runtime exception and rethrow it
+            log.error("getAllDomains: che="+che);	// just log runtime exception and rethrow it
             throw che;
         }
 
@@ -116,10 +116,10 @@ public class JaxRSDomainServiceAdaptor {
             }
             */
         } catch (UniformInterfaceException uie) {
-            log.info("getDomainByName: uie="+uie);	// just log runtime exception and rethrow it
+            log.error("getDomainByName: uie="+uie);	// just log runtime exception and rethrow it
             throw uie;
         } catch (ClientHandlerException che) {
-            log.info("getDomainByName: che="+che);	// just log runtime exception and rethrow it
+            log.error("getDomainByName: che="+che);	// just log runtime exception and rethrow it
             throw che;
         }
 
@@ -145,10 +145,10 @@ public class JaxRSDomainServiceAdaptor {
                 throw new NotOKStatusException(response.getStatus());
             }
         } catch (UniformInterfaceException uie) {
-            log.info("createDomainViaPut: uie="+uie);	// just log runtime exception and rethrow it
+            log.error("createDomainViaPut: uie="+uie);	// just log runtime exception and rethrow it
             throw uie;
         } catch (ClientHandlerException che) {
-            log.info("createDomainViaPut: che="+che);	// just log runtime exception and rethrow it
+            log.error("createDomainViaPut: che="+che);	// just log runtime exception and rethrow it
             throw che;
         }
 
@@ -174,10 +174,10 @@ public class JaxRSDomainServiceAdaptor {
                 throw new NotOKStatusException(response.getStatus());
             }
         } catch (UniformInterfaceException uie) {
-            log.info("createDomainViaPost: uie="+uie);	// just log runtime exception and rethrow it
+            log.error("createDomainViaPost: uie="+uie);	// just log runtime exception and rethrow it
             throw uie;
         } catch (ClientHandlerException che) {
-            log.info("createDomainViaPost: che="+che);	// just log runtime exception and rethrow it
+            log.error("createDomainViaPost: che="+che);	// just log runtime exception and rethrow it
             throw che;
         }
 
@@ -201,10 +201,10 @@ public class JaxRSDomainServiceAdaptor {
                 throw new NotOKStatusException(response.getStatus());
             }
         } catch (UniformInterfaceException uie) {
-            log.info("updateDomain: uie="+uie);	// just log runtime exception and rethrow it
+            log.error("updateDomain: uie="+uie);	// just log runtime exception and rethrow it
             throw uie;
         } catch (ClientHandlerException che) {
-            log.info("updateDomain: che="+che);	// just log runtime exception and rethrow it
+            log.error("updateDomain: che="+che);	// just log runtime exception and rethrow it
             throw che;
         }
 
@@ -225,10 +225,10 @@ public class JaxRSDomainServiceAdaptor {
                 throw new NotOKStatusException(response.getStatus());
             }
         } catch (UniformInterfaceException uie) {
-            log.info("deleteDomain: uie="+uie);	// just log runtime exception and rethrow it
+            log.error("deleteDomain: uie="+uie);	// just log runtime exception and rethrow it
             throw uie;
         } catch (ClientHandlerException che) {
-            log.info("deleteDomain: che="+che);	// just log runtime exception and rethrow it
+            log.error("deleteDomain: che="+che);	// just log runtime exception and rethrow it
             throw che;
         }
         log.info("deleteDomain: exit");

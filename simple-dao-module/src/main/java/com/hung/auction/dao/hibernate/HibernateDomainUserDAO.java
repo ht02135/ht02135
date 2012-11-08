@@ -95,4 +95,9 @@ public class HibernateDomainUserDAO extends HibernateDaoSupport implements Domai
 			}
 		});
     }
+    
+    public void deleteByLoginId(String loginId) {
+        DomainUser domainUser = findByLoginId(loginId);
+        getHibernateTemplate().delete(domainUser);
+    }
 }

@@ -35,22 +35,16 @@ public class SearchDocumentController implements IAuthenticateController {
     // display list of documents
     @RequestMapping(method=RequestMethod.GET)
     public String displayDocuments(Model model) {
-        log.info("displayDocuments: enter");
-
         List<StringDocument> documents = documentService.findStringDocuments();
         ClientSearchResult clientSearchResult = new ClientSearchResult(documents, ClientSearchResult.OK_STATUS);
         model.addAttribute("clientSearchResult", clientSearchResult);
-
         return "searchdocuments/list";
     }
 
     @RequestMapping(value = "/search", method=RequestMethod.POST)
     public String searchDocuments(Model model, @RequestParam("term") String term) {
-        log.info("displayDocuments: enter");
-
         ClientSearchResult clientSearchResult = searchTermService.findByTerm(term);
         model.addAttribute("clientSearchResult", clientSearchResult);
-
         return "searchdocuments/list";
     }
 }

@@ -74,7 +74,7 @@ public class HibernateDomainSettingDAO extends HibernateDaoSupport implements Do
     			}
     		});
     	} catch (Exception e) {
-    		log.info("findStringDomainSetting: e="+e);
+    		log.error("findStringDomainSetting: e="+e);
     	}
     	
     	return stringDomainSetting;

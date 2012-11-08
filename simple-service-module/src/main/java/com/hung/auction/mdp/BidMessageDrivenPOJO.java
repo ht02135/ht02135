@@ -44,7 +44,7 @@ public class BidMessageDrivenPOJO implements MessageListener {
     	}
     	catch (JMSException ex) {
             // throw new RuntimeException(ex);
-    		log.info("onMessage: ex="+ex);
+    		log.error("onMessage: ex="+ex);
         }
     	
     	log.info("onMessage: exit...");

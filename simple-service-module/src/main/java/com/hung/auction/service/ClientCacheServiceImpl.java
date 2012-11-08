@@ -20,7 +20,7 @@ public class ClientCacheServiceImpl implements ClientCacheService {
 		try {
 			clientCacheDAO.save(clientCache);
 		} catch (Exception e) {
-			log.info("saveClientCaches: exception when saving clientCache="+clientCache);
+			log.error("saveClientCaches: exception when saving clientCache="+clientCache);
 		}
 	}
 
@@ -31,7 +31,7 @@ public class ClientCacheServiceImpl implements ClientCacheService {
 			try {
 				clientCacheDAO.save(clientCache);
 			} catch (Exception e) {
-				log.info("saveClientCaches: exception when saving clientCache="+clientCache);
+				log.error("saveClientCaches: exception when saving clientCache="+clientCache);
 			}
 		}
 	}

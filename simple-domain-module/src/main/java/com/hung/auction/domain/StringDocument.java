@@ -54,9 +54,9 @@ public class StringDocument extends AbstractDocument implements Serializable {
             IOUtils.copy(in, writer);
             this.setStrContent(writer.toString());
         } catch (IOException e) {
-            log.info("uploadFrom: e="+e.toString());
+            log.error("uploadFrom: e="+e.toString());
         } catch(Exception e) {
-            log.info("uploadFrom: e="+e.toString());
+            log.error("uploadFrom: e="+e.toString());
         }
     }
 
@@ -69,9 +69,9 @@ public class StringDocument extends AbstractDocument implements Serializable {
             StringReader reader = new StringReader(strContent);
             IOUtils.copy(reader, out);
         } catch (IOException e) {
-            log.info("uploadFrom: e="+e.toString());
+            log.error("uploadFrom: e="+e.toString());
         } catch(Exception e) {
-            log.info("uploadFrom: e="+e.toString());
+            log.error("uploadFrom: e="+e.toString());
         }
     }
 }

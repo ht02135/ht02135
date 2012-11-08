@@ -14,7 +14,6 @@ public class HomeController {
   
 	@RequestMapping(method=RequestMethod.GET)
 	public String displayHome(Map<String, Object> model) {
-		log.info("displayHome: enter");
 		return "home";	// return 'home' tile definition
 	}
 }

@@ -56,7 +56,6 @@ public class DomainSettingServiceImpl implements DomainSettingService {
 	}
 	
 	private void populateRootDomainSetting() {
-		log.info("populateRootDomainSetting: enter");
 		Domain rootDomain = domainService.findByName(Domain.ROOT_NAME);
 		
 		BooleanDomainSetting[] booleanDomainSettings = {
@@ -94,7 +93,6 @@ public class DomainSettingServiceImpl implements DomainSettingService {
 				}
 			} catch (Exception e) {}
 		}
-		log.info("populateRootDomainSetting: exit");
 	}
 	
 	// injection methods

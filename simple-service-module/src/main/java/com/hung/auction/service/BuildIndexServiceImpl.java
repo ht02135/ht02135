@@ -93,9 +93,6 @@ public class BuildIndexServiceImpl implements BuildIndexService {
     
 	@Autowired
     public void setBuildIndexEngine(@Qualifier("buildIndexEngine") BuildIndexEngine buildIndexEngine) { 
-    	log.info("*********************************************");
-    	log.info("setBuildIndexEngine: buildIndexEngine="+buildIndexEngine);
-    	log.info("*********************************************");
     	this.buildIndexEngine = buildIndexEngine; 
-    	}
+    }
 }

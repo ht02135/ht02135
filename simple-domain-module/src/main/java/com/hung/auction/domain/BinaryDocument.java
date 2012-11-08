@@ -48,9 +48,9 @@ public class BinaryDocument extends AbstractDocument implements Serializable {
         try {
             setContent(IOUtils.toByteArray(in));
         } catch (IOException e) {
-            log.info("uploadFrom: e="+e.toString());
+            log.error("uploadFrom: e="+e.toString());
         } catch(Exception e) {
-            log.info("uploadFrom: e="+e.toString());
+            log.error("uploadFrom: e="+e.toString());
         }
     }
 
@@ -59,9 +59,9 @@ public class BinaryDocument extends AbstractDocument implements Serializable {
         try {
             IOUtils.write(getContent(), out);
         } catch (IOException e) {
-            log.info("downloadTo: e="+e.toString());
+            log.error("downloadTo: e="+e.toString());
         } catch(Exception e) {
-            log.info("downloadTo: e="+e.toString());
+            log.error("downloadTo: e="+e.toString());
         }
     }
 }

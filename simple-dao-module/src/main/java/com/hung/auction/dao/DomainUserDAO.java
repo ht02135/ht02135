@@ -11,4 +11,6 @@ public interface DomainUserDAO {
     public DomainUser findByLoginId(String loginId);
     
     public List<DomainUser> findAll();
+    
+    public void deleteByLoginId(String loginId);
 }

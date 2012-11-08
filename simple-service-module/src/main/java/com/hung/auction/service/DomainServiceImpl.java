@@ -24,13 +24,10 @@ public class DomainServiceImpl implements DomainService {
     @Qualifier("domainDAO")
     private DomainDAO domainDAO;
 
-    public DomainServiceImpl() {
-        log.info("DomainServiceImpl(): calling constructor");
-    }
+    public DomainServiceImpl() {}
 
     // constructor called before call setXX injection
     public DomainServiceImpl(DomainDAO domainDAO) {
-        log.info("DomainServiceImpl(domainDAO): calling constructor");
         setDomainDAO(domainDAO);
         populateRootDomain();
     }
@@ -38,25 +35,19 @@ public class DomainServiceImpl implements DomainService {
     // -- called after all setXX injection are called - start ----
     @PostConstruct
     public void postConstruct() {
-        log.info("postConstruct: calling populateRootDomain()");
         populateRootDomain();
     }
 
     public void initMethod() {
-        log.info("initMethod: calling populateRootDomain()");
         populateRootDomain();
     }
     // -- Suppose to be called after all setXX injection are called - end ----
 
     // -- destory -- start
     @PreDestroy
-    public void preDestroy() {
-        log.info("preDestroy: called");
-    }
+    public void preDestroy() {}
 
-    public void destroyMethod() {
-        log.info("destroyMethod: called");
-    }
+    public void destroyMethod() {}
     // -- destory -- end
 
     @Transactional(propagation=Propagation.REQUIRED)
@@ -153,13 +144,10 @@ public class DomainServiceImpl implements DomainService {
 
     @Transactional(propagation=Propagation.REQUIRED)
     public void deleteByName(String name) {
-        log.info("deleteByName: name="+name);
-
         domainDAO.deleteByName(name);
     }
 
     private void populateRootDomain() {
-        log.info("populateRootDomain: enter");
         try {
             Domain rootDomain = domainDAO.findByName(Domain.ROOT_NAME);
             if (rootDomain == null) {
@@ -173,13 +161,11 @@ public class DomainServiceImpl implements DomainService {
                 domainDAO.save(subRootDomain);
             }
         } catch (Exception e) {}
-        log.info("populateRootDomain: exit");
     }
 
     // injection methods
 
     public void setDomainDAO(DomainDAO domainDAO) {
-        log.info("setDomainDAO(domainDAO): called");
         this.domainDAO = domainDAO;
     }
 

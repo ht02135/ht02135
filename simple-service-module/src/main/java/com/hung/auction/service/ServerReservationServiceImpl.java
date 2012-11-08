@@ -52,7 +52,7 @@ public class ServerReservationServiceImpl implements ServerReservationService {
 				}
 			});
 		} catch (JMSException e) {
-			log.info("publishReserveUnReserve: e="+e);
+			log.error("publishReserveUnReserve: e="+e);
 		}
 	}
 	

@@ -99,9 +99,9 @@ public class RestfulAuctionClient
 				log.info("getSeller: Failed : HTTP error code :" + conn.getResponseCode());
 			}
 		} catch (MalformedURLException mue) {
-			log.info("getSeller: mue="+mue.toString());
+			log.error("getSeller: mue="+mue.toString());
 		} catch (IOException ioe) {
-			log.info("getSeller: ioe="+ioe.toString());
+			log.error("getSeller: ioe="+ioe.toString());
 		}
     }
     

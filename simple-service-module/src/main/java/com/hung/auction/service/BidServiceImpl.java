@@ -27,11 +27,8 @@ public class BidServiceImpl implements BidService {
 	 
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public void publish(final Bid bid) {
-		log.info("send "+bid+" to BidMDP");
-		
 		jmsTemplate.send(destination, new MessageCreator() {
 			public Message createMessage(Session session) throws JMSException {
-				log.info("create object message for "+bid);
 				return session.createObjectMessage(bid);
 			}
 		});
@@ -39,11 +36,8 @@ public class BidServiceImpl implements BidService {
 	
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public void publish(final Integer bidId) {
-		log.info("send bidId="+bidId+" to BidMDP");
-		
 		jmsTemplate.send(destination, new MessageCreator() {
 			public Message createMessage(Session session) throws JMSException {
-				log.info("create object message for bidId="+bidId);
 				return session.createTextMessage(bidId.toString());
 			}
 		});

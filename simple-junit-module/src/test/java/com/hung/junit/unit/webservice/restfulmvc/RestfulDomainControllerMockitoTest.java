@@ -107,8 +107,7 @@ public class RestfulDomainControllerMockitoTest {
             // verify
             Mockito.verify(domainServiceMock).findAll(true);
         } catch (Exception e) {
-            log.info("e.getMessage()="+e.getMessage());
-            e.printStackTrace();
+            log.error("e.getMessage()="+e.getMessage());
         }
         
         log.info("testGetDomains -  end");

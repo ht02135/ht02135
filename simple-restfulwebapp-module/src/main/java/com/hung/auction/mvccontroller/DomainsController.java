@@ -25,24 +25,16 @@ public class DomainsController implements IAuthenticateController {
 	// display list of domains
 	@RequestMapping(method=RequestMethod.GET)
 	public String displayDomains(Model model) {
-	
-		// debug domains
 		List<Domain> domains = domainService.findAll();
-		log.info("displayDomains: domains="+domains);
 		model.addAttribute("domains", domains);
-		
 		return "domains/list";
 	}
 	
 	// view domain user of loginId
 	@RequestMapping(value="/{name}", method=RequestMethod.GET)
 	public String viewDomain(@PathVariable String name, Model model) {
-		log.info("viewDomain: enter, name="+name);
-		
 		Domain domain = domainService.findByName(name);
-		log.info("viewDomain: domain="+domain);
 	    model.addAttribute("domain", domain);
-	    
 	    return "domains/view";
 	}
 }

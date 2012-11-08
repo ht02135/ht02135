@@ -30,13 +30,10 @@ public class DomainUserServiceImpl implements DomainUserService {
 	@Qualifier("domainDAO")	
 	private DomainDAO domainDAO;
 	
-	public DomainUserServiceImpl() {
-		log.info("DomainUserServiceImpl(): calling constructor");
-	}
+	public DomainUserServiceImpl() {}
 	
 	// constructor called before call setXX injection
 	public DomainUserServiceImpl(DomainDAO domainDAO, DomainUserDAO domainUserDAO) {
-		log.info("DomainUserServiceImpl(domainDAO, domainUserDAO): calling constructor");
 		setDomainDAO(domainDAO);
 		setDomainUserDAO(domainUserDAO);
 		populateAdminDomainUser();
@@ -45,38 +42,23 @@ public class DomainUserServiceImpl implements DomainUserService {
 	// -- Suppose to be called after all setXX injection are called - start ----
 	@PostConstruct
 	public void postConstruct() {
-		log.info("postConstruct: calling populateRootDomain()");
 		populateAdminDomainUser();
 	}
 	
 	public void initMethod() {
-		log.info("initMethod: calling populateRootDomain()");
 		populateAdminDomainUser();
 	}
 	// -- Suppose to be called after all setXX injection are called - end ----
 	
 	// -- destory -- start
 	@PreDestroy
-	public void preDestroy() {
-		log.info("preDestroy: called");
-	}
+	public void preDestroy() {}
 	
-	public void destroyMethod() {
-		log.info("destroyMethod: called");
-	}
+	public void destroyMethod() {}
 	// -- destory -- end
 	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void save(DomainUser domainUser) {
-		log.info("save: domainUser="+domainUser);
-		
-		String domainName = domainUser.getUserDomain().getName();
-		Domain domain = domainDAO.findByName(domainName);
-		if (domain != null) {
-			log.info("save: found domain="+domain+" by domainName="+domainName+" in domainUser="+domainUser);
-		} else {
-			log.info("save: not found domain="+domain+" by domainName="+domainName+" in domainUser="+domainUser);
-		}
 		domainUserDAO.save(domainUser);
 	}
 	
@@ -96,8 +78,12 @@ public class DomainUserServiceImpl implements DomainUserService {
 		return domainUserDAO.findAll();
 	}
 	
+	@Transactional(propagation=Propagation.REQUIRED)
+	public void deleteByLoginId(String loginId) {
+		domainUserDAO.deleteByLoginId(loginId);
+	}
+	
 	private void populateAdminDomainUser() {
-		log.info("populateAdminDomainUser: enter");
 		try {
 			if (domainUserDAO.findByLoginId(DomainUser.ADMIN_NAME) == null) {
 				Domain rootDomain = domainDAO.findByName(Domain.ROOT_NAME);
@@ -108,18 +94,15 @@ public class DomainUserServiceImpl implements DomainUserService {
 				domainUserDAO.save(new DomainUser(DomainUser.ADMIN_NAME, DomainUser.ADMIN_NAME, rootDomain));
 			}
 		} catch (Exception e) {}
-		log.info("populateAdminDomainUser: exit");
 	}
 	
 	// injection methods
 
 	public void setDomainUserDAO(DomainUserDAO domainUserDAO) {
-		log.info("setDomainUserDAO(domainUserDAO): called");
 		this.domainUserDAO = domainUserDAO;
 	}
 	
 	public void setDomainDAO(DomainDAO domainDAO) {
-		log.info("setDomainDAO(domainDAO): called");
 		this.domainDAO = domainDAO;
 	}
 	
