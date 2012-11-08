@@ -152,31 +152,5 @@
             </props>
         </property>
     </bean>
-    
-    <!-- ////////// DAO ////////// -->
-    
-    <bean id="bidDAO" class="com.hung.auction.dao.hibernate.HibernateBidDAO">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-    
-    <bean id="sellerDAO" class="com.hung.auction.dao.hibernate.HibernateSellerDAO">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-    
-    <bean id="domainDAO" class="com.hung.auction.dao.hibernate.HibernateDomainDAO">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-    
-    <bean id="domainUserDAO" class="com.hung.auction.dao.hibernate.HibernateDomainUserDAO">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>   
-    
-    <bean id="domainSettingDAO" class="com.hung.auction.dao.hibernate.HibernateDomainSettingDAO">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-    
-    <bean id="clientCacheDAO" class="com.hung.auction.dao.hibernate.HibernateClientCacheDAO">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>  
-    
+
  </beans>

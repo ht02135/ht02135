@@ -2,15 +2,20 @@ package com.hung.auction.service;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hung.auction.dao.SellerDAO;
 import com.hung.auction.domain.Seller;
 
+@Service("sellerService")
 public class SellerServiceImpl implements SellerService {
 	
+    @Autowired
+    @Qualifier("sellerDAO")
 	private SellerDAO sellerDAO;
 	
 	public SellerServiceImpl() {

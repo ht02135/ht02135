@@ -40,9 +40,9 @@ Other useful annotations
 
 @Controller
 @RequestMapping("/springrest/domains")
-public class RestfulDomainsController {
+public class RestfulDomainController {
 
-    private static Logger log = Logger.getLogger(RestfulDomainsController.class);
+    private static Logger log = Logger.getLogger(RestfulDomainController.class);
 
     @Autowired
     private DomainService domainService;	// dont need setXXX method when autowire

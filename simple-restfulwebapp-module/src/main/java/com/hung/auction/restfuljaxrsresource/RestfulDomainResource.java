@@ -29,9 +29,9 @@ import com.hung.auction.service.DomainService;
 
 @Component
 @Path("/jaxrest/domains")	// host DomainResource at URI path '/domains'
-public class DomainResourceController implements DomainResource {
+public class RestfulDomainResource {
 
-    private static Logger log = Logger.getLogger(DomainResourceController.class);
+    private static Logger log = Logger.getLogger(RestfulDomainResource.class);
 
     /*
         @Autowired, @InjectParam("domainService"), and webAppContext.getBean("domainService") worked.
@@ -51,7 +51,7 @@ public class DomainResourceController implements DomainResource {
     @Context ServletContext servletContext;
     @Context UriInfo uriInfo;
 
-    public DomainResourceController() {
+    public RestfulDomainResource() {
         log.info("********** DomainResourceController: enter **********");
         log.info("********** DomainResourceController: exit **********");
     }

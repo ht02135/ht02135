@@ -22,9 +22,9 @@ import com.hung.auction.service.DomainUserService;
 
 @Controller
 @RequestMapping("/springrest/domainusers")
-public class RestfulDomainUsersController {
+public class RestfulDomainUserController {
 
-    private static Logger log = Logger.getLogger(RestfulDomainUsersController.class);
+    private static Logger log = Logger.getLogger(RestfulDomainUserController.class);
 
     @Autowired
     private DomainService domainService;

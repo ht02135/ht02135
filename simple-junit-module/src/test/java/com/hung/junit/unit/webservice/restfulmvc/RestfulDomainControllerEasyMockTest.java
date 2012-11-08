@@ -28,18 +28,18 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 
 import com.hung.auction.domain.Domain;
 import com.hung.auction.jaxbdomain.JaxbDomain;
-import com.hung.auction.restfulmvccontroller.RestfulDomainsController;
+import com.hung.auction.restfulmvccontroller.RestfulDomainController;
 import com.hung.auction.service.DomainService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"classpath:applicationContext-test.xml"})
 @TransactionConfiguration
 @Transactional
-public class DomainRESTfulControllerEasyMockTest {
+public class RestfulDomainControllerEasyMockTest {
     
     // http://stackoverflow.com/questions/861089/testing-spring-mvc-annotation-mapppings
 
-    private static Logger log = Logger.getLogger(DomainRESTfulControllerEasyMockTest.class);
+    private static Logger log = Logger.getLogger(RestfulDomainControllerEasyMockTest.class);
     
     // mocks
     private DomainService domainServiceMock;
@@ -48,7 +48,7 @@ public class DomainRESTfulControllerEasyMockTest {
     
     // #######################################################################
     
-    private RestfulDomainsController restfulDomainsController; 
+    private RestfulDomainController restfulDomainsController; 
     
     @Autowired
     @Qualifier("annotationMethodHandlerAdapter")
@@ -66,7 +66,7 @@ public class DomainRESTfulControllerEasyMockTest {
         
         // no need to setup adapter, it will be wired in
 
-        restfulDomainsController = new RestfulDomainsController(); 
+        restfulDomainsController = new RestfulDomainController(); 
         restfulDomainsController.setDomainService(domainServiceMock);
         
         objectMapper = new ObjectMapper();

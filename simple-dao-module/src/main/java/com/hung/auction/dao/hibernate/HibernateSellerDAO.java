@@ -5,16 +5,27 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import com.hung.auction.dao.SellerDAO;
 import com.hung.auction.domain.Seller;
 
+@Repository("sellerDAO")
 public class HibernateSellerDAO extends HibernateDaoSupport implements SellerDAO {
 	
 	private static Logger log = Logger.getLogger(HibernateSellerDAO.class);
 
+    @Autowired
+    public HibernateSellerDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+        super();
+        setSessionFactory(sessionFactory);
+    }
+    
     public void save(Seller seller) {
     	log.info("seller="+seller);
     	getHibernateTemplate().save(seller);

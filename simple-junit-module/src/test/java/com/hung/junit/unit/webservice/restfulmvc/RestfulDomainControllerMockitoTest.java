@@ -29,7 +29,7 @@ import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAda
 
 import com.hung.auction.domain.Domain;
 import com.hung.auction.jaxbdomain.JaxbDomain;
-import com.hung.auction.restfulmvccontroller.RestfulDomainsController;
+import com.hung.auction.restfulmvccontroller.RestfulDomainController;
 import com.hung.auction.service.DomainService;
 
 
@@ -37,11 +37,11 @@ import com.hung.auction.service.DomainService;
 @ContextConfiguration(locations={"classpath:applicationContext-test.xml"})
 @TransactionConfiguration
 @Transactional
-public class DomainRESTfulControllerMockitoTest {
+public class RestfulDomainControllerMockitoTest {
     
     // http://stackoverflow.com/questions/861089/testing-spring-mvc-annotation-mapppings
 
-    private static Logger log = Logger.getLogger(DomainRESTfulControllerMockitoTest.class);
+    private static Logger log = Logger.getLogger(RestfulDomainControllerMockitoTest.class);
     
     @MockitoAnnotations.Mock
     private DomainService domainServiceMock;
@@ -49,7 +49,7 @@ public class DomainRESTfulControllerMockitoTest {
     private MockHttpServletResponse responseMock;
     
     // #######################################################################
-    private RestfulDomainsController restfulDomainsController = null; 
+    private RestfulDomainController restfulDomainsController = null; 
     
     @Autowired
     @Qualifier("annotationMethodHandlerAdapter")
@@ -67,7 +67,7 @@ public class DomainRESTfulControllerMockitoTest {
         
         // no need to setup adapter, it will be wired in
 
-        restfulDomainsController = new RestfulDomainsController(); 
+        restfulDomainsController = new RestfulDomainController(); 
         restfulDomainsController.setDomainService(domainServiceMock);
         
         objectMapper = new ObjectMapper();

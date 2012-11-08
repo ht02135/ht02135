@@ -5,17 +5,28 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import com.hung.auction.dao.BidDAO;
 import com.hung.auction.domain.Bid;
 import com.hung.auction.domain.Bidder;
 
+@Repository("bidDAO")
 public class HibernateBidDAO extends HibernateDaoSupport implements BidDAO {
 
     public void save(Bid bid) {
     	getHibernateTemplate().save( bid );
+    }
+    
+    @Autowired
+    public HibernateBidDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+        super();
+        setSessionFactory(sessionFactory);
     }
 
     public List<Bid> findByBidder(final Bidder bidder) {

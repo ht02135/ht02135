@@ -3,19 +3,28 @@ package com.hung.auction.dao.hibernate;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Repository;
 
 import com.hung.auction.dao.DomainSettingDAO;
 import com.hung.auction.domain.BooleanDomainSetting;
 import com.hung.auction.domain.IntegerDomainSetting;
 import com.hung.auction.domain.StringDomainSetting;
 
+@Repository("domainSettingDAO")
 public class HibernateDomainSettingDAO extends HibernateDaoSupport implements DomainSettingDAO {
 
 	private static Logger log = Logger.getLogger(HibernateDomainSettingDAO.class);
+	
+    @Autowired
+    public HibernateDomainSettingDAO(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+        super();
+        setSessionFactory(sessionFactory);
+    }
 	
     public void save(StringDomainSetting stringDomainSetting) {
     	log.info("save: stringDomainSetting="+stringDomainSetting);
