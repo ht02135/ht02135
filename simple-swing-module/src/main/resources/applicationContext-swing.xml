@@ -25,10 +25,13 @@
     <bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
         <property name="classesToBeBound">
             <list>
+                <value>com.hung.auction.jaxbdomain.JaxbBooleanDomainSetting</value>
                 <value>com.hung.auction.jaxbdomain.JaxbClientSession</value>
                 <value>com.hung.auction.jaxbdomain.JaxbDomain</value>
                 <value>com.hung.auction.jaxbdomain.JaxbDomainUser</value>
+                <value>com.hung.auction.jaxbdomain.JaxbIntegerDomainSetting</value>
                 <value>com.hung.auction.jaxbdomain.JaxbSeller</value>
+                <value>com.hung.auction.jaxbdomain.JaxbStringDomainSetting</value>
             </list>
         </property>   
     </bean>

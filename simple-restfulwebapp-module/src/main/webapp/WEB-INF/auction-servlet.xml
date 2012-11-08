@@ -45,12 +45,13 @@
     <bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
         <property name="classesToBeBound">
             <list>
+                <value>com.hung.auction.jaxbdomain.JaxbBooleanDomainSetting</value>
                 <value>com.hung.auction.jaxbdomain.JaxbClientSession</value>
                 <value>com.hung.auction.jaxbdomain.JaxbDomain</value>
                 <value>com.hung.auction.jaxbdomain.JaxbDomainUser</value>
+                <value>com.hung.auction.jaxbdomain.JaxbIntegerDomainSetting</value>
                 <value>com.hung.auction.jaxbdomain.JaxbSeller</value>
-                <value>com.hung.auction.domain.Domain</value>
-                <value>com.hung.auction.domain.DomainUser</value>
+                <value>com.hung.auction.jaxbdomain.JaxbStringDomainSetting</value>
             </list>
         </property>
     </bean>
@@ -65,6 +66,8 @@
     <bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
         <property name="supportedMediaTypes" value="application/json" />
     </bean>
+    
+	<bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter"/>
     
     <!-- ////////////////////// Interceptors ////////////////////////////////////// -->
     
@@ -128,6 +131,7 @@
             <list>
                 <ref bean="marshallingHttpMessageConverter"/>
                 <ref bean="mappingJacksonHttpMessageConverter"/>
+                <ref bean="stringHttpMessageConverter"/>
             </list>
         </property>
     </bean>
