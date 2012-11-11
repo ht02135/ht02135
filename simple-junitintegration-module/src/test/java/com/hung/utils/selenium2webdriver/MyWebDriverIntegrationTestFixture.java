@@ -9,13 +9,12 @@ import com.hung.utils.testwatcher.WebDriverSeleniumCaptureFailedTestWatcher;
 
 public class MyWebDriverIntegrationTestFixture {
 	
-	public static final String BASE_RUL = "http://localhost:8081";	// timeInSeconds
+	public static final String BASE_RUL = "http://localhost:8081";
 	
     protected static WebDriver driver;
     static
     {
-        FirefoxProfile profile = new FirefoxProfile();
-        driver = new FirefoxDriver(profile);
+        driver = new FirefoxDriver(new FirefoxProfile());
     }
     
     @Rule

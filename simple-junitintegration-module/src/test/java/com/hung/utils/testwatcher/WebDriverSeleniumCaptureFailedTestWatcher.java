@@ -31,7 +31,7 @@ public class WebDriverSeleniumCaptureFailedTestWatcher extends DefaultSeleniumCa
         log.info("fileNameAppend="+fileNameAppend);
         
         try { 
-            selenium.windowMaximize();
+            driver.manage().window().maximize();
             
             Thread.sleep(2000); // give the browser a chance to maximise properly
             
