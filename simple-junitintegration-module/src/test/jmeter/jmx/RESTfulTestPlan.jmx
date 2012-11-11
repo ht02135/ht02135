@@ -39,7 +39,7 @@
           <collectionProp name="Arguments.arguments">
             <elementProp name="DATAPATH" elementType="Argument">
               <stringProp name="Argument.name">DATAPATH</stringProp>
-              <stringProp name="Argument.value">C:\Software\Workspace\simple-parent\simple-junitintegration-module\src\test\jmeter\jmx\resources</stringProp>
+              <stringProp name="Argument.value">C:\HungProjects\Workspace\simple-parent\simple-junitintegration-module\src\test\jmeter\jmx\resources</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
           </collectionProp>
@@ -259,7 +259,7 @@
           <collectionProp name="Arguments.arguments">
             <elementProp name="DATAPATH" elementType="Argument">
               <stringProp name="Argument.name">DATAPATH</stringProp>
-              <stringProp name="Argument.value">C:\Software\Workspace\simple-parent\simple-junitintegration-module\src\test\jmx\resources</stringProp>
+              <stringProp name="Argument.value">C:\HungProjects\Workspace\simple-parent\simple-junitintegration-module\src\test\jmeter\jmx\resources</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
           </collectionProp>

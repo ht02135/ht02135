@@ -45,22 +45,12 @@
             </elementProp>
             <elementProp name="loginId_1" elementType="Argument">
               <stringProp name="Argument.name">loginId_1</stringProp>
-              <stringProp name="Argument.value">test</stringProp>
+              <stringProp name="Argument.value">jmetertest1</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
             <elementProp name="loginId_2" elementType="Argument">
               <stringProp name="Argument.name">loginId_2</stringProp>
-              <stringProp name="Argument.value">test2</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-            <elementProp name="loginId_3" elementType="Argument">
-              <stringProp name="Argument.name">loginId_3</stringProp>
-              <stringProp name="Argument.value">test3</stringProp>
-              <stringProp name="Argument.metadata">=</stringProp>
-            </elementProp>
-            <elementProp name="loginId_4" elementType="Argument">
-              <stringProp name="Argument.name">loginId_4</stringProp>
-              <stringProp name="Argument.value">test4</stringProp>
+              <stringProp name="Argument.value">jmetertest2</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
           </collectionProp>

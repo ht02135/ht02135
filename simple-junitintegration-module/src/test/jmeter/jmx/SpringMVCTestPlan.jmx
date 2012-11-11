@@ -310,7 +310,7 @@
             <hashTree>
               <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="VERIFY test user exist Response Assertion" enabled="true">
                 <collectionProp name="Asserion.test_strings">
-                  <stringProp name="991522078">&lt;td&gt;admin&lt;/td&gt;</stringProp>
+                  <stringProp name="1844450391">&lt;td&gt;test&lt;/td&gt;</stringProp>
                 </collectionProp>
                 <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
                 <boolProp name="Assertion.assume_success">false</boolProp>

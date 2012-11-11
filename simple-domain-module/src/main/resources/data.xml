@@ -3,4 +3,6 @@
   <DOMAIN DOMAIN_NAME="root"/>
   <DOMAIN DOMAIN_NAME="subroot" PARENT_DOMAIN_NAME="root"/>
   <DOMAIN_USER USER_LOGIN_ID="admin" USER_NAME="admin" USER_DOMAIN_NAME="root"/>
+  <DOMAIN_USER USER_LOGIN_ID="jmetertest1" USER_NAME="jmetertest1" USER_DOMAIN_NAME="root"/>
+  <DOMAIN_USER USER_LOGIN_ID="jmetertest2" USER_NAME="jmetertest2" USER_DOMAIN_NAME="root"/>
 </dataset>

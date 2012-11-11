@@ -30,6 +30,8 @@
         <hibernate.version>3.3.2.GA</hibernate.version>
         <hibernate.annotation.version>3.3.0.ga</hibernate.annotation.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jmeter.lib>${basedir}/jmeter/lib</jmeter.lib>
+        <jmeter.lib.junit>${basedir}/jmeter/lib/junit</jmeter.lib.junit>
     </properties>
 
     <build>
@@ -40,6 +42,18 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>2.5.1</version>
                 <executions>
+                	<!-- copy dependencies to target/dependencies -->
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/dependencies</outputDirectory>
+						</configuration>
+					</execution>
+					<!-- copy xxx.war to target/xxx.war -->
                     <execution>
                         <id>copy-war</id>
                         <phase>package</phase>
@@ -65,8 +79,48 @@
                     </execution>
                 </executions>
             </plugin>
+            
+        	<!-- jar:test-jar (Binds by default to the lifecycle phase: package) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+					    <phase>package</phase>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
-            <!-- http://jetty.codehaus.org/jetty/maven-plugin/run-mojo.html -->
+			<!-- ant tasks => http://ant.apache.org/manual/tasksoverview.html -->
+			<!-- comment out due to JMeter weird behavior -->
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<configuration>
+							<target name="copy_test_jars">
+								<copy todir="${jmeter.lib}">
+    								<fileset dir="${project.build.directory}/dependencies">
+    									<include name="*.jar" />
+    								</fileset>
+  								</copy>
+								<copy file="${project.build.directory}/${artifactId}-${version}-tests.jar" tofile="${jmeter.lib.junit}/${artifactId}-${version}-tests.jar"/>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+            <!-- maven-jetty-plugin ==> http://jetty.codehaus.org/jetty/maven-plugin/run-mojo.html -->
             <!-- 
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
@@ -119,13 +173,31 @@
             </plugin>
             -->
 
-            <!-- chronos-jmeter, http://mojo.codehaus.org/chronos/ http://mojo.codehaus.org/chronos/chronos-jmeter-maven-plugin/usage.html 
-                1>The chronos-jmeter plugin is used for executing performancetests or to 
-                integrate results of already existing performancetests into the Chronos infrastructure. 
-                It may also be used for saving historical data, or for validating that performance 
-                goals have been met. 2>The chronos-report plugin uses the output from chronos-jmeter, 
-                to create current or historical reports. -->
-            <!-- 
+			<!-- maven-jmeter-plugin ==> http://wiki.apache.org/jmeter/JMeterMavenPlugin
+			     VS
+			     chronos-jmeter-maven-plugin ==> http://mojo.codehaus.org/chronos/chronos-jmeter-maven-plugin/usage.html
+			-->
+			<!--
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>chronos-jmeter-maven-plugin</artifactId>
+				<version>1.1.0</version>
+				<configuration>
+					<input>${basedir}/src/test/jmeter/jmx</input>
+					<historydir>${history.directory}</historydir>
+				</configuration>
+				<executions>
+					<execution>
+						<id>jmeter-test</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>jmeter</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			-->
+            <!-- use mvn chronos-jmeter:jmeter -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>chronos-jmeter-maven-plugin</artifactId>
@@ -134,17 +206,7 @@
                     <input>${basedir}/src/test/jmeter/jmx</input>
                     <historydir>${history.directory}</historydir>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>jmeter-test</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>jmeter</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
-            -->
 
             <!-- ******************************************************* -->
             <!-- Start selenium-server before the integration test start -->
