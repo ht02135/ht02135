@@ -7,25 +7,24 @@ import org.apache.log4j.Logger;
 
 public class ResourcePoolWorkers {
 	
-	private static Logger log = Logger.getLogger(ResourcePoolWorkers.class);
+	private Logger log = Logger.getLogger(ResourcePoolWorkers.class);
 	
-	private static IResourcePool RESOURCE_POOL;
-	
-	private static Random random = new Random();
+	protected IResourcePool resourcePool;
+	protected Random random = new Random();
 	
 	public void start() {
 		log.info("start : enter");
 		
-		RESOURCE_POOL = new ResourcePool();
+		resourcePool = new ResourcePool();
 		
 		// add 5 resources
-		RESOURCE_POOL.add(new ResourcePool.Resource());
-		RESOURCE_POOL.add(new ResourcePool.Resource());
-		RESOURCE_POOL.add(new ResourcePool.Resource());
-		RESOURCE_POOL.add(new ResourcePool.Resource());
-		RESOURCE_POOL.add(new ResourcePool.Resource());
+		resourcePool.add(new ResourcePool.Resource());
+		resourcePool.add(new ResourcePool.Resource());
+		resourcePool.add(new ResourcePool.Resource());
+		resourcePool.add(new ResourcePool.Resource());
+		resourcePool.add(new ResourcePool.Resource());
 		
-		RESOURCE_POOL.open();
+		resourcePool.open();
 		
 		Thread worker = new Thread(new ResourceWorker("worker"));
 		worker.start();
@@ -47,12 +46,12 @@ public class ResourcePoolWorkers {
 		
 		try {
 			log.info("enter 5min sleep");
-			Thread.sleep(180000);	// sleep in millis, 1000millis=1sec, 60000millis=1min
+			Thread.sleep(120000);	// sleep in millis, 1000millis=1sec, 60000millis=1min
 			log.info("exit 5min sleep");
 		} catch (InterruptedException e) {
 		}	
 		
-		RESOURCE_POOL.close();
+		resourcePool.close();
 		
 		log.info("start : end");
 	}
@@ -64,7 +63,7 @@ public class ResourcePoolWorkers {
 
 	// inner classes
 	
-	private abstract class AbstractWorker implements Runnable {
+	protected abstract class AbstractWorker implements Runnable {
 		
 		private int loopCount = 100;
 		
@@ -83,7 +82,7 @@ public class ResourcePoolWorkers {
 		protected abstract void doTask();
 	}
 	
-	private class ResourceWorker extends AbstractWorker {
+	protected class ResourceWorker extends AbstractWorker {
 		
 		private String name;
 		
@@ -99,15 +98,15 @@ public class ResourcePoolWorkers {
 		
 		protected void doTask() {
 			try {
-				IResource resource = RESOURCE_POOL.acquire();
+				IResource resource = resourcePool.acquire();
 				Thread.sleep(getSleepTime());	// sleep 1 sec => do task for 1 sec
-				RESOURCE_POOL.release(resource);
+				resourcePool.release(resource);
 			} catch (Exception e) {}
 		}
 	}
 	
 	// work if only if can get resource
-	private class ResourceSlacker extends AbstractWorker {
+	protected class ResourceSlacker extends AbstractWorker {
 		
 		public void run() {
 			log.info("ResourceSlacker started");
@@ -117,10 +116,10 @@ public class ResourcePoolWorkers {
 
 		protected void doTask() {
 			try {
-				IResource resource = RESOURCE_POOL.acquire(1000, TimeUnit.MILLISECONDS);
+				IResource resource = resourcePool.acquire(1000, TimeUnit.MILLISECONDS);
 				if (resource != null) {
 					Thread.sleep(getSleepTime());	// sleep 1 sec
-					RESOURCE_POOL.release(resource);
+					resourcePool.release(resource);
 				} else {
 					Thread.sleep(getSleepTime());	// sleep 1 sec
 				}
@@ -129,7 +128,7 @@ public class ResourcePoolWorkers {
 		
 	}
 	
-	private class ResourceReplacer extends AbstractWorker {
+	protected class ResourceReplacer extends AbstractWorker {
 		
 		public void run() {
 			log.info("ResourceReplacer started");
@@ -139,17 +138,17 @@ public class ResourcePoolWorkers {
 
 		protected void doTask() {
 			try {
-				IResource resource = RESOURCE_POOL.acquire();
-				RESOURCE_POOL.release(resource);
-				RESOURCE_POOL.remove(resource);
-				RESOURCE_POOL.add(new ResourcePool.Resource());
+				IResource resource = resourcePool.acquire();
+				resourcePool.release(resource);
+				resourcePool.remove(resource);
+				resourcePool.add(new ResourcePool.Resource());
 				Thread.sleep(getSleepTime());	// sleep 1 sec
 			} catch (Exception e) {}
 		}
 		
 	}
 	
-	private class ResourceReplacerNow extends AbstractWorker {
+	protected class ResourceReplacerNow extends AbstractWorker {
 
 		public void run() {
 			log.info("ResourceReplacerNow started");
@@ -159,9 +158,9 @@ public class ResourcePoolWorkers {
 		
 		protected void doTask() {
 			try {
-				IResource resource = RESOURCE_POOL.acquire();
-				RESOURCE_POOL.removeNow(resource);
-				RESOURCE_POOL.add(new ResourcePool.Resource());
+				IResource resource = resourcePool.acquire();
+				resourcePool.removeNow(resource);
+				resourcePool.add(new ResourcePool.Resource());
 				Thread.sleep(getSleepTime());	// sleep 1 sec
 			} catch (Exception e) {}
 		}
