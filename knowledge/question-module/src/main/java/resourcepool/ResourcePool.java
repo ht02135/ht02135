@@ -244,6 +244,8 @@ public class ResourcePool implements IResourcePool {
 		
 		private static Logger log = Logger.getLogger(Resource.class);
 		
+		private String name = "resource";
+		
 		public Resource() {}
 	}
 }
