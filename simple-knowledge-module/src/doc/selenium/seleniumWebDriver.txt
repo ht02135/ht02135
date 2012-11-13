@@ -1,0 +1,930 @@
+http://seleniumhq.org/docs/03_webdriver.html
+
+Selenium-WebDriver makes direct calls to the browser using each browser’s native support for automation. How these direct calls are made, and the features they support depends on the browser you are using. Information on each ‘browser driver’ is provided later in this chapter.
+
+For those familiar with Selenium-RC, this is quite different from what you are used to. Selenium-RC worked the same way for each supported browser. It ‘injected’ javascript functions into the browser when the browser was loaded and then used its javascript to drive the AUT within the browser. WebDriver does not use this technique. Again, it drives the browser directly using the browser’s built in support for automation.
+
+------------
+Setting Up a Selenium-WebDriver Project
+
+The easiest way to set up a Selenium 2.0 Java project is to use Maven. Maven will download the java bindings (the Selenium 2.0 java client library) and all its dependencies, and will create the project for you, using a maven pom.xml (project configuration) file. Once you’ve done this, you can import the maven project into your preferred IDE, IntelliJ IDEA or Eclipse.
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+        <modelVersion>4.0.0</modelVersion>
+        <groupId>MySel20Proj</groupId>
+        <artifactId>MySel20Proj</artifactId>
+        <version>1.0</version>
+        <dependencies>
+            <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-java</artifactId>
+                <version>2.25.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.opera</groupId>
+                <artifactId>operadriver</artifactId>
+            </dependency>
+        </dependencies>
+        <dependencyManagement>
+            <dependencies>
+                <dependency>
+                    <groupId>com.opera</groupId>
+                    <artifactId>operadriver</artifactId>
+                    <version>0.16</version>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.seleniumhq.selenium</groupId>
+                            <artifactId>selenium-remote-driver</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+            </dependencies>
+        </dependencyManagement>
+</project>
+
+------------
+
+Introducing the Selenium-WebDriver API by Example
+
+package org.openqa.selenium.example;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Selenium2Example  {
+    public static void main(String[] args) {
+        // Create a new instance of the Firefox driver
+        // Notice that the remainder of the code relies on the interface, 
+        // not the implementation.
+        WebDriver driver = new FirefoxDriver();
+
+        // And now use this to visit Google
+        driver.get("http://www.google.com");
+        // Alternatively the same thing can be done like this
+        // driver.navigate().to("http://www.google.com");
+
+        // Find the text input element by its name
+        WebElement element = driver.findElement(By.name("q"));
+
+        // Enter something to search for
+        element.sendKeys("Cheese!");
+
+        // Now submit the form. WebDriver will find the form for us from the element
+        element.submit();
+
+        // Check the title of the page
+        System.out.println("Page title is: " + driver.getTitle());
+        
+        // Google's search is rendered dynamically with JavaScript.
+        // Wait for the page to load, timeout after 10 seconds
+        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return d.getTitle().toLowerCase().startsWith("cheese!");
+            }
+        });
+
+        // Should see: "cheese! - Google Search"
+        System.out.println("Page title is: " + driver.getTitle());
+        
+        //Close the browser
+        driver.quit();
+    }
+}
+
+--------------------------
+
+Selenium-WebDriver API Commands and Operations
+
+1>Fetching a Page
+
+driver.get("http://www.google.com");
+
+2>Locating UI Elements (WebElements)
+
+a>by id
+
+<div id="coolestWidgetEvah">...</div>
+
+WebElement element = driver.findElement(By.id("coolestWidgetEvah"));
+
+b>by class name
+
+<div class="cheese"><span>Cheddar</span></div><div class="cheese"><span>Gouda</span></div>
+
+List<WebElement> cheeses = driver.findElements(By.className("cheese"));
+
+c>by tag name
+
+<iframe src="..."></iframe>
+
+WebElement frame = driver.findElement(By.tagName("iframe"));
+
+d>by name
+
+<input name="cheese" type="text"/>
+
+WebElement cheese = driver.findElement(By.name("cheese"));
+
+e>by link text
+
+<a href="http://www.google.com/search?q=cheese">cheese</a>>
+
+WebElement cheese = driver.findElement(By.linkText("cheese"));
+
+f>by css
+
+<div id="food"><span class="dairy">milk</span><span class="dairy aged">cheese</span></div>
+
+WebElement cheese = driver.findElement(By.cssSelector("#food span.dairy.aged"));
+
+g>using javascript
+
+WebElement element = (WebElement) ((JavascriptExecutor)driver).executeScript("return $('.cheese')[0]");
+
+List<WebElement> labels = driver.findElements(By.tagName("label"));
+List<WebElement> inputs = (List<WebElement>) ((JavascriptExecutor)driver).executeScript(
+    "var labels = arguments[0], inputs = []; for (var i=0; i < labels.length; i++){" +
+    "inputs.push(document.getElementById(labels[i].getAttribute('for'))); } return inputs;", labels);
+
+3>User Input - Filling In Forms
+
+toggle state of checkbox
+
+WebElement select = driver.findElement(By.tagName("select"));
+List<WebElement> allOptions = select.findElements(By.tagName("option"));
+for (WebElement option : allOptions) {
+    System.out.println(String.format("Value is: %s", option.getAttribute("value")));
+    option.click();
+}
+
+Select select = new Select(driver.findElement(By.tagName("select")));
+select.deselectAll();
+select.selectByVisibleText("Edam");
+
+driver.findElement(By.id("submit")).click();
+
+4>popup dialog
+
+After you’ve triggered an action that opens a popup, you can access the alert with the following:
+
+Alert alert = driver.switchTo().alert();
+
+5>Navigate
+
+"navigate().to()" and "get()" do exactly the same thing
+
+driver.navigate().to("http://www.example.com");
+
+6>Cookies
+
+// Go to the correct domain
+driver.get("http://www.example.com");
+
+// Now set the cookie. This one's valid for the entire domain
+Cookie cookie = new Cookie("key", "value");
+driver.manage().addCookie(cookie);
+
+// And now output all the available cookies for the current URL
+Set<Cookie> allCookies = driver.manage().getCookies();
+for (Cookie loadedCookie : allCookies) {
+    System.out.println(String.format("%s -> %s", loadedCookie.getName(), loadedCookie.getValue()));
+}
+
+// You can delete cookies in 3 ways
+// By name
+driver.manage().deleteCookieNamed("CookieName");
+// By Cookie
+driver.manage().deleteCookie(loadedCookie);
+// Or all of them
+driver.manage().deleteAllCookies();
+
+7>Drag And Drop
+
+WebElement element = driver.findElement(By.name("source"));
+WebElement target = driver.findElement(By.name("target"));
+
+(new Actions(driver)).dragAndDrop(element, target).perform();
+
+-------------------------------
+
+HtmlUnit Driver
+
+This is currently the fastest and most lightweight implementation of WebDriver. As the name suggests, this is based on HtmlUnit
+
+WebDriver driver = new HtmlUnitDriver();
+
+-------------------------------------
+
+Firefox Driver
+
+Controls the Firefox browser using a Firefox plugin. The Firefox Profile that is used is stripped down from what is installed on the machine to only include the Selenium WebDriver.xpi (plugin). A few settings are also changed by default (see the source to see which ones) Firefox Driver is capable of being run and is tested on Windows, Mac, Linux. Currently on versions 3.6, 10, latest - 1, latest
+
+WebDriver driver = new FirefoxDriver();
+
+----------------------------------------
+
+Backing WebDriver with Selenium
+
+WebDriver doesn’t support as many browsers as Selenium RC does, so in order to provide that support while still using the WebDriver API, you can make use of the SeleneseCommandExecutor
+
+DesiredCapabilities capabilities = new DesiredCapabilities();
+capabilities.setBrowserName("safari");
+CommandExecutor executor = new SeleneseCommandExecutor(new URL("http://localhost:4444/"), new URL("http://www.google.com/"), capabilities);
+WebDriver driver = new RemoteWebDriver(executor, capabilities);
+
+--------------------------------------
+
+http://seleniumhq.org/docs/04_webdriver_advanced.html#chapter04-reference
+
+Chapter 4
+
+1>Explicit Waits
+
+An explicit waits is code you define to wait for a certain condition to occur before proceeding further in the code. 
+
+WebDriver driver = new FirefoxDriver();
+driver.get("http://somedomain/url_that_delays_loading");
+WebElement myDynamicElement = (new WebDriverWait(driver, 10))
+  .until(new ExpectedCondition<WebElement>(){
+	@Override
+	public WebElement apply(WebDriver d) {
+		return d.findElement(By.id("myDynamicElement"));
+	}});
+	
+This waits up to 10 seconds before throwing a TimeoutException or if it finds the element will return it in 0 - 10 seconds. WebDriverWait by default calls the ExpectedCondition every 500 milliseconds until it returns successfully
+
+2>Expected Conditions
+
+There are some common conditions that are frequently come across when automating web browsers. Listed below are Implementations of each. Java happens to have convienence methods so you don’t have to code an ExpectedCondition class yourself or create your own utility package for them.
+
+    Element is Clickable - it is Displayed and Enabled.
+
+WebDriverWait wait = new WebDriverWait(driver, 10);
+WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.id("someid")));
+
+Implicit Waits
+
+An implicit wait is to tell WebDriver to poll the DOM for a certain amount of time when trying to find an element or elements if they are not immediately available. The default setting is 0. Once set, the implicit wait is set for the life of the WebDriver object instance.
+
+WebDriver driver = new FirefoxDriver();
+driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+driver.get("http://somedomain/url_that_delays_loading");
+WebElement myDynamicElement = driver.findElement(By.id("myDynamicElement"));
+
+3>RemoteWebDriver
+Taking a Screenshot
+
+import java.io.File;
+import java.net.URL;
+
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.Augmenter;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+public class Testing {
+    
+    public void myTest() throws Exception {
+        WebDriver driver = new RemoteWebDriver(
+                                new URL("http://localhost:4444/wd/hub"), 
+                                DesiredCapabilities.firefox());
+        
+        driver.get("http://www.google.com");
+        
+        // RemoteWebDriver does not implement the TakesScreenshot class
+        // if the driver does have the Capabilities to take a screenshot
+        // then Augmenter will add the TakesScreenshot methods to the instance
+        WebDriver augmentedDriver = new Augmenter().augment(driver);
+        File screenshot = ((TakesScreenshot)augmentedDriver).
+                            getScreenshotAs(OutputType.FILE);
+    }
+}
+
+-------------------------------------------
+
+http://seleniumhq.org/docs/06_test_design_considerations.html
+
+1>Testing Static Content (Content test)
+
+
+    Does each page have its expected page title? This can be used to verify your test found an expected page after following a link.
+    Does the application’s home page contain an image expected to be at the top of the page?
+    Does each page of the website contain a footer area with links to the company contact page, privacy policy, and trademarks information?
+    Does each page begin with heading text using the <h1> tag? And, does each page have the correct text within that header?
+
+2>Test links
+
+A frequent source of errors for web-sites is broken links or missing pages behind links. Testing involves clicking each link and verifying the expected page.
+
+3>Functional test
+
+These would be tests of a specific function within your application, requiring some type of user input, and returning some type of results. Often a function test will involve multiple pages with a form-based input page containing a collection of input fields, Submit and Cancel operations, and one or more response pages. User input can be via text-input fields, check boxes, drop-down lists, or any other browser-supported input.
+
+4>Testing Dynamic Elements (JSF app has this issue)
+
+<input type="checkbox" value="true" id="addForm:_ID74:_ID75:0:_ID79:0:
+    checkBox"/>
+
+This shows an HTML tag for a check box. Its ID (addForm:_ID74:_ID75:0:_ID79:0:checkBox) is a dynamically generated value. The next time the same page is opened it will likely be a different value.
+
+
+Ajax Tests
+
+Ajax is a technology which supports dynamically changing user interface elements which can dynamically change without the browser having to reload the page, such as animation, RSS feeds, and real-time data updates among others. There’s a countless ways Ajax can be used to update elements on a web page. But, the easy way to think of this is that in Ajax-driven applications, data can retrieved from the application server and then displayed on the page without reloading the entire page. Only a portion of the page, or strictly the element itself is reloaded.
+
+-----------------------------------------------
+
+1>Assert vs. Verify (I like Asserts as well)
+
+If you use an assert, the test will stop at that point and not run any subsequent checks. Sometimes, perhaps often, that is what you want. If the test fails you will immediately know the test did not pass
+
+verify commands will not terminate the test. If your test uses only verify commands you are guaranteed (assuming no unexpected exceptions) the test will run to completion whether the checks find defects or not. The disadvantage: you have to do more work to examine your test results
+
+Asserts are more commonly used then verifys due to their immediate feedback.
+
+2>Trade-offs: assertTextPresent, assertElementPresent, assertText
+
+You should now be familiar with these commands, and the mechanics of using them. If not, please refer to Chapter 3 first. When constructing your tests, you will need to decide
+
+    Do I only check that the text exists on the page? (verify/assertTextPresent)
+    Do I only check that the HTML element exists on the page? That is, the text, image, or other content is not to be checked, only the HTML tag is what is relevant. (verify/assertElementPresent)
+    Must I test both, the element and its text content? (verify/assertText)
+
+----------------
+
+Wrapping Selenium Calls
+
+As with any programming, you will want to use utility functions to handle code that would otherwise be duplicated throughout your tests. One way to prevent this is to wrap frequently used selenium calls with functions or class methods of your own design. 
+
+selenium.click(elementLocator);
+selenium.waitForPageToLoad(waitPeriod);
+
+public void clickAndWait(String elementLocator, String waitPeriod) {
+        selenium.click(elementLocator);
+        selenium.waitForPageToLoad(waitPeriod);
+}
+
+----------------------------------
+
+Safe Operations’ for Element Presence
+
+public void safeClick(String elementLocator) {
+        if(selenium.isElementPresent(elementLocator)) {
+                selenium.click(elementLocator);
+        } else {
+                // Using the TestNG API for logging
+                Reporter.log("Element: " +elementLocator+ ", is not available on page - "
+                                +selenium.getLocation());
+        }
+}
+
+--------------------------------------
+
+UI Mapping
+
+A UI map is a mechanism that stores all the locators for a test suite in one place for easy modification when identifiers or paths to UI elements change in the AUT. The test script then uses the UI Map for locating the elements to be tested. Basically, a UI map is a repository of test script objects that correspond to UI elements of the application being tested.
+
+public void testNew() throws Exception {
+             selenium.open("http://www.test.com");
+             selenium.type("loginForm:tbUsername", "xxxxxxxx");
+             selenium.click("loginForm:btnLogin");
+             selenium.click("adminHomeForm:_activitynew");
+             selenium.waitForPageToLoad("30000");
+             selenium.click("addEditEventForm:_IDcancel");
+             selenium.waitForPageToLoad("30000");
+             selenium.click("adminHomeForm:_activityold");
+             selenium.waitForPageToLoad("30000");
+}
+
+VS UI Map
+
+public void testNew() throws Exception {
+             selenium.open("http://www.test.com");
+             selenium.type(admin.username, "xxxxxxxx");
+             selenium.click(admin.loginbutton);
+             selenium.click(admin.events.createnewevent);
+             selenium.waitForPageToLoad("30000");
+             selenium.click(admin.events.cancel);
+             selenium.waitForPageToLoad("30000");
+             selenium.click(admin.events.viewoldevents);
+             selenium.waitForPageToLoad("30000");
+}
+
+public void testNew() throws Exception {
+
+             // Open app url.
+             selenium.open("http://www.test.com");
+
+             // Provide admin username.
+             selenium.type(admin.username, "xxxxxxxx");
+
+             // Click on Login button.
+             selenium.click(admin.loginbutton);
+
+             // Click on Create New Event button.
+             selenium.click(admin.events.createnewevent);
+             selenium.waitForPageToLoad("30000");
+
+             // Click on Cancel button.
+             selenium.click(admin.events.cancel);
+             selenium.waitForPageToLoad("30000");
+
+             // Click on View Old Events button.
+             selenium.click(admin.events.viewoldevents);
+             selenium.waitForPageToLoad("30000");
+}
+
+---------------
+
+Page Object Design Pattern
+
+The Page Object Design Pattern provides the following advantages.
+
+1. There is clean separation between test code and page specific code such as locators (or their use if you’re using a UI map) and layout.
+
+2. There is single repository for the services or operations offered by the page rather than having these services scattered through out the tests.
+
+public class Login {
+
+        public void testLogin() {
+                selenium.type("inputBox", "testUser");
+                selenium.type("password", "my supersecret password");
+                selenium.click("sign-in");
+                selenium.waitForPageToLoad("PageWaitPeriod");
+                Assert.assertTrue(selenium.isElementPresent("compose button"),
+                                "Login was unsuccessful");
+        }
+}
+
+change to POM
+
+public class SignInPage {
+
+        private Selenium selenium;
+
+        public SignInPage(Selenium selenium) {
+                this.selenium = selenium;
+                if(!selenium.getTitle().equals("Sign in page")) {
+                        throw new IllegalStateException("This is not sign in page, current page is: "
+                                        +selenium.getLocation());
+                }
+        }
+
+        /**
+         * Login as valid user
+         *
+         * @param userName
+         * @param password
+         * @return HomePage object
+         */
+        public HomePage loginValidUser(String userName, String password) {
+                selenium.type("usernamefield", userName);
+                selenium.type("passwordfield", password);
+                selenium.click("sign-in");
+                selenium.waitForPageToLoad("waitPeriod");
+
+                return new HomePage(selenium);
+        }
+}
+
+public class HomePage {
+
+        private Selenium selenium;
+
+        public HomePage(Selenium selenium) {
+                if (!selenium.getTitle().equals("Home Page of logged in user")) {
+                        throw new IllegalStateException("This is not Home Page of logged in user, current page" +
+                                        "is: " +selenium.getLocation());
+                }
+        }
+
+        public HomePage manageProfile() {
+                // Page encapsulation to manage profile functionality
+                return new HomePage(selenium);
+        }
+
+        /*More methods offering the services represented by Home Page
+        of Logged User. These methods in turn might return more Page Objects
+        for example click on Compose mail button could return ComposeMail class object*/
+
+}
+
+public class TestLogin {
+
+        public void testLogin() {
+                SignInPage signInPage = new SignInPage(selenium);
+                HomePage homePage = signInPage.loginValidUser("userName", "password");
+                Assert.assertTrue(selenium.isElementPresent("compose button"),
+                                "Login was unsuccessful");
+        }
+}
+
+------------------
+
+Migration
+
+Selenium selenium = new DefaultSelenium(
+    "localhost", 4444, "*firefox", "http://www.yoursite.com");
+selenium.start();
+
+to
+
+WebDriver driver = new FirefoxDriver();
+Selenium selenium = new WebDriverBackedSelenium(driver, "http://www.yoursite.com");
+
+--------------------
+
+WaitForPageToLoad Returns Too Soon
+
+Wait<WebDriver> wait = new WebDriverWait(driver, 30);
+WebElement element= wait.until(visibilityOfElementLocated(By.id("some_id")));
+
+Where "visibilityOfElementLocated" is implemented as:
+
+public ExpectedCondition<WebElement> visibilityOfElementLocated(final By locator) {
+  return new ExpectedCondition<WebElement>() {
+    public WebElement apply(WebDriver driver) {
+      WebElement toReturn = driver.findElement(locator);
+      if (toReturn.isDisplayed()) {
+        return toReturn;
+      }
+      return null;
+    }
+  };
+}
+
+Of course, adding all these "wait" calls may clutter up your code. If that’s the case, and your needs are simple, consider using the implicit waits:
+
+driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+--------------
+
+no broswerbot
+
+You might be using the browserbot to obtain a handle to the current window or document of the test. Fortunately, WebDriver always evaluates JS in the context of the current window, so you can use "window" or "document" directly.
+
+String name = selenium.getEval(
+    "selenium.browserbot.findElement('id=foo', browserbot.getCurrentWindow()).tagName");
+
+WebElement element = driver.findElement(By.id("foo"));
+String name = (String) ((JavascriptExecutor) driver).executeScript(
+    "return arguments[0].tagName", element);
+    
+String title = selenium.getEval("browserbot.getCurrentWindow().document.title")
+
+((JavascriptExecutor) driver).executeScript("return document.title;");
+
+----------------
+
+capture screen in selenium webdriver
+http://stackoverflow.com/questions/3422262/take-a-screenshot-with-selenium-webdriver
+
+public String captureScreen() {
+
+    String path;
+    try {
+        WebDriver augmentedDriver = new Augmenter().augment(driver);
+        File source = ((TakesScreenshot)augmentedDriver).getScreenshotAs(OutputType.FILE);
+        path = "./target/screenshots/" + source.getName();
+        FileUtils.copyFile(source, new File(path)); 
+    }
+    catch(IOException e) {
+        path = "Failed to capture screenshot: " + e.getMessage();
+    }
+    return path;
+
+}
+
+void takeScreenShotMethod(){
+    try{
+        Thread.sleep(10000)
+        BufferedImage image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+        ImageIO.write(image, "jpg", new File("./target/surefire-reports/screenshot.jpg"));
+    }
+    catch(Exception e){
+        e.printStackTrace();
+    }
+}
+
+WebDriver driver = new FirefoxDriver();
+driver.get("http://www.google.com/");
+File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+// Now you can do whatever you need to do with it, for example copy somewhere
+FileUtils.copyFile(scrFile, new File("c:\\tmp\\screenshot.png"));
+
+ 7 down vote
+	
+
+I got this issue resolved. You can augment the RemoteWebDriver to give it all of the interfaces its proxied driver implements:
+
+WebDriver augmentedDriver = new Augmenter().augment(driver); 
+((TakesScreenshot)augmentedDriver).getScreenshotAs(...); //works this way
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+Related to Selenium Grid
+
+RemoteWebDriver
+
+1>Default usage of Selenium2 is that it will run server and client from same instance and that will control the browser elements,
+
+2>but Selenium2 provide a way to run server and client on remote location as you use to do in Selenium1.
+
+Remote Webdriver is the class which help you to run client and server separately .RemoteWebdriver provides a DriverServlet which if you add inside any servlet container you got your selenium server up.
+
+--------------
+http://sauceio.com/index.php/2012/03/selenium-tips-uploading-files-in-remote-webdriver/
+
+attachFile
+
+uploading files in remote servers (so file are on remote server)
+
+1>As you may know, the way to address this in Selenium 1 is to place your files in an accessible web server and use the attachFile command that points to the correct URL.
+
+2>For those of you doing this locally, all you need to do is use the sendKeys command to type the local path of the file in any file field.
+
+When moving this test to a remote server (such as, for example, our Selenium 2 Cloud), all you need to do is use the setFileDetector method to let WebDriver know that you’re uploading files from your local computer to a remote server instead of just typing a path. Almost magically, the file will be base64 encoded and sent transparently through the JSONWireProtocol for you before writing the fixed remote path. This is an excellent solution, as it lets you switch your tests from a local to remote Driver without having to worry about changing your tests’ code.
+
+
+public class TestingUploadSe2Sauce extends TestCase {
+    private RemoteWebDriver driver;
+
+    public void setUp() throws Exception {
+        DesiredCapabilities capabillities = DesiredCapabilities.firefox();
+        capabillities.setCapability("version", "7");
+        capabillities.setCapability("platform", Platform.XP);
+        capabillities.setCapability("selenium-version", "2.18.0");
+        capabillities.setCapability("name", "Remote File Upload using Selenium 2's FileDetectors");
+
+        driver = new RemoteWebDriver(
+           new URL("http://<username>:<api-key>@ondemand.saucelabs.com:80/wd/hub"),
+           capabillities);
+        driver.setFileDetector(new LocalFileDetector());
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+    }
+
+    public void testSauce() throws Exception {
+        driver.get("http://sso.dev.saucelabs.com/test/guinea-file-upload");
+        WebElement upload = driver.findElement(By.id("myfile"));
+        upload.sendKeys("/Users/sso/the/local/path/to/darkbulb.jpg");
+        driver.findElement(By.id("submit")).click();
+        driver.findElement(By.tagName("img"));
+        Assert.assertEquals("darkbulb.jpg (image/jpeg)", driver.findElement(By.tagName("p")).getText());
+    }
+
+    public void tearDown() throws Exception {
+        driver.quit();
+    }
+}
+
+ use Selenium WebDriver to take screenshots and here is the code:
+
+// Get current Date, Hour, Minute, Second, Millisecond;
+// This method is used to create the screen shot file name
+public String getDateAndHour () {
+
+String today;
+
+DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH_mm_ss_S");
+Calendar calendar = Calendar.getInstance();
+
+today = dateFormat.format(calendar.getTime());
+
+return today;
+
+}
+
+
+public void takeScreenShot(FirefoxDriver driver){
+
+//Folder to save the screen shots
+String path = "src/test/screenshots";
+
+//Get Full Class name
+String fullClassName = Thread.currentThread().getStackTrace()[2].getClassName();
+
+//Get Method name
+String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+
+//Get Class short name
+int firstChar = fullClassName.lastIndexOf('.') +1;
+String className = fullClassName.substring(firstChar);
+
+//Create the file name
+String fileName = getDateAndHour()+" ."+className+"."+methodName;
+
+// Create the file
+File testScreenShot = new File(path, fileName+".png");
+
+//Wait until the page is loaded
+driver.getTitle();
+
+//Get the screenshot
+File scrFile = driver.getScreenshotAs(OutputType.FILE);
+
+try {
+
+//Copy the file to screenshot folder
+FileUtils.copyFile(scrFile, testScreenShot);
+
+} catch (IOException e) {
+e.printStackTrace();
+}
+}
+
+All you have to do is to adapt those methods for Remote Webdriver and to call the method takeScreenShot in your tests.
+
+-----------------
+
+ Gaurav Gupta • The RemoteWebDriver must be augmented before you can use the screenshot capability. As you have no doubt already found, attempting to cast without augmenting results in an exception.
+
+WebDriver augmentedDriver = new Augmenter().augment(driver);
+File scrFile = ((TakesScreenshot) augmentedDriver).getScreenshotAs(OutputType.FILE);
+
+FileUtils.copyFile(scrFile, new File("D://scrshot_"+System.currentTimeMillis()+".png"));
+
+System.out.println("myScreenshot.png is generated go to directory to check");
+driver.quit(); 
+
+--------------------
+
+RemoteWebDriver tutorial
+
+1>RemoteWebDriver comes into play when you want to work with Grid.
+
+2>Cheat Sheet
+Role Based Interfaces in Selenium WebDriver
+WebDriver APIs make extensive use of “role-based interfaces” to allow users to determine whether a particular driver supports a feature
+
+HasCapabilities 	Provides access to the capabilities supported by this driver. 	Java HasCapabilities.java
+
+JavascriptExecutor 	Allows the execution of arbitrary JS commands. 	Java JavascriptExecutor.java
+
+TakesScreenshot 	Provides a mechanism for taking screenshots. 	Java TakesScreenshot.java
+
+
+Remote WebDriver
+Copy "webdriver-all.jar" and all the associated JARs to your CLASSAPATH
+
+Separates where the tests are running from where the browser is.
+
+Requires an external servlet container to be running 
+
+Using
+
+This is probably best demonstrated with some code:
+
+// We could use any driver for our tests...
+DesiredCapabilities capabilities = new DesiredCapabilities();
+
+// ... but only if it supports javascript
+capabilities.setJavascriptEnabled(true);
+
+// Get a handle to the driver. This will throw an exception
+// if a matching driver cannot be located
+WebDriver driver = new RemoteWebDriver(capabilities);
+
+// Query the driver to find out more information
+Capabilities actualCapabilities = ((RemoteWebDriver) driver).getCapabilities();
+
+// And now use it
+driver.get("http://www.google.com");
+
+One nice feature of the remote webdriver is that exceptions often have an attached screen shot, encoded as a Base64 PNG. In order to get this screenshot, you need to write code similar to:
+
+public String extractScreenShot(WebDriverException e) {
+  Throwable cause = e.getCause();
+  if (cause instanceof ScreenshotException) {
+    return ((ScreenshotException) cause).getBase64EncodedScreenshot();
+  }
+  return null;
+}
+
+RemoteWebDriver Modes
+
+The remote webdriver comes in two flavours:
+
+    Client mode: where the language bindings connect to the remote instance. This is the way that the FirefoxDriver, OperaDriver and the RemoteWebDriver client normally work.
+    Server mode: where the language bindings are responsible for setting up the server, which the driver running in the browser can connect to. The ChromeDriver works in this way. 
+    
+    The RemoteWebDriver Server
+
+The RemoteWebDriver is composed of two pieces: a client and a server. The client is your WebDriver test and the server is simply a Java servlet, which can be hosted in any modern JEE app server. The server will always run on the machine with the browser you want to test. There are two ways to user the server: command line or configured in code.
+Starting the Server from The Command Line
+
+Once you have downloaded selenium-server-standalone-{VERSION}.jar place it on the computer with the browser you want to test. Then from the directory with the jar run the following
+
+java -jar selenium-server-standalone-{VERSION}.jar
+
+Considerations when running server
+
+The caller is expected to terminate each session properly, calling either Selenium#stop() or WebDriver#quit.
+
+The selenium-server keeps in-memory logs for each ongoing session, which are cleared when Selenium#stop() or WebDriver#quit is called. If you forget to terminate these sessions your server may leak memory. If you keep extremely long-running sessions you will probably need to stop/quit every now and then (or increase memory with -Xmx jvm option)
+Timeouts (from version 2.21)
+
+The server has two different timeouts, which can be set as follows:
+
+java -jar selenium-server-standalone-{VERSION}.jar -timeout=20 -browserTimeout=60
+
+browserTimeout 	Controls how long the browser is allowed to hang (value in seconds)
+timeout 	Controls how long the client is is allowed to be gone before the session is reclaimed (value in seconds)
+
+System property "selenium.server.session.timeout" is no longer supported as of 2.21.
+
+Please note that the "browserTimeout" is intended as a backup timeout mechanism when the ordinary timeout mechanism fails, which should be used mostly in grid/server environments to ensure that crashed/lost processes do not stay around for too long, polluting the runtime environment. 
+
+---------------------------
+
+public class CustomFirefoxProfile {
+    public static void main(String[] args) throws Exception {
+        DesiredCapabilities capabillities = new DesiredCapabilities("firefox", "3.6.", Platform.WINDOWS);
+        capabillities.setCapability("job-name", "Fancy Firefox profile");
+        FirefoxProfile profile = new FirefoxProfile();
+        profile.setPreference("network.http.phishy-userpass-length", 255);
+        capabillities.setCapability(FirefoxDriver.PROFILE, profile);
+        WebDriver driver = new RemoteWebDriver(new java.net.URL("http://USERNAME:ACCESS_KEY@ondemand.saucelabs.com:80/wd/hub"), capabillities);
+        driver.quit();
+    }
+}
+
+////////////////////////////////////////////
+/////////////////////////////////////////////
+
+Selenium Grid
+
+Selenium-Grid allows you run your tests on different machines against different browsers in parallel.
+
+Selenium-Grid support distributed test execution
+
+
+1>To run your tests against multiple browsers, multiple versions of browser, and browsers running on different operating systems.
+    
+    
+2>To reduce the time it takes for the test suite to complete a test pass.
+
+3>Starting Selenium-Grid
+
+Generally you would start a hub first since nodes depend on a hub. This is not abolutely necessary however, since nodes can recognize when a hub has been started and vice-versa. For learning purposes though, it would easier to start the hub first
+
+a>Starting a Hub
+java -jar selenium-server-standalone-2.21.0.jar -hub
+
+b>Starting a Node
+java -jar selenium-server-standalone-2.21.0.jar -role node  -hub http://localhost:4444/grid/register
+
+/////////////////////////////////////////////
+////////////////////////////////////////////
+
+FirefoxDriver
+
+public class Host extends SeleneseTestCase {
+        @Before
+        public void setUp() throws Exception {
+                WebDriver driver = new FirefoxDriver();
+                String baseUrl = "https://www.google.co.in/";
+                selenium = new WebDriverBackedSelenium(driver, baseUrl);
+        }
+
+        @Test
+        public void testUntitled() throws Exception {
+                selenium.open("/");
+                selenium.type("id=gbqfq", "ipod");
+                selenium.click("id=gbqfb");
+        }
+
+        @After
+        public void tearDown() throws Exception {
+                selenium.stop();
+        }
+} 
+
+----------
+
+Class FirefoxDriver
+
+    java.lang.Object
+        org.openqa.selenium.remote.RemoteWebDriver
+            org.openqa.selenium.firefox.FirefoxDriver
+
+    All Implemented Interfaces:
+        HasCapabilities, HasInputDevices, FindsByClassName, FindsByCssSelector, FindsById, FindsByLinkText, FindsByName, FindsByTagName, FindsByXPath, Killable, JavascriptExecutor, SearchContext, TakesScreenshot, WebDriver 
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public static void main(String[] args) {
+    WebDriver driver = new FirefoxDriver();
+    driver.get("www.google.com");
+    driver.quit();
+}

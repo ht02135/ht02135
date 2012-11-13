@@ -5,7 +5,6 @@
   <projects>
     <project>simple-domain-module</project>
     <project>simple-dao-module</project>
-    <project>simple-setting-module</project>
   </projects>
   <buildSpec>
     <buildCommand>
