@@ -32,6 +32,13 @@ public class DeadLockMain {
 		Thread anotherMethodWorker = new Thread(new AnotherMethodWorker(), "AnotherMethodWorker");
 		anotherMethodWorker.start();
 		
+		Thread oneThenAnotherMethodWorker = new Thread(new OneThenAnotherMethodWorker(), "OneThenAnotherMethodWorker");
+		oneThenAnotherMethodWorker.start();
+		
+		Thread anotherThenOneMethodWorker = new Thread(new AnotherThenOneMethodWorker(), "AnotherThenOneMethodWorker");
+		anotherThenOneMethodWorker.start();
+		
+		
 		try {
 			log.info("enter 2min sleep");
 			Thread.sleep(120000);	// sleep in millis, 1000millis=1sec, 60000millis=1min
@@ -121,7 +128,6 @@ public class DeadLockMain {
 		protected void doTask() {
 			try {
 				oneMethod();
-				Thread.sleep(getSleepTime());
 			} catch (Exception e) {}
 		}
 	}
@@ -131,7 +137,29 @@ public class DeadLockMain {
 		protected void doTask() {
 			try {
 				anotherMethod();
+			} catch (Exception e) {}
+		}
+	}
+	
+	protected class OneThenAnotherMethodWorker extends DefaultWorker {
+		
+		protected void doTask() {
+			try {
+				oneMethod();
 				Thread.sleep(getSleepTime());
+				anotherMethod();
+			} catch (Exception e) {}
+		}
+	}
+	
+	protected class AnotherThenOneMethodWorker extends DefaultWorker {
+		
+		protected void doTask() {
+			try {
+				anotherMethod();
+				Thread.sleep(getSleepTime());
+				oneMethod();
+				
 			} catch (Exception e) {}
 		}
 	}
