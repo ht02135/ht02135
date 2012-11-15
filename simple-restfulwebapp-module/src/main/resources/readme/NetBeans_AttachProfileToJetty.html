@@ -1,0 +1,673 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>NetBeans </title>
+    <link href="NetBeans_AttachProfileToJetty_files/base_packaged.css" media="screen" rel="stylesheet" type="text/css">    
+    <!--[if IE 7]>
+    <link href="http://asset-1.netbeans.org/stylesheets/ie7_packaged.css?20121102.4a5a4fb" media="screen" rel="stylesheet" type="text/css" />
+    <![endif]-->
+    <!--[if IE 6]>
+    <link href="http://asset-0.netbeans.org/stylesheets/iex60.css?20121102.4a5a4fb" media="screen" rel="stylesheet" type="text/css" />
+    <![endif]-->
+    <link href="NetBeans_AttachProfileToJetty_files/print_packaged.css" media="print" rel="stylesheet" type="text/css">
+    <script src="NetBeans_AttachProfileToJetty_files/head_packaged.js" type="text/javascript"></script>
+    <script type="text/javascript" src="NetBeans_AttachProfileToJetty_files/buttons.js"></script>
+    <script type="text/javascript">
+        stLight.options({
+            publisher:'bcd30425-1749-43d6-a311-18a82f89771a'
+        });
+    </script>
+    <script type="text/javascript">
+//<![CDATA[
+var page={"token":"wCPe3uBCy3IKX/CGgzfRnwK5h/hF+FGdCA4yB5XE2DI="};
+//]]>
+</script>
+    <script type="text/javascript" charset="utf-8">
+      function debug(m){}
+    </script>
+    
+    <!-- INCLUDED CODE START -->
+    <meta name="description" content="">
+    <meta name="keywords" content="java IDE, java editor, java Platform, free, open source, java development, j2ee support, development enviroment, web development, NetBeans, IDE, java">
+    <link rel="SHORTCUT ICON" href="http://netbeans.org/images_www/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="NetBeans_AttachProfileToJetty_files/netbeans3.css" media="screen">
+    <script src="NetBeans_AttachProfileToJetty_files/html5.js" type="text/javascript"></script>
+    <!--[if lt IE 10]>
+    <script type="text/javascript" src="http//netbeans.org/images_www/pie/PIE.js"></script>
+    <![endif]-->
+    <script src="NetBeans_AttachProfileToJetty_files/companion-projects.js" type="text/javascript"></script>
+    <script language="JavaScript" type="text/javascript">
+        var username="";
+    </script>
+    <!-- INCLUDED CODE END -->
+    <link href="NetBeans_AttachProfileToJetty_files/nblaf.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="NetBeans_AttachProfileToJetty_files/checkOAuth.esi" type="text/javascript"></script><link href="NetBeans_AttachProfileToJetty_files/buttons.css" type="text/css" rel="stylesheet"></head>
+  <body onclick="if(stWidget.buttonClicked==false){stWidget.stopClosing=false;stWidget.openDuration=0;stWidget.stClose(100);}" id="bg" class="composite blue-bg">
+    <!-- INCLUDED CODE START -->
+    <div id="wrapper-kenai">
+      <div id="hdr">               
+        <div id="navtabs">
+          <a href="http://netbeans.org/"><img src="NetBeans_AttachProfileToJetty_files/logo_netbeans_red.png" id="nblogo" width="130" height="32"></a>
+          <ul>
+            <li class="hover first"><a href="http://netbeans.org/features/index.html" title="NetBeans&nbsp;IDE">NetBeans IDE</a></li>
+            <li class="hover "><a href="http://netbeans.org/features/platform/index.html" title="NetBeans&nbsp;Platform">NetBeans Platform</a></li>
+            <li class="hover "><a href="http://plugins.netbeans.org/PluginPortal/" title="Plugins">Plugins</a></li>
+            <li class="hover "><a href="http://netbeans.org/kb/index.html" title="Docs&nbsp;&amp;&nbsp;Support">Docs &amp; Support</a></li>
+            <li class="current "><a href="http://netbeans.org/community/index.html" title="Community">Community</a></li>
+            <li class="hover "><a href="http://netbeans.org/community/partners/index.html" title="Partners">Partners</a></li>
+          </ul>
+          <div id="search-div">                        
+            <form action="http://netbeans.org/search_result.html" id="cse-search-box">
+              <input name="cx" value="006102455337629464213:mt38ytkbuak" type="hidden">
+              <input name="cof" value="FORID:11" type="hidden">
+              <input style="border: 1px solid rgb(126, 157, 185); padding: 2px;" id="search-input" value="Search" name="q" type="text">
+              <input src="NetBeans_AttachProfileToJetty_files/icon_search.png" id="magnifier" alt="search" type="image">
+            <input value="profiler.netbeans.org/docs/help/5.5/attach.html" name="siteurl" type="hidden"><input name="ref" type="hidden"><input name="ss" type="hidden"></form>
+            <script type="text/javascript" src="NetBeans_AttachProfileToJetty_files/brand"></script>
+            <!-- Google CSE Search Box Ends -->
+          </div>
+        </div>
+      </div>
+      <div id="navig-breadcrumbs"><a href="http://netbeans.org/">netbeans.org</a><span>&gt;</span>  <a href="http://netbeans.org/projects">projects</a> &gt;
+  <a href="http://netbeans.org/projects/profiler">profiler</a> &gt;
+  <a href="http://netbeans.org/projects/profiler/content" class="current">Website</a>
+</div>
+      <!-- start content area -->
+      <div id="middle">
+        <table class="colapse full-width f-page-table-2col"> <!-- main content table -->
+          <tbody><tr>
+            <td class="valign-top">
+              <div class="f-page-auto-cell">
+                <!-- START your body content here -->
+                  <div class="content">
+                    <!--BEGIN CONTENT AREA-->
+                    
+                    
+
+
+
+
+<div class="contentPadding website">
+            <!-- -*- xhtml -*- -->
+
+
+
+    
+        <title>Attaching Profiler to Local or Remote JVM</title>
+        <link rel="stylesheet" type="text/css" href="NetBeans_AttachProfileToJetty_files/style.css">
+        <link rel="stylesheet" type="text/css" href="NetBeans_AttachProfileToJetty_files/netbeans.css">
+    
+    
+            <div id="mast">
+                <h1>Using NetBeans Profiler 5.5</h1>
+                <ul>
+                    <li><a href="http://profiler.netbeans.org/docs/help/5.5/index.html">Index</a></li>
+                    <li><a href="http://profiler.netbeans.org/docs/help/5.5/getting_started.html">Getting Started</a></li>
+                    <li><a href="http://profiler.netbeans.org/docs/help/5.5/profile_window.html">Profiling Tasks</a></li>
+                    <li><a href="http://profiler.netbeans.org/docs/help/5.5/profile_controlpanel.html">Profiler Window</a></li>
+                    <li><a href="http://profiler.netbeans.org/docs/help/5.5/profile_results.html">Profiling Results</a></li>
+                    <li class="last"><a href="http://profiler.netbeans.org/docs/help/5.5/notes.html">About Profiler</a></li>
+                </ul>
+            </div>
+	    
+            <!-- begin main content -->
+            <div id="mbody">
+                <h2>Attaching Profiler to Local or Remote JVM</h2>
+                <p>The Attach mode of Profiler allows you to attach the tool to the application that
+                is already running, or just about to start on a local or remote machine. This makes it
+                ideally suited for profiling long-running applications, and particularly useful for
+                profiling Web or Enterprise applications running on top of an application server, as
+                well as the code of the application server itself.</p>
+                <h3>Before you start profiling</h3>
+                <p>For every Java platform that will be used for profiling the <a href="http://profiler.netbeans.org/docs/help/5.5/calibration.html">
+                calibration</a> must be run first. Without valid calibration data the profiling won't start.
+                </p>
+                <h3>Attachment Modes</h3>
+                <p>When attaching Profiler to an application, you can choose between the following types of attachment:</p>
+                <ul>
+                    <li><b><a href="#dyn">Dynamic attachment</a></b>
+                        <p>Use this method to attach Profiler to a <b>local application</b> that is already running. This method does
+                            not require any additional application set up once the application is running on the modified
+                            JVM. No special command line options or environment variables are needed.
+                        </p>                
+
+                        <p>The following apply to dynamic attachment mode:</p>
+                        <ul>
+                            <li>The target application <b>is not</b> started by Profiler.</li>
+                            <li>This mode cannot be used to attach/start profiling on a remote machine.
+                            See <a href="#direct_attach">Direct Attachment</a> for a description of remote attachment.</li>
+                            <li><b>This mode does not work for JVM 5/6.</b> If you want to attach to an appplication
+                            that is already running, the application <b>must be</b> started on top of the 
+                            <b><a href="http://profiler.netbeans.org/docs/help/5.5/vms.html">customized Profiler JVM</a></b>
+                            (based on JDK 1.4.2), in exactly the same way as you
+                            would normally start it. Both the application JVM and the Profiler should be run <b>by the
+                            same user</b> to comply with the OS security requirements.</li>
+                        </ul>
+                    </li>
+                    <li><b><a href="#direct_attach">Direct attachment</a></b>
+                        <p>Use this method if you want to attach Profiler to an application early,
+                        before any Java code in it gets executed (for example, to profile its startup). You must use this mode
+                        if you are profiling an application on a remote machine or an application which uses JVM 5/6.</p>
+                        <p>The following apply to direct attachment mode:</p>
+                        <ul>
+                            <li>The mode works for JVM 5/6.</li>
+                            <li>This mode is currently the only way to attach/start profiling an application on a
+                            remote machine. If you are profiling an application on a remote machine, download the
+                            Profiler server bundle for the remote machine platform at <a href="http://profiler.netbeans.org/download/index.html">
+                            http://profiler.netbeans.org/download/index.html</a>.</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <h4>How it works internally</h4>
+                <p>When you attach Profiler to a running application, you invoke a command in Profiler
+                that sends an OS signal to the JVM. In response, the JVM loads and activates the Profiler
+                VM-side library. You can then do exactly the same things on the running application that
+                you can do when you start the application from within the tool. If you want to use the early
+                ("direct") attachment to the JVM, you essentially specify the same library and a couple of
+                other options on the target JVM's command line.</p>
+                <a name="attachwizard"></a>
+                <h3>The Attach Wizard</h3>
+                <p>The first time you are attaching Profiler to an application, you can use the Attach Wizard
+                to specify and capture the settings to be used when attaching 
+                Profiler to that application. You use the Attach Wizard to specify 
+                the application type, location and attachment mode.
+                If you want to change the settings, go through the Attach Wizard again.</p>
+                <h4>How to use the Attach Wizard</h4>                
+                <p>The Attach Wizard is available when you choose Attach Profiler Using Main Project 
+                from the main menu. Before you open the wizard, ensure that your project is
+                selected in the combo box at the top of the Select Profiling Task window.</p>                
+                <ol>
+                    <li>Click Attach Wizard in the Select Profiling Task window.</li>
+                    <li>Select the target type (and server type if the target is a J2EE Web/App Server) and click Next.</li>
+                    <li>Select the application or server location, do the following and click Next.
+                    
+                    
+                    <ul>
+                        <li>If the location is remote, supply the Hostname and Host OS.</li>                        
+                        <li>If the location is local, select either Direct or Dynamic attachment. 
+                        (If you select Dynamic attachment, you need to specify the working 
+                        directory and how attachment is invoked in the next step.)</li>
+                    </ul>
+                    <br><br><img src="NetBeans_AttachProfileToJetty_files/attach2.png"><br><br></li>
+                    <li>Review the attach settings and do one of the following:
+                        <ul>
+                            <li>Click Next if you want to specify the integration type, the target JVM 
+                            and view the integration steps. The integration steps will provide detailed information
+                            on how to integrate the Profiler with the application. If this is the first time you have 
+                            attached profiler to the application, it is recommended that you thoroughly review and understand
+                            the integration steps.</li>
+                            <li>Click Finish and exit the wizard if you do not need to specify or modify the integration type.</li>
+                        </ul>
+                        <br><br><img src="NetBeans_AttachProfileToJetty_files/attach6.png"><br><br>
+                    </li>
+                </ol>
+                <p>After you finish the Attach Wizard, the attach settings are associated with the project.
+                You can go through the Attach Wizard at any time if you want to change any of the settings.</p> 
+                
+                
+                
+                <a name="dyn"></a>
+                <h3>How to attach Profiler to a running JVM (Dynamic attachment)</h3>
+                <p>To attach in this mode, you must start the application on the <b>customized 1.4.2 Profiler JVM</b>. 
+                The following steps describe how to start your application on the customized JVM and then attach
+                Profiler to the JVM.</p>
+                <ol>
+    
+                    <li><p><b>Start the target application on top of the customized Profiler JVM.</b></p>
+                        <!--<p>Note: if you want to attach to the JVM that runs a Web or Application server, check
+                        <a href="j2ee_server_integration.html"> Web/Application Server integration instructions</a>
+                        first.</p>-->
+                        <ol><li><b>Locate the customized Profiler JVM</b>
+                            <p>The Profiler JVM is located in the directory <tt>userdir</tt> &gt; <tt>modules</tt> &gt; <tt>profiler-ea-vm</tt></p>
+                            <p>The directory path may look like this:<br>
+                            <tt>/home/johnsmith/.netbeans/5.5/modules/profiler-ea-vm</tt><br>(on UNIX®)<br>or<br>
+                            <tt>c:\Documents and Settings\JohnSmith\.netbeans\5.5\modules\profiler-ea-vm</tt><br>
+                            (on Windows).<br>(replace "<tt>johnsmith</tt>" with your login name in these examples)</p></li>
+                            <li><b>Launch the target application</b><p>Launch the application as you usually do
+                            but specifying the path to the Profiler JVM's executable on the command line<br>
+                            <tt>
+                            
+C:\j2sdk1.4.2_06\demo\jfc\SwingSet2&gt;D:\userdir\modules\profiler-ea-vm\jre\bin\java
+ -jar SwingSet2.jar</tt></p></li>
+                        </ol>
+                    </li>
+                    <li><p><b>Specify attachment settings in the Attach Wizard</b>
+                        </p><p>If this is the first time you have attached Profiler to the application, click
+                        Attach Wizard to help with the initial attachment settings. These settings will be 
+                        used when you attach Profiler to the application. If you have already specified the
+                        attachment settings, go to step 3.</p>
+                        <ol>
+                            <li>Choose Attach Profiler Using Main Project from the main menu.</li>
+                            <li>Choose your project from the combo box at the top of the Select Profiling Task window.</li>
+                            <li>Open the Attach Wizard and supply the details for the type and location
+                                of the application. In the wizard, do the following:
+                                <ul>
+                                    <li>Select Local for the location.</li>
+                                    <li>Select Dynamic as the attach method.</li>
+                                    <li>Supply the working directory for the application.
+                                    <p>Working Directory refers to the 
+directory in which the target
+                                    application was started, not the 
+directory where the Profiler customized JVM is located. In the example
+                                    above, the Working Directory is <tt>C:\j2sdk1.4.2_06\demo\jfc\SwingSet2</tt>,
+                                    <b>not</b> <tt>D:\userdir\modules\...\jre\bin</tt>.</p></li>
+                                    <li>Select either PID or Ctrl+Break as the invocation method.
+                                    <p>Choose "PID" if you can distinguish between running VMs by 
+                                    their command line arguments and/or Process IDs (PIDs). 
+                                    If the VM you want to attach to has a console window, choose "Use Ctrl+Break".</p></li>
+                                </ul>
+                                <p>Make sure you have write access permission for the Working Directory. This is required,
+                                since Profiler will need to temporarily place a special small file in this directory,
+                                containing the information that the VM needs to start the Profiler communication library.</p>
+                            </li>
+                            <li>Click Finish to exit the Attach Wizard and return to the Select Profiling Task window.<br><br></li>
+                        </ol>
+                        
+                        <p>The settings are now associated with the project. Use the Attach Wizard again
+                        if you want to change some of the profiling settings for the project.</p>
+                        
+                    </li>
+                    <li>
+                        <p><b>Specify the profiling task</b></p>
+                        <p>Choose a profiling task from the list of available tasks. This list is the same as in the Select Profiling Task window 
+                        that appears when Profiling an application within the IDE.</p>
+                    </li>
+                    <li><p><b>Attach Profiler to the Target Application</b></p>
+                        <p>To attach Profiler, click Attach at the bottom of the Select Profiling Task window. When you profile an application
+                        using dynamic attachment, when you click Attach one of the following occurs:</p>
+                        <ul>                        
+                            <li>If you chose "PID" as the invocation method, clicking Attach completes the attachment process.</li>
+                            <li>If you chose "Use Ctrl+Break" as the 
+invocation method, clicking Attach opens a progress dialog box.
+                            Go to the console window of the target VM 
+and on your keyboard hit Ctrl+Break (on Windows) or Ctrl+\
+                            (on Solaris or Linux). This sends a signal 
+to the JVM that activates the Profiler agent and starts the
+                            connection.</li>
+                        </ul>
+                        <p>Note that when you hit Ctrl+Break, the JVM 
+prints the list of currently active Java threads with their
+                        stacks and then checks if it can start the 
+Profiler agent. If the Working directory name you gave is correct, 
+                        the VM starts this library and prints "<tt>JFluid: target app manager starting on port ...</tt>",
+ and the
+                        progress dialog in the Profiler disappears. 
+Otherwise, nothing happens and your application just continues
+                        running.</p>
+                    </li>
+                
+                    <li><p><b>Detach Profiler from the Target Application</b></p> 
+  
+                        <p>To detach Profiler from the target application, choose Profile &gt; Detach from the main menu. 
+                        This sends a command to deactivate the Profiler code in the target JVM and terminate the connection.
+                        The message <tt>connection with agent closed</tt> appears in the console window (if the target
+                        application has a console window).</p> 
+                    </li>
+                </ol>                
+                
+                <a name="direct_attach"></a><h3>How to attach Profiler to a JVM on startup (Direct Attachment)</h3>
+                <p>You must use this attachment mode if the application 
+you want to profile is 
+                running on JVM 5/6 or is on a remote server. If you are 
+profiling an application on a remote machine, download the
+                Profiler server bundle for the remote machine platform 
+at <a href="http://profiler.netbeans.org/download/index.html">
+                http://profiler.netbeans.org/download/index.html</a>.</p>
+                <!--<p>If you want to attach to a JVM that runs a Web or Application
+                server, see the <a href="j2ee_server_integration.html">Web/Application Server integration instructions</a> first.</p>-->
+
+                <p>Although attaching to a running application is generally the most convenient 
+                way to connect Profiler with the target application, you may occasionally find 
+                that it is not completely adequate for your purposes. An example of this is when you want to
+                profile some code that is executed very early upon application startup, but
+                it is difficult to start the application directly from Profiler (e.g. because it
+                is normally started using a very big and complex launch script). Remote profiling is
+                another example. In these situations,
+                you can use the Direct attachment mode to "attach on startup". This is the same attachment
+                mechanism used by most of the conventional profiling tools for Java.</p>
+                <ol>
+                    <li><b>Modify startup options of the target application JVM.</b>
+                        <p>Before you start up the target JVM, you need to add some parameters to the Java
+                        launcher to start a Profiler native library (<tt>profilerinterface</tt>) inside the target JVM.</p>
+                        <!--<p>On Solaris/SPARC, the directory containing the library will look like this:<br>
+                        <tt>~/.netbeans/4.0/lib/deployed/jdk142/solaris-sparc</tt>.</p>
+                        -->
+                        <p>The parameters are slightly different, depending if you are running the JVM on the modified JDK 1.4.2
+                        or on JVM 5/6.</p> 
+                        
+                        <p><b>On modified JDK 1.4.2, follow these steps:</b></p>
+                        <ol>
+                            <li> 
+                                <b>Add the following entry to your native library path.</b>
+                                <p>This entry is a platform-specific Profiler module installation subdirectory, that contains native libraries.<br>
+                                For the username <tt>johnsmith</tt>, the full command lines should look similar to this:</p>
+                                <ul>
+                                    <li>
+                                        <b>On Solaris/SPARC</b> (This should be added to the <tt>LD_LIBRARY_PATH</tt> environment variable):<br>
+                                        <tt>setenv LD_LIBRARY_PATH /home/johnsmith/.netbeans/5.5/lib/deployed/jdk142/solaris-sparc</tt><br><br>
+                                    </li>
+                                    <li>
+                                        <b>On Windows</b> (This should be added to the <tt>PATH</tt> environment variable):<br>
+                                        <tt>set PATH="c:\Documents and Settings\johnsmith\.netbeans\5.5\lib\deployed\jdk142\windows";%PATH% </tt><br><br>
+                                    </li>
+                                </ul>
+                            </li>
+                            
+                            <li><b>Add the following parameter to the Java launcher command line:</b>
+                                <p>To start the target customized 1.4.2 JVM in the "Direct attachment" profiling mode, you need to add
+                                the following to the command line.<br>
+                                <tt>-Xrunprofilerinterface:~/.netbeans/5.5/lib,5140</tt></p>
+                                <p>For the username <tt>johnsmith</tt>, the full command lines should look similar to this:</p>
+                    
+                                <ul>
+                                    <li><b>On Solaris/SPARC platform</b> (assuming <tt>csh</tt> or <tt>tcsh</tt> is your shell):<br>
+                                    <tt>/home/johnsmith/.netbeans/5.5/modules/profiler-ea-vm/jre/bin/java 
+                                    -Xrunprofilerinterface:/home/johnsmith/.netbeans/5.5/lib,5140 <br>
+                                    MainClass</tt><br><br></li>
+                                
+                                    <li><b>On Windows:</b><br>
+                                    <tt>"c:\Documents and Settings\johnsmith\.netbeans\5.5\modules\profiler-ea-vm\jre\bin\java" <br>
+                                        
+-Xrunprofilerinterface:"\"c:\Documents and 
+Settings\johnsmith\.netbeans\4.0\lib\"",5140 MainClass
+                                    </tt><br><br></li>
+                                </ul>
+                            </li>
+                        </ol>
+
+                        <p><b>On JVM 5/6, follow these steps:</b></p>
+                        <ol>
+                            <li><b>Add the following parameter to the Java launcher command line:</b>
+                                <p>To start the target JVM 5/6 in the "Direct attachment" profiling mode, you need to add the following to the command line. <br>
+                                <tt>-agentpath:~/.netbeans/5.5/lib/deployed/jdk15/solaris-sparc/libprofilerinterface.so=~/.netbeans/4.0/lib,5140</tt></p>
+                                <p>For the username <tt>johnsmith</tt>, the full command lines should look similar to this:</p>                                
+                                <ul>                                
+                                    <li><b>On Solaris/SPARC platform</b> (assuming <tt>csh</tt> or <tt>tcsh</tt> is your shell):<br>
+                                    <tt>java <br>
+                                    
+-agentpath:/home/johnsmith/.netbeans/5.5/lib/deployed/jdk15/solaris-sparc/libprofilerinterface.so=<br>
+                                    /home/johnsmith/.netbeans/4.0/lib,5140 <br>
+                                    MainClass</tt><br><br></li>
+                                
+                                    <li><b>On Windows:</b><br>
+                                    <tt>java <br>
+                                        -agentpath:"c:\Documents and 
+Settings\johnsmith\.netbeans\5.5\lib\deployed\jdk15\windows\profilerinterface.dll"=<br>
+                                        "\"c:\Documents and Settings\johnsmith\.netbeans\5.5\lib\"",5140 MainClass
+                                    </tt><br><br></li>
+                                </ul>
+                        
+                            </li>
+                        </ol>
+                        <p>Note: on Windows you may need to wrap the argument of the <tt>-Xrunprofilerinterface</tt> or <tt>-agentpath</tt>
+                        inside double quotes if the path contains space characters.</p>
+                    </li>
+                    <!--
+                    <ol>
+                    <li> 
+                    <b>Add an entry to your native library path (only when bundled JDK 1.4.2 is used).</b>
+                    <p>This entry is a platform-specific 
+                    Profiler module installation subdirectory, that contains native libraries. For example, 
+                    on Solaris/SPARC, this directory will look like
+                    <tt>~/.netbeans/4.0/lib/deployed/jdk142/solaris-sparc</tt>
+                    This entry should be added to the <tt>LD_LIBRARY_PATH</tt> environment variable 
+                    (on Solaris or Linux) or the <tt>PATH</tt> environment variable (on 
+                    Windows).</p></li>
+                    <li> 
+                    <b>Add a special command line parameter to your Java launcher command line</b>
+                    <p>You need to add a special command parameter that will start a special Profiler native library (called
+                    <tt>profilerinterface</tt>) inside the target JVM. This library is located in the directory mentioned above. 
+                    You should provide the Profiler module home directory 
+                    and the communication port number as parameters to this option. The default 
+                    port number is 5140. You can change the default communication port number 
+                    in <a href="custom_profiling.html">Custom Profiling</a> mode. With the default port
+                    number, assuming the Solaris/SPARC platform, this command line parameter 
+                    should look as: <br>
+                    <br>For bundled customized JDK 1.4.2:</b><br>
+                    <tt>-Xrunprofilerinterface:~/.netbeans/4.0/lib,5140</tt></p>
+                    -->                    
+                
+                   
+                    <li><p><b>Start the target JVM</b></p>
+                        <p>Once you have started the JVM with the above options, it will not start your Java
+                        application until you perform actions described below.</p>
+                    </li>
+   
+                    <li><p><b>Specify attachment settings in the Attach Wizard</b>
+                        </p><p>If this is the first time you have attached Profiler to the application, click
+                        Attach Wizard to help with the initial attachment settings. These settings will be 
+                        used when you attach Profiler to the application. If you have already specified the
+                        attachment settings, go to step 4.</p>
+                        <ol>
+                            <li>Choose Attach Profiler Using Main Project from the main menu.</li>
+                            <li>Choose your project from the combo box at the top of the Select Profiling Task window.</li>
+                            <li>Open the Attach Wizard and supply the details for the type and location
+                                of the application. In the wizard, do the following:
+                                <ul>
+                                    <li>Select the application location and do the following:
+                                        <ul>
+                                            <li>If the location is remote, supply the Hostname and Host OS.</li>                        
+                                            <li>If the location is local, select Direct attachment.</li>
+                                        </ul>
+                                        
+                                    </li>                                    
+                                    <li>Review the settings and click Next</li>
+                                    <li>Select the integration type and click Next.</li>
+                                    <li>Select the target JVM and click Next.</li>
+                                    <li>Read and follow the integration steps for attaching Profiler.</li>
+                                </ul>
+                            </li>
+                            <li>Click Finish to close the Attach Wizard.</li>
+                        </ol>
+                        <p>The settings are now associated with the project. Use the Attach Wizard again
+                        if you want to change the profiling settings for the project.</p>
+                        
+                    </li>
+                    <li>
+                        <p><b>Specify the Profiling task to perform</b></p>
+                        <p>Choose a profiling task from the list of available tasks. This list is the same as in the Select Profiling Task window 
+                        that appears when Profiling an application within the IDE.</p>
+                    </li>
+                    <li><p><b>Attach Profiler to the waiting JVM</b></p>
+                        <p>Click on the Attach button. This will start your Java application and apply instrumentation for the
+                        profiling task you chose above.</p>
+                    </li>
+                </ol>
+
+                
+                <h3>Changing the profiling task</h3>
+                <p>Once the connection is established and Profiler is attached to the target application,
+                you can profile the application as you would if you started the application from within Profiler.
+                You can change the profiling task you are running on the target application without stopping or restarting
+                the application.</p>
+                <p>To change the profiling task without detaching</p>
+                <ul>                
+                    <li>Choose Profile &gt; Modify Profiling (Alt+Shift+F2) from the main menu, <br>or click Modify Profiling
+                    (&nbsp;<img src="NetBeans_AttachProfileToJetty_files/clock-icon.png" alt="Modify Profiling">&nbsp;) in the Profiler window.</li>
+                    <li>Select a new profiling task and set any profiling parameters.</li>
+                    <li>Click OK.</li>
+                </ul>
+                <p>Profiler performs the new instrumentation on the target application without starting or
+                stopping the application.</p>
+                <!--<P>Note that if you are not sure about the startup directory of your application, 
+                but at least know its process ID, you can just send the target JVM the same 
+                signal or press Ctrl+Break in its console window. After dumping the threads,
+                the JFluid JVM always prints its startup directory.</P>
+                -->
+
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+            </div>
+    
+
+      </div>
+
+                    <!--END CONTENT AREA-->
+                  </div>
+                <!-- END your body content here -->
+              </div>
+            </td>
+            <td class="valign-top rcol b-left" id="rc">
+              <div id="loginbox" class="b-bottom bg-bege align-center">
+                    <div class="links">
+      <a href="http://netbeans.org/people/login?original_uri=http%3A%2F%2Fprofiler.netbeans.org%2Fdocs%2Fhelp%2F5.5%2Fattach.html" rel="nofollow">Login</a>
+      <span class="separator">|</span> <a href="http://netbeans.org/people/new">Join Now</a>
+        <span class="separator">|</span>
+    <a href="http://netbeans.org/projects/help/pages/WebSite#WithNavigation" target="_blank">Help</a>
+  </div>
+  <br>
+  <form><input id="live-search" value="Jump to..." autocomplete="off" type="text"></form>
+  <br>
+
+              </div>
+              <div class="f-page-cell bg-sky b-bottom">
+                <h1>Navigation</h1>
+                <ul>
+                  <li><a href="http://netbeans.org/">Home</a></li>
+                  <li><a href="http://netbeans.org/mypage">My Page</a></li>
+                  <li><a href="http://netbeans.org/projects">Projects</a></li>
+                  <li><a href="http://netbeans.org/people">People</a></li>
+                </ul>                        
+              </div>
+              <div class="f-page-cell b-bottom">
+                  <div class="vAccordion">
+  <h1>Project Features</h1>    
+      <ul>
+                  
+          <li><strong>
+	    
+              <a href="http://netbeans.org/projects/profiler/lists">Mailing Lists</a>
+            
+          </strong></li>
+          
+                  
+          <li><strong>
+	    
+              Issue Tracking            
+          </strong></li>
+          <li class="vAccordion-detail"><a href="http://netbeans.org/bugzilla/buglist.cgi?product=profiler&amp;order=Importance&amp;limit=25" target="_blank">Bugzilla</a></li>
+                  
+          <li><strong>
+	    
+              Downloads            
+          </strong></li>
+          <li class="vAccordion-detail"><a href="http://netbeans.org/projects/profiler/downloads">Downloads</a></li>
+                  
+          <li><strong>
+	    
+              Website            
+          </strong></li>
+          <li class="vAccordion-detail"><a href="http://profiler.netbeans.org/">Website</a></li>
+              </ul>
+      
+<h1>About this Project</h1>
+  <div style="text-align:left; margin:5px;">
+    <a href="http://netbeans.org/projects/profiler">Profiler</a>
+    
+    was started in
+    November 2009, is owned by
+    <a href="http://netbeans.org/people/9192-Tomas-Hurka"><span class="person -kenai-thurka">Tomas Hurka</span></a>,
+    and has <a href="http://netbeans.org/projects/profiler/members">47 members</a>.
+  </div>
+  <ul>
+    
+      
+        <li><a href="http://netbeans.org/projects/profiler/watch"><span class="bullet">»</span> Join This Project</a></li>
+      
+    
+  </ul>
+  
+
+</div>
+
+              </div>
+              <div class="f-page-cell b-bottom bg-bege">
+                <h1>NetBeans.org</h1>
+                <ul>
+                  <li><a href="http://netbeans.org/people/new">Join</a></li>
+                  <li><a href="http://netbeans.org/community/news/">News</a></li>
+                  <li><a href="http://netbeans.org/community/releases/">Releases &amp; Planning</a></li>
+                  <li><a href="http://netbeans.org/community/lists/">Mailing Lists</a></li>
+                  <li><a href="http://netbeans.org/community/issues.html">Bugzilla</a></li>
+                  <li><a href="http://netbeans.org/community/contribute/">Contribute</a></li>
+                  <li><a href="http://netbeans.org/community/teams/">Teams</a></li>
+                  <li><a href="http://netbeans.org/community/guidelines/">Guidelines</a></li>
+                </ul>
+              </div>
+            </td>
+          </tr><!-- end main content -->
+        </tbody></table><!-- end main content table -->
+      </div>
+      <!-- end contentarea -->
+      <div id="ftr">
+        <ul class="float-right" id="social-media">
+          <li><a href="http://www.facebook.com/NetBeans"><img src="NetBeans_AttachProfileToJetty_files/icin_facebook.png" alt="facebook" width="30" height="30"></a></li>
+          <li><a href="http://www.youtube.com/user/netbeansvideos"><img src="NetBeans_AttachProfileToJetty_files/icin_youtube.png" alt="youtube" width="30" height="30"></a></li>
+          <li><a href="https://plus.google.com/105597468329838196909/"><img src="NetBeans_AttachProfileToJetty_files/icin_google.png" alt="google+" width="30" height="30"></a></li>
+          <li><a href="https://twitter.com/netbeans"><img src="NetBeans_AttachProfileToJetty_files/icin_twitter.png" alt="twitter" width="30" height="30"></a></li>
+        </ul>
+        <ul>
+          <li><a href="http://netbeans.org/sitemaps/www_map.html">SiteMap</a></li>
+          <li><a href="http://netbeans.org/about/index.html">About Us</a></li>
+          <li><a href="http://netbeans.org/about/contact.html">Contact</a></li>
+          <li><a href="http://netbeans.org/about/legal/index.html">Legal &amp; Licences</a></li>
+        </ul> 
+      </div>
+      <div id="tof" class="align-right">
+        By use of this website, you agree to the <a href="http://profiler.netbeans.org/about/legal/terms-of-use.html">NetBeans Policies and Terms of Use</a> (<a href="http://netbeans.org/projects/help/pages/ReleaseNotes">revision 20121102.4a5a4fb</a>).
+        © 2012, Oracle Corporation and/or its affiliates. Sponsored by <img src="NetBeans_AttachProfileToJetty_files/logo_oracle.png" alt="Oracle logo" width="56" height="8">
+      </div>
+    </div>
+    <div id="companion-projects">
+      <script type="text/javascript">
+        document.write(renderCompanionProjectIcons());
+      </script>
+    </div>
+
+    <!-- Begin SiteCatalyst code -->
+    <script language="JavaScript" src="NetBeans_AttachProfileToJetty_files/s_code_remote.js" type="text/javascript"></script><script type="text/javascript" src="NetBeans_AttachProfileToJetty_files/metrics_group1.js"></script>
+    <!-- End SiteCatalyst code -->
+    <!-- INCLUDED CODE END -->
+        <!-- popups that are anchored to specific elements -->
+    <div class="popupMenuShadow" id="contextMenuShadow"></div>
+    <div class="popupMenuContainer" id="contextMenu">
+      <div class="popupMenu inline">	
+        <div class="upArrow"></div>
+        <div class="header"></div>
+        <div class="contextMenuBody" id="contextMenuBody">&nbsp;</div>
+      </div>
+    </div> 
+    
+    <!-- large content loaded via ajax. Faded but not modal. -->
+    <div class="jqmWindow jqmID1" id="jqm_large_overlay">
+      <div class="jqmHeader">
+        <div class="jqmTitle">&nbsp;</div>
+        <img alt="Close" class="jqmClose" src="NetBeans_AttachProfileToJetty_files/close.gif">
+      </div>
+      <div class="jqmTarget">
+        <img alt="loading" src="NetBeans_AttachProfileToJetty_files/activity.gif">
+      </div>
+      <div class="jqmFooter">
+      	<div class="jqmClose functionButtonContainer"><button class="functionButton" title="Done"> Done </button></div>
+      </div>
+    </div>
+    
+    <!-- confirmation dialogs with buttons. Faded and modal. -->
+    <div class="jqmWindow jqmID2" id="jqm_dialog">
+      <div class="jqmHeader">
+        <div class="jqmTitle">Please Confirm</div>
+        <img alt="Close" class="jqmClose" src="NetBeans_AttachProfileToJetty_files/close.gif">
+      </div>
+      <div class="jqmTarget">&nbsp;</div>
+      <div class="jqmFooter">
+      	<div class="jqmClose functionButtonContainer"><button class="functionButton" id="jq_no_button" title="No" onclick="Modal.no()"> No </button></div>
+      	<div class="jqmClose functionButtonContainer"><button class="functionButton" id="jq_yes_button" title="Yes" onclick="Modal.yes();"> Yes </button></div>
+      </div>
+    </div>    
+
+  
+  <script src="NetBeans_AttachProfileToJetty_files/body_packaged.js" type="text/javascript"></script>
+  
+
+<iframe style="display:none;" src="NetBeans_AttachProfileToJetty_files/getSegment.htm" name="stSegmentFrame" id="stSegmentFrame" width="0px" frameborder="0" height="0px" scrolling="no"></iframe><div style="visibility: hidden; top: -999px; left: -999px;" class="stwrapper" id="stwrapper"><div class="stclose"></div><iframe src="NetBeans_AttachProfileToJetty_files/index.htm" style="top: 0px; left: 0px;" name="stLframe" class="stLframe" id="stLframe" allowtransparency="true" width="353px" frameborder="0" height="350px" scrolling="no"></iframe></div></body></html>

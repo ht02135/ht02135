@@ -52,6 +52,8 @@
                 <version>6.1.26</version>
                 <configuration>
                     <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <stopKey>stop</stopKey>
+                    <stopPort>8889</stopPort>
                     <contextPath>simple-restfulwebapp-module</contextPath>
                     <connectors>
                         <connector
