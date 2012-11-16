@@ -19,7 +19,6 @@ public class StaticMemoryLeakMain {
 		StaticMemoryLeakMain staticMemoryLeakMain = new StaticMemoryLeakMain();
 		for (int i=0;i<5;i++) {
 			staticMemoryLeakMain.launchWorkerDoWork();
-			System.gc();
 		}
 		
 		// main thread sleep 3min
