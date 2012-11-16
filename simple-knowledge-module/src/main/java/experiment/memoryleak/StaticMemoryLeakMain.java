@@ -24,7 +24,7 @@ public class StaticMemoryLeakMain {
 		// main thread sleep 3min
 		try {
 			log.info("enter 2min sleep");
-			Thread.sleep(180000);	// sleep in millis, 1000millis=1sec, 60000millis=1min
+			Thread.sleep(240000);	// sleep in millis, 1000millis=1sec, 60000millis=1min
 			log.info("exit 2min sleep");
 		} catch (InterruptedException e) {
 		}	
@@ -35,7 +35,10 @@ public class StaticMemoryLeakMain {
 		taskWorker.start();
 	}
 	
+	// -------- MemoryLeakMap -----------------------------------------------------------------
+	
 	public static class MemoryLeakMap {
+		// leak, cuz is static without final + collection
 		private static List<String> list = new LinkedList<String>();
 		
 		public static void add(String value) {
@@ -47,7 +50,10 @@ public class StaticMemoryLeakMain {
 		}
 	}
 	
+	// --------TaskWorker ---------------------------------------------------------------------
+	
 	public static class TaskWorker implements Runnable {
+		// not a leak, cuz list go away when thread gc-ed
 		private List<String> list = new LinkedList<String>();
 		
 		public void run() {

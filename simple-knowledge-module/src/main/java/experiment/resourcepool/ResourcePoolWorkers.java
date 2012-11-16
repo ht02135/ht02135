@@ -61,7 +61,7 @@ public class ResourcePoolWorkers {
 		workers.start();
 	}
 
-	// inner classes
+	// ------------ inner classes ------------------------------------------------------
 	
 	protected abstract class AbstractWorker implements Runnable {
 		
@@ -102,6 +102,8 @@ public class ResourcePoolWorkers {
 		
 		protected void doTask() {}
 	}
+	
+	// ------------------------------------------------------------------
 	
 	protected class ResourceWorker extends DefaultWorker {
 		

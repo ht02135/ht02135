@@ -12,17 +12,6 @@ public class DeadLockMain {
 	private Object tableLock = new Object();
 	private Random random = new Random();
 	
-	/* 
-		1> in jvisualvm, i see 2 threads mostly in sleeping and monitor (RED) state. 
-		2>monitor state => the thread is in the Thread.State.BLOCKED
-		  Monitor will mean the thread is waiting to attain a lock on an object. For example when one 
-		  thread is running a synchronized method and another one tries to invoke it on the same object, 
-		  it will not be able to until the first invocation of the method is finished. This is because 
-		  the first thread has a monitor or lock on that object, so the second one must wait until it 
-		  is released. 
-		3>click on jconsole deadlock is useless (not working)
-	*/
-	
 	public void start() {
 		log.info("start : enter");
 		
@@ -87,7 +76,7 @@ public class DeadLockMain {
 		workers.start();
 	}
 
-	// inner classes
+	// -------------- inner classes -------------------------------------------------------------
 	
 	protected abstract class AbstractWorker implements Runnable {
 		
@@ -122,6 +111,8 @@ public class DeadLockMain {
 		
 		protected void doTask() {}
 	}
+	
+	// ---------------------------------------------------------------------------
 	
 	protected class OneMethodWorker extends DefaultWorker {
 		
