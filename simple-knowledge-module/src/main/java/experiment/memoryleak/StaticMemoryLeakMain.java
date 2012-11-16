@@ -37,8 +37,8 @@ public class StaticMemoryLeakMain {
 	
 	// -------- MemoryLeakMap -----------------------------------------------------------------
 	
-	public static class MemoryLeakMap {
-		// leak, cuz is static without final + collection
+	public static class MemoryLeakList {
+		// leak, mutable static var
 		private static List<String> list = new LinkedList<String>();
 		
 		public static void add(String value) {
@@ -65,7 +65,7 @@ public class StaticMemoryLeakMain {
 		
 		public void addWork(String value) {
 			list.add(value);
-			StaticMemoryLeakMain.MemoryLeakMap.add("MemoryLeakMap"+value);	// leak
+			StaticMemoryLeakMain.MemoryLeakList.add("MemoryLeakMap"+value);	// leak
 			System.out.println("added value="+value);
 			sleep();	// need to sleep for jvisualvm and eclipse memory analyzer to attach to
 		}
@@ -76,7 +76,7 @@ public class StaticMemoryLeakMain {
 				System.out.println("done iter.next()="+iter.next());
 			}
 			
-			Iterator<String> iter2 = StaticMemoryLeakMain.MemoryLeakMap.iterator();
+			Iterator<String> iter2 = StaticMemoryLeakMain.MemoryLeakList.iterator();
 			while (iter2.hasNext()) {
 				System.out.println("deone iter2.next()="+iter2.next());
 			}
