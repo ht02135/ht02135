@@ -1,0 +1,401 @@
+SQL GROUP BY Example
+
+We have the following "Orders" table:
+O_Id 	OrderDate 	OrderPrice 	Customer
+1 	2008/11/12 	1000 	Hansen
+2 	2008/10/23 	1600 	Nilsen
+3 	2008/09/02 	700 	Hansen
+4 	2008/09/03 	300 	Hansen
+5 	2008/08/30 	2000 	Jensen
+6 	2008/10/04 	100 	Nilsen
+
+Now we want to find the total sum (total order) of each customer.
+
+We will have to use the GROUP BY statement to group the customers.
+
+We use the following SQL statement:
+SELECT Customer,SUM(OrderPrice) FROM Orders
+GROUP BY Customer
+
+The result-set will look like this:
+Customer 	SUM(OrderPrice)
+Hansen 	2000
+Nilsen 	1700
+Jensen 	2000
+
+Nice! Isn't it? :)
+
+---------
+http://www.w3schools.com/sql/sql_having.asp
+
+SQL HAVING Example
+
+We have the following "Orders" table:
+O_Id 	OrderDate 	OrderPrice 	Customer
+1 	2008/11/12 	1000 	Hansen
+2 	2008/10/23 	1600 	Nilsen
+3 	2008/09/02 	700 	Hansen
+4 	2008/09/03 	300 	Hansen
+5 	2008/08/30 	2000 	Jensen
+6 	2008/10/04 	100 	Nilsen
+
+Now we want to find if any of the customers have a total order of less than 2000.
+
+We use the following SQL statement:
+SELECT Customer,SUM(OrderPrice) FROM Orders
+GROUP BY Customer
+HAVING SUM(OrderPrice)<2000
+
+The result-set will look like this:
+Customer 	SUM(OrderPrice)
+Nilsen 	1700
+
+Now we want to find if the customers "Hansen" or "Jensen" have a total order of more than 1500.
+
+We add an ordinary WHERE clause to the SQL statement:
+SELECT Customer,SUM(OrderPrice) FROM Orders
+WHERE Customer='Hansen' OR Customer='Jensen'
+GROUP BY Customer
+HAVING SUM(OrderPrice)>1500
+
+The result-set will look like this:
+Customer 	SUM(OrderPrice)
+Hansen 	2000
+Jensen 	2000
+
+---------------
+http://www.w3schools.com/sql/sql_functions.asp
+
+SQL Functions
+« Previous
+Next Chapter »
+
+SQL has many built-in functions for performing calculations on data.
+SQL Aggregate Functions
+
+SQL aggregate functions return a single value, calculated from values in a column.
+
+Useful aggregate functions:
+
+    AVG() - Returns the average value
+    COUNT() - Returns the number of rows
+    FIRST() - Returns the first value
+    LAST() - Returns the last value
+    MAX() - Returns the largest value
+    MIN() - Returns the smallest value
+    SUM() - Returns the sum
+
+SQL Scalar functions
+
+SQL scalar functions return a single value, based on the input value.
+
+Useful scalar functions:
+
+    UCASE() - Converts a field to upper case
+    LCASE() - Converts a field to lower case
+    MID() - Extract characters from a text field
+    LEN() - Returns the length of a text field
+    ROUND() - Rounds a numeric field to the number of decimals specified
+    NOW() - Returns the current system date and time
+    FORMAT() - Formats how a field is to be displayed
+
+---------------------------------
+http://www.w3schools.com/sql/sql_func_count.asp
+
+The COUNT(*) function returns the number of records in a table:
+SELECT COUNT(*) FROM table_name
+
+SQL COUNT(column_name) Example
+
+We have the following "Orders" table:
+O_Id 	OrderDate 	OrderPrice 	Customer
+1 	2008/11/12 	1000 	Hansen
+2 	2008/10/23 	1600 	Nilsen
+3 	2008/09/02 	700 	Hansen
+4 	2008/09/03 	300 	Hansen
+5 	2008/08/30 	2000 	Jensen
+6 	2008/10/04 	100 	Nilsen
+
+Now we want to count the number of orders from "Customer Nilsen".
+
+We use the following SQL statement:
+SELECT COUNT(Customer) AS CustomerNilsen FROM Orders
+WHERE Customer='Nilsen'
+
+The result of the SQL statement above will be 2, because the customer Nilsen has made 2 orders in total:
+CustomerNilsen
+2
+
+SQL COUNT(*) Example
+
+If we omit the WHERE clause, like this:
+SELECT COUNT(*) AS NumberOfOrders FROM Orders
+
+The result-set will look like this:
+NumberOfOrders
+6
+
+which is the total number of rows in the table.
+SQL COUNT(DISTINCT column_name) Example
+
+Now we want to count the number of unique customers in the "Orders" table.
+
+We use the following SQL statement:
+SELECT COUNT(DISTINCT Customer) AS NumberOfCustomers FROM Orders
+
+The result-set will look like this:
+NumberOfCustomers
+3
+
+which is the number of unique customers (Hansen, Nilsen, and Jensen) in the "Orders" table.
+
+------------------
+
+SQL ROUND() Example
+
+We have the following "Products" table:
+Prod_Id 	ProductName 	Unit 	UnitPrice
+1 	Jarlsberg 	1000 g 	10.45
+2 	Mascarpone 	1000 g 	32.56
+3 	Gorgonzola 	1000 g 	15.67
+
+Now we want to display the product name and the price rounded to the nearest integer.
+
+We use the following SELECT statement:
+SELECT ProductName, ROUND(UnitPrice,0) as UnitPrice FROM Products
+
+The result-set will look like this:
+ProductName 	UnitPrice
+Jarlsberg 	10
+Mascarpone 	33
+Gorgonzola 	16
+
+----------------------------
+http://www.w3schools.com/sql/sql_join_inner.asp
+
+SQL INNER JOIN Example
+
+The "Persons" table:
+P_Id 	LastName 	FirstName 	Address 	City
+1 	Hansen 	Ola 	Timoteivn 10 	Sandnes
+2 	Svendson 	Tove 	Borgvn 23 	Sandnes
+3 	Pettersen 	Kari 	Storgt 20 	Stavanger
+
+The "Orders" table:
+O_Id 	OrderNo 	P_Id
+1 	77895 	3
+2 	44678 	3
+3 	22456 	1
+4 	24562 	1
+5 	34764 	15
+
+Now we want to list all the persons with any orders.
+
+We use the following SELECT statement:
+SELECT Persons.LastName, Persons.FirstName, Orders.OrderNo
+FROM Persons
+INNER JOIN Orders
+ON Persons.P_Id=Orders.P_Id
+ORDER BY Persons.LastName
+
+The result-set will look like this:
+LastName 	FirstName 	OrderNo
+Hansen 	Ola 	22456
+Hansen 	Ola 	24562
+Pettersen 	Kari 	77895
+Pettersen 	Kari 	44678
+
+The INNER JOIN keyword returns rows when there is at least one match in both tables. If there are rows in "Persons" that do not have matches in "Orders", those rows will NOT be listed.
+
+------------
+http://www.w3schools.com/sql/sql_join_left.asp
+
+SQL LEFT JOIN Example
+
+The "Persons" table:
+P_Id 	LastName 	FirstName 	Address 	City
+1 	Hansen 	Ola 	Timoteivn 10 	Sandnes
+2 	Svendson 	Tove 	Borgvn 23 	Sandnes
+3 	Pettersen 	Kari 	Storgt 20 	Stavanger
+
+The "Orders" table:
+O_Id 	OrderNo 	P_Id
+1 	77895 	3
+2 	44678 	3
+3 	22456 	1
+4 	24562 	1
+5 	34764 	15
+
+Now we want to list all the persons and their orders - if any, from the tables above.
+
+We use the following SELECT statement:
+SELECT Persons.LastName, Persons.FirstName, Orders.OrderNo
+FROM Persons
+LEFT JOIN Orders
+ON Persons.P_Id=Orders.P_Id
+ORDER BY Persons.LastName
+
+The result-set will look like this:
+LastName 	FirstName 	OrderNo
+Hansen 	Ola 	22456
+Hansen 	Ola 	24562
+Pettersen 	Kari 	77895
+Pettersen 	Kari 	44678
+Svendson 	Tove 	 
+
+The LEFT JOIN keyword returns all the rows from the left table (Persons), even if there are no matches in the right table (Orders).
+
+----------
+http://www.w3schools.com/sql/sql_join_full.asp
+The FULL JOIN keyword returns all the rows from the left table (Persons), and all the rows from the right table (Orders).
+
+SQL FULL JOIN Keyword
+
+The FULL JOIN keyword return rows when there is a match in one of the tables.
+SQL FULL JOIN Syntax
+SELECT column_name(s)
+FROM table_name1
+FULL JOIN table_name2
+ON table_name1.column_name=table_name2.column_name
+
+SQL FULL JOIN Example
+
+The "Persons" table:
+P_Id 	LastName 	FirstName 	Address 	City
+1 	Hansen 	Ola 	Timoteivn 10 	Sandnes
+2 	Svendson 	Tove 	Borgvn 23 	Sandnes
+3 	Pettersen 	Kari 	Storgt 20 	Stavanger
+
+The "Orders" table:
+O_Id 	OrderNo 	P_Id
+1 	77895 	3
+2 	44678 	3
+3 	22456 	1
+4 	24562 	1
+5 	34764 	15
+
+Now we want to list all the persons and their orders, and all the orders with their persons.
+
+We use the following SELECT statement:
+SELECT Persons.LastName, Persons.FirstName, Orders.OrderNo
+FROM Persons
+FULL JOIN Orders
+ON Persons.P_Id=Orders.P_Id
+ORDER BY Persons.LastName
+
+The result-set will look like this:
+LastName 	FirstName 	OrderNo
+Hansen 	Ola 	22456
+Hansen 	Ola 	24562
+Pettersen 	Kari 	77895
+Pettersen 	Kari 	44678
+Svendson 	Tove 	 
+  	  	34764
+
+The FULL JOIN keyword returns all the rows from the left table (Persons), and all the rows from the right table (Orders). If there are rows in "Persons" that do not have matches in "Orders", or if there are rows in "Orders" that do not have matches in "Persons", those rows will be listed as well.
+
+-----------
+http://www.w3schools.com/sql/sql_union.asp
+
+The SQL UNION Operator
+
+The UNION operator is used to combine the result-set of two or more SELECT statements.
+
+Notice that each SELECT statement within the UNION must have the same number of columns. The columns must also have similar data types. Also, the columns in each SELECT statement must be in the same order.
+SQL UNION Syntax
+SELECT column_name(s) FROM table_name1
+UNION
+SELECT column_name(s) FROM table_name2
+
+Note: The UNION operator selects only distinct values by default. To allow duplicate values, use UNION ALL.
+SQL UNION ALL Syntax
+SELECT column_name(s) FROM table_name1
+UNION ALL
+SELECT column_name(s) FROM table_name2
+
+PS: The column names in the result-set of a UNION are always equal to the column names in the first SELECT statement in the UNION.
+SQL UNION Example
+
+Look at the following tables:
+
+"Employees_Norway":
+E_ID 	E_Name
+01 	Hansen, Ola
+02 	Svendson, Tove
+03 	Svendson, Stephen
+04 	Pettersen, Kari
+
+"Employees_USA":
+E_ID 	E_Name
+01 	Turner, Sally
+02 	Kent, Clark
+03 	Svendson, Stephen
+04 	Scott, Stephen
+
+Now we want to list all the different employees in Norway and USA.
+
+We use the following SELECT statement:
+SELECT E_Name FROM Employees_Norway
+UNION
+SELECT E_Name FROM Employees_USA
+
+The result-set will look like this:
+E_Name
+Hansen, Ola
+Svendson, Tove
+Svendson, Stephen
+Pettersen, Kari
+Turner, Sally
+Kent, Clark
+Scott, Stephen
+
+Note: This command cannot be used to list all employees in Norway and USA. In the example above we have two employees with equal names, and only one of them will be listed. The UNION command selects only distinct values.
+SQL UNION ALL Example
+
+Now we want to list all employees in Norway and USA:
+SELECT E_Name FROM Employees_Norway
+UNION ALL
+SELECT E_Name FROM Employees_USA
+
+Result
+E_Name
+Hansen, Ola
+Svendson, Tove
+Svendson, Stephen
+Pettersen, Kari
+Turner, Sally
+Kent, Clark
+Svendson, Stephen
+Scott, Stephen
+
+---------------------------
+http://www.w3schools.com/sql/sql_create_index.asp
+
+Indexes
+
+An index can be created in a table to find data more quickly and efficiently.
+
+The users cannot see the indexes, they are just used to speed up searches/queries.
+
+Note: Updating a table with indexes takes more time than updating a table without (because the indexes also need an update). So you should only create indexes on columns (and tables) that will be frequently searched against.
+SQL CREATE INDEX Syntax
+
+Creates an index on a table. Duplicate values are allowed:
+CREATE INDEX index_name
+ON table_name (column_name)
+SQL CREATE UNIQUE INDEX Syntax
+
+Creates a unique index on a table. Duplicate values are not allowed:
+CREATE UNIQUE INDEX index_name
+ON table_name (column_name)
+
+Note: The syntax for creating indexes varies amongst different databases. Therefore: Check the syntax for creating indexes in your database.
+CREATE INDEX Example
+
+The SQL statement below creates an index named "PIndex" on the "LastName" column in the "Persons" table:
+CREATE INDEX PIndex
+ON Persons (LastName)
+
+If you want to create an index on a combination of columns, you can list the column names within the parentheses, separated by commas:
+CREATE INDEX PIndex
+ON Persons (LastName, FirstName)
