@@ -1,0 +1,70 @@
+http://mythryl.org/my-Perl5_Regular_Expression_Syntax.html
+
+.	Match any character but newline.
+\	Quote the next metacharacter.
+^	Match the beginning of the line.
+$	Match the end of the line (or before newline at the end).
+|	Alternation.
+()	Grouping.
+[]	Character class.
+
+\d	Digit.
+\D	Non-digit.
+\s	Whitespace.
+\S	Non-whitespace.
+\w	Word: [A-Za-z0-9_].
+\W	Non-word.
+
+The following standard quantifiers are recognized:
+*	Match 0 or more times.
++	Match 1 or more times.
+?	Match 1 or 0 times.
+{ n }	Match exactly n times.
+{ n,}	Match at least n times.
+{ n, m }	Match at least n but not more than m times.
+
+http://www.troubleshooters.com/codecorn/littperl/perlreg.htm#Groups
+Groups are regular expression characters surrounded by parentheses. They have two major uses:
+
+    To allow alternative phrases as in /(Clinton|Bush|Reagan)/i. Note that for single character alternatives, you can also use character classes.
+    As a means of retrieving selected text in selection, translation and substitution, used with the $1, $2, etc scalers.
+
+-------------------------------------------------------------------
+
+Regular Expression Extract - http://jmeter.apache.org/usermanual/regular_expressions.html
+
+It is worth stressing the difference between "contains" and "matches", as used on the Response Assertion test element:
+
+"contains" means that the regular expression matched at least some part of the target, so 'alphabet' "contains" 'ph.b.' because the regular expression matches the substring 'phabe'.
+"matches" means that the regular expression matched the whole target. So 'alphabet' is "matched" by 'al.*t'.
+
+Suppose you want to match the following portion of a web-page:
+name="file" value="readme.txt">
+and you want to extract readme.txt .
+A suitable regular expression would be:
+name="file" value="(.+?)">
+
+The special characters above are:
+
+    ( and ) - these enclose the portion of the match string to be returned
+    . - match any character
+    + - one or more times
+    ? - don't be greedy, i.e. stop when first match succeeds
+
+Note: without the ?, the .+ would continue past the first "> until it found the last possible "> - which is probably not what was intended.
+
+Note: although the above expression works, it's more efficient to use the following expression:
+name="file" value="([^"]+)"> where
+[^"] - means match anything except "
+In this case, the matching engine can stop looking as soon as it sees the first " , whereas in the previous case the engine has to check that it has found "> rather than say " > . 
+
+-------------------------------------------------------------------
+
+Example
+
+{"loginId":"adminJSON","name":"adminJSON","userDomainName":"root"}
+
+{"loginId":"(.+?)","name":"adminJSON","userDomainName":"root"}
+$1$
+
+( and ) - these enclose the portion of the match string to be returned
